@@ -67,6 +67,7 @@ class Transmission_Callback extends Event
 	private Link l; 	-- Link which needs to know a packet 
 						-- is now propagating down the channel
 	private Link_Queue q; 
+	private boolean active;
 
 	-- initialization
 	public method void Transmission_Callback(	Link l, 
@@ -74,10 +75,16 @@ class Transmission_Callback extends Event
 												double completion_time) {
 		this.l = l;
 		this.q = q;
+		this.active = true;
 		set_completion_time(completion_time);
 	}
 
+	public method boolean is_active () {
+		return this.active;
+	}
+
 	public method void event_action() {
+		this.active = false;
 		this.l.transfer_next_packet(this.q);
 	}
 end class

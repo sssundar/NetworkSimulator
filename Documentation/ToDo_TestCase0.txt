@@ -14,7 +14,8 @@ Revision History
 	23 October 2015; Sushant, Sith, Ahmed
 		finished spec for links for test 0
 		decided on c++ priority queue for event simulator
-		
+		started Packet spec/pseudocode
+
 ######################
 ## To Do for Test 0 ##
 ######################
@@ -29,6 +30,16 @@ Spec
 Implement in C++: Code & Commenting
 Testing & Visualization Scripts off Logs
 Documentation & Presentation for Phase 1 Report
+	Add detail in roadmap
+	Add detail in approach
+		multiple flows (routing source, routing sink, 
+						 data source, data sink)
+		delay/congestion estimates for links based on ?? telepathy?
+			why wouldn't this loop like in hw2?
+			ritvik said in practice, implement static routes with oversight.
+			look/type out notes from last meeting
+		timeouts/callback structure for events
+		c++ priority queue for event-based simulation
 
 --------------------------------------------------------------------------------
 
