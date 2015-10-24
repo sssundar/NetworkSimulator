@@ -1,0 +1,14 @@
+#############
+## Logging ##
+#############
+
+class Reporter 
+	private string ID; 
+	public method get_id () {
+		return this.ID;
+	}
+
+	public method log(String message) {
+		sys.stdout.println(get_id() . " reports " . message);
+	}
+end class

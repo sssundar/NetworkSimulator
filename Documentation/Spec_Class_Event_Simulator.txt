@@ -1,0 +1,59 @@
+#####################
+## Event Simulator ##
+#####################
+
+-- Currently VERY inefficient
+-- Simulation only ends when all flows are done.
+-- Sith suggested we use C++ Priority Queues. Then the two 'done & run' 
+-- functions become part of the main loop.
+-- We do want to be able to access the current time so extending C++ Priority
+-- Queue might be a good approach
+class Event_Simulator extends Reporter
+	private Event[] events;
+	private Flow[] flows;
+	private integer max_events = 1024;
+	private integer num_events = 0;
+
+	public method void Event_Simulator(Flow[] flows) {
+		this.events = new Event[this.max_events];	
+		this.flows = flows;	
+		this.ID = "global_simulator";
+	}
+
+	public method void request_event(Event e) {
+		if this.num_events == this.max_events {
+			Event[] temp = new Event[2*this.max_events];
+			temp[0:this.max_events-1] = this.events[0:this.max_events-1];
+			this.events = temp;
+		} 
+		this.events[this.num_events] = e;
+		this.num_events += 1;
+	}
+
+	private method boolean are_flows_done() {
+		boolean flag = true;
+		for (int i = 0; i < this.flows.get_length(); i++) {
+			flag = flag & this.flows[i].is_done();
+		}
+		return flag;
+	}
+
+	-- returns false if all flows are done, and true otherwise
+	public method boolean run_next_event() {
+		if (this.num_events == 0 or are_flows_done()) {
+			return false;
+		}
+				
+		order_events();
+
+		this.events[0].event_action();
+
+		this.events[0:this.num_events-2] = this.events[1:this.num_events-1]
+		this.num_events -= 1;
+	}
+
+	private method order_events() {
+		-- sort events[0:num_events-1] by earliest completion time 
+		-- using Event.get_completion_time		
+	}
+end class

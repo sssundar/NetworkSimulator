@@ -1,0 +1,146 @@
+###########
+## Links ##
+###########
+
+class Link extends Reporter
+	private Link_Queue left_queue, right_queue;
+	private Switch_Link_Direction dir_time_out; 
+	private Transmission_Callback tx_callback;
+	private Node left_node, right_node;	
+	private integer capacity; 	-- bits/second
+	private double propagation_delay;  -- seconds	
+	private Event_Simulator sim; 
+
+	private string current_direction = "right"; -- "right" or "left"
+	private double traffic_period; -- seconds after which link flips direction
+
+	public method void Link(Event_Simulator sim, 
+							string LinkID,
+							Node left_node, 
+							Node right_node
+							integer capacity, 
+							double propagation_delay, 
+							double traffic_period							
+							) {
+		this.sim = sim;
+		this.ID = LinkID;
+		this.left_node = left_node;
+		this.right_node = right_node;
+		this.capacity = capacity;
+		this.propagation_delay = propagation_delay;
+		this.traffic_period = traffic_period;
+
+		this.left_queue = new Link_Queue(capacity);
+		this.right_queue = new Link_Queue(capacity);
+		setup_direction_timeout();
+	}
+
+	private method void setup_direction_timeout () {
+		this.dir_time_out = new Switch_Link_Direction(	
+										this, 
+										this.sim.get_current_time() + 
+											this.traffic_period
+										);								
+		this.sim.request_event(this.dir_time_out);			
+	}
+
+	public method void switch_direction () {
+		setup_direction_timeout();
+		if (this.current_direction == "left") {
+			this.current_direction = "right";
+			transfer_next_packet(this.right_queue);
+			log("link switching to right at " . this.sim.get_current_time());
+		} else {
+			this.current_direction = "left";
+			transfer_next_packet(this.left_queue)
+			log("link switching to left at " . this.sim.get_current_time());
+		}		
+	}
+
+	private method void transfer_next_packet (Link_Queue q) {
+		double current_time = this.sim.get_current_time();
+		double time_left = this.time_out.get_completion_time() - current_time;
+
+		-- To Do: transfer any packet that can make it to the other end in time
+		need transfer events to say 'finished loading into channel'
+		otherwise will empty buffer prematurely even though packets haven't been
+		sent yet.
+
+		so need callback for packet arrival, and callback for packet tx,
+		to send next packet. when in here, can check, has current tx callback 
+		(at most one outstanding) called back? if not, do nothing. 
+	}
+
+
+	-- how a Node attempts to send a packet through this link
+	public method void send (Packet p, Node source) {
+		if ( source.getID() = left_node.getID() ) {
+			-- Transfer Requested Left -> Right
+			if left_queue.can_enqueue() {
+				left_queue.enqueue(p);
+				transfer_next_packet(left_queue);
+			} else {
+				log("packet dropped at " . this.sim.get_current_time());
+			}			
+		} else {
+			-- Transfer Requested Right -> Left
+			if right_queue.can_enqueue() {
+				right_queue.enqueue(p);
+				transfer_next_packet(right_queue);
+			} else {
+				log("packet dropped at " . this.sim.get_current_time());
+			}			
+		}		
+	}
+
+end class
+
+class Link_Queue
+	private integer head;
+	private integer tail;
+	private integer max_capacity;
+	private integer current_length;
+	private Packet[] buffer;	
+	
+	-- initialization	
+	public method void Link_Queue(integer capacity) {
+		this.max_capacity = capacity;		
+		this.buffer = new Packet[capacity];		
+		this.head = 0;
+		this.tail = 0;
+		this.current_length = 0;
+	}
+
+	-- returns true if could enqueue, false if queue is full
+	private method boolean can_enqueue() {
+		return (this.max_capacity < this.current_length);
+	}	
+	public method boolean enqueue(Packet p) {
+		boolean flag = false;
+		if can_enqueue() {			
+			this.buffer[this.tail] = p;
+			this.tail += 1;
+			if this.tail == this.max_capacity {
+				this.tail = 0;
+			} 
+			this.current_length += 1;
+			flag = true;			
+		} 
+		return flag;
+	}	
+
+	-- returns true if could dequeue, false if queue is empty
+	private method boolean can_dequeue() {
+		return (this.current_length > 0);
+	}
+	-- Must only be called after checking can_dequeue()
+	private method Packet Object dequeue() {		
+		Packet popped = this.buffer[this.head];
+		this.head += 1;
+		if this.head == this.max_capacity {
+			this.head = 0;
+		}
+		this.current_length -= 1;
+		return popped;		
+	}	
+end class
