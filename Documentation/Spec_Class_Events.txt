@@ -62,3 +62,22 @@ class Switch_Link_Direction extends Event
 		this.l.switch_direction();
 	}
 end class
+
+class Transmission_Callback extends Event
+	private Link l; 	-- Link which needs to know a packet 
+						-- is now propagating down the channel
+	private Link_Queue q; 
+
+	-- initialization
+	public method void Transmission_Callback(	Link l, 
+												Link_Queue q,
+												double completion_time) {
+		this.l = l;
+		this.q = q;
+		set_completion_time(completion_time);
+	}
+
+	public method void event_action() {
+		this.l.transfer_next_packet(this.q);
+	}
+end class
