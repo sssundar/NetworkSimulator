@@ -1,0 +1,303 @@
+--------------------------------------------------------------------------------
+Description: Pseudocode Excluding Main Loop
+Target: Test Case 0
+Project: NetworkSimulator
+Class: CS143, Caltech, Fall 2015
+Team: Ahmed, Sith, Sushant
+
+Revision History 
+	15 & 17 October 2015; Ahmed, Sith, Sushant 
+		designed for test case 0 at a high level
+	17 October 2015; Sushant 
+		spec/pseudocode for	logging, sim, events, queues for test 0 
+		most of pseudocode for links for test 0
+
+######################
+## To Do for Test 0 ##
+######################
+Spec
+	class Packet (see packet methods required in classes above)
+	class Node extends Reporter
+	class Host extends Node
+	class Flow extends Node
+	class Source extends Flow
+	class Sink extends Flow
+	Main Loop
+Implement in C++: Code & Commenting
+Testing & Visualization Scripts off Logs
+Documentation & Presentation for Phase 1 Report
+
+--------------------------------------------------------------------------------
+
+#############
+## Logging ##
+#############
+
+class Reporter 
+	private string ID; 
+	public method get_id () {
+		return this.ID;
+	}
+
+	public method log(String message) {
+		sys.stdout.println(get_id() . " reports " . message);
+	}
+end class
+
+#####################
+## Event Simulator ##
+#####################
+
+-- Currently VERY inefficient
+-- Simulation only ends when all flows are done.
+class Event_Simulator extends Reporter
+	private Event[] events;
+	private Flow[] flows;
+	private integer max_events = 1024;
+	private integer num_events = 0;
+
+	public method void Event_Simulator(Flow[] flows) {
+		this.events = new Event[this.max_events];	
+		this.flows = flows;	
+		this.ID = "global_simulator";
+	}
+
+	public method void request_event(Event e) {
+		if this.num_events == this.max_events {
+			Event[] temp = new Event[2*this.max_events];
+			temp[0:this.max_events-1] = this.events[0:this.max_events-1];
+			this.events = temp;
+		} 
+		this.events[this.num_events] = e;
+		this.num_events += 1;
+	}
+
+	private method boolean are_flows_done() {
+		boolean flag = true;
+		for (int i = 0; i < this.flows.get_length(); i++) {
+			flag = flag & this.flows[i].is_done();
+		}
+		return flag;
+	}
+
+	-- returns false if all flows are done, and true otherwise
+	public method boolean run_next_event() {
+		if (this.num_events == 0 or are_flows_done()) {
+			return false;
+		}
+				
+		order_events();
+
+		this.events[0].event_action();
+
+		this.events[0:this.num_events-2] = this.events[1:this.num_events-1]
+		this.num_events -= 1;
+	}
+
+	private method order_events() {
+		-- sort events[0:num_events-1] by earliest completion time 
+		-- using Event.get_completion_time		
+	}
+end class
+
+############
+## EVENTS ##
+############
+
+class Event
+	private double completion_time;	
+	public method void event_action() {}
+	
+	-- initialization
+	public method void set_completion_time(double completion_time) {
+		this.completion_time = completion_time;
+	}
+	
+	public method double get_completion_time() {
+		return this.completion_time;
+	}
+end class
+
+class Handle_Packet_Arrival extends Event		
+	private Packet p; 	-- Packet Arriving at a Node (Router/Host)
+	
+	-- initialization
+	public method void Handle_Packet_Arrival(Packet p, double completion_time) {
+		this.p = p;
+		set_completion_time(completion_time);
+	}
+	
+	public method void event_action() {
+		this.p.getCurrentDestination().receive(this.p);
+	}
+end class
+
+class Time_Out_Packet extends Event	
+	private Packet p; 	-- Packet to Time Out
+	
+	-- initialization	
+	public method void Time_Out_Packet(Packet p, double completion_time) {		
+		this.p = p;		
+		set_completion_time(completion_time);
+	}
+	
+	public method void event_action() {
+		if not this.p.was_acknowledged() then {			
+			-- time out this packet
+			this.p.get_flow_source().time_out(this.p);
+		}
+	}
+end class
+
+class Switch_Link_Direction extends Event
+	private Link l; 	-- Link which needs to switch traffic direction
+
+	-- initialization
+	public method void Switch_Link_Direction(Link l, double completion_time) {
+		this.l = l;
+		set_completion_time(completion_time);
+	}
+
+	public method void event_action() {
+		this.l.switch_direction();
+	}
+end class
+
+
+###########
+## Links ##
+###########
+
+class Link extends Reporter
+	private Link_Queue left_queue, right_queue;
+	private Switch_Link_Direction time_out; 
+	private Node left_node, right_node;	
+	private integer capacity; 	-- bits/second
+	private double propagation_delay;  -- seconds	
+	private Event_Simulator sim; 
+
+	private string current_direction = "right"; -- "right" or "left"
+	private double traffic_period; -- seconds after which link flips direction
+
+	public method void Link(Event_Simulator sim, 
+							string LinkID,
+							Node left_node, 
+							Node right_node
+							integer capacity, 
+							double propagation_delay, 
+							double traffic_period							
+							) {
+		this.sim = sim;
+		this.ID = LinkID;
+		this.left_node = left_node;
+		this.right_node = right_node;
+		this.capacity = capacity;
+		this.propagation_delay = propagation_delay;
+		this.traffic_period = traffic_period;
+
+		this.left_queue = new Link_Queue(capacity);
+		this.right_queue = new Link_Queue(capacity);
+		setup_timeout();
+	}
+
+	private method void setup_timeout () {
+		this.time_out = new Switch_Link_Direction(	
+										this, 
+										this.sim.get_current_time() + 
+											this.traffic_period
+										);								
+		this.sim.request_event(this.time_out);			
+	}
+
+	public method void switch_direction () {
+		setup_timeout();
+		if (this.current_direction == "left") {
+			this.current_direction = "right";
+			transfer_next_packet(this.right_queue);
+			log("link switching to right at " . this.sim.get_current_time());
+		} else {
+			this.current_direction = "left";
+			transfer_next_packet(this.left_queue)
+			log("link switching to left at " . this.sim.get_current_time());
+		}		
+	}
+
+	private method void transfer_next_packet (Link_Queue q) {
+		double current_time = this.sim.get_current_time();
+		double time_left = this.time_out.get_completion_time() - current_time;
+
+		-- To Do: transfer any packet that can make it to the other end in time
+	}
+
+	-- how a Node attempts to send a packet through this link
+	public method void send (Packet p, Node source) {
+		if ( source.getID() = left_node.getID() ) {
+			-- Transfer Requested Left -> Right
+			if left_queue.can_enqueue() {
+				left_queue.enqueue(p);
+				transfer_next_packet(left_queue);
+			} else {
+				log("packet dropped at " . this.sim.get_current_time());
+			}			
+		} else {
+			-- Transfer Requested Right -> Left
+			if right_queue.can_enqueue() {
+				right_queue.enqueue(p);
+				transfer_next_packet(right_queue);
+			} else {
+				log("packet dropped at " . this.sim.get_current_time());
+			}			
+		}		
+	}
+
+end class
+
+class Link_Queue
+	private integer head;
+	private integer tail;
+	private integer max_capacity;
+	private integer current_length;
+	private Packet[] buffer;	
+	
+	-- initialization	
+	public method void Link_Queue(integer capacity) {
+		this.max_capacity = capacity;		
+		this.buffer = new Packet[capacity];		
+		this.head = 0;
+		this.tail = 0;
+		this.current_length = 0;
+	}
+
+	-- returns true if could enqueue, false if queue is full
+	private method boolean can_enqueue() {
+		return (this.max_capacity < this.current_length);
+	}	
+	public method boolean enqueue(Packet p) {
+		boolean flag = false;
+		if can_enqueue() {			
+			this.buffer[this.tail] = p;
+			this.tail += 1;
+			if this.tail == this.max_capacity {
+				this.tail = 0;
+			} 
+			this.current_length += 1;
+			flag = true;			
+		} 
+		return flag;
+	}	
+
+	-- returns true if could dequeue, false if queue is empty
+	private method boolean can_dequeue() {
+		return (this.current_length > 0);
+	}
+	-- Must only be called after checking can_dequeue()
+	private method Packet Object dequeue() {		
+		Packet popped = this.buffer[this.head];
+		this.head += 1;
+		if this.head == this.max_capacity {
+			this.head = 0;
+		}
+		this.current_length -= 1;
+		return popped;		
+	}	
+end class
