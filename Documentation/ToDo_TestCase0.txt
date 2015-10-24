@@ -1,0 +1,48 @@
+--------------------------------------------------------------------------------
+Description: Pseudocode Excluding Main Loop
+Target: Test Case 0
+Project: NetworkSimulator
+Class: CS143, Caltech, Fall 2015
+Team: Ahmed, Sith, Sushant
+
+Revision History 
+	15 & 17 October 2015; Ahmed, Sith, Sushant 
+		designed for test case 0 at a high level
+	17 October 2015; Sushant 
+		spec/pseudocode for	logging, sim, events, queues for test 0 
+		most of pseudocode for links for test 0
+	23 October 2015; Sushant, Sith, Ahmed
+		finished spec for links for test 0
+		decided on c++ priority queue for event simulator
+		started Packet spec/pseudocode
+
+######################
+## To Do for Test 0 ##
+######################
+Spec
+	class Packet (see packet methods required in classes above)
+	class Node extends Reporter
+	class Host extends Node
+	class Flow extends Node
+	class Source extends Flow
+	class Sink extends Flow
+	Main Loop
+Implement in C++: Code & Commenting
+Testing & Visualization Scripts off Logs
+Documentation & Presentation for Phase 1 Report
+	Add detail in roadmap
+	Add detail in approach
+		multiple flows (routing source, routing sink, 
+						 data source, data sink)
+		delay/congestion estimates for links based on ?? telepathy?
+			why wouldn't this loop like in hw2?
+			ritvik said in practice, implement static routes with oversight.
+			look/type out notes from last meeting
+		timeouts/callback structure for events
+		c++ priority queue for event-based simulation
+
+--------------------------------------------------------------------------------
+
+
+
+

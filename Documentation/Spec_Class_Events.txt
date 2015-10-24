@@ -1,0 +1,90 @@
+############
+## EVENTS ##
+############
+
+-- Needs a comparison operation that takes two Events and implements a 
+-- weak ordering by completion time. What does weak ordering mean?
+class Event
+	private double completion_time;	
+	public method void event_action() {}
+	
+	-- initialization
+	public method void set_completion_time(double completion_time) {
+		this.completion_time = completion_time;
+	}
+	
+	public method double get_completion_time() {
+		return this.completion_time;
+	}
+end class
+
+class Handle_Packet_Arrival extends Event		
+	private Packet p; 	-- Packet Arriving at a Node (Router/Host)
+	
+	-- initialization
+	public method void Handle_Packet_Arrival(Packet p, double completion_time) {
+		this.p = p;
+		set_completion_time(completion_time);
+	}
+	
+	public method void event_action() {
+		this.p.getCurrentDestination().receive(this.p);
+	}
+end class
+
+class Time_Out_Packet extends Event	
+	private Packet p; 	-- Packet to Time Out
+	
+	-- initialization	
+	public method void Time_Out_Packet(Packet p, double completion_time) {		
+		this.p = p;		
+		set_completion_time(completion_time);
+	}
+	
+	public method void event_action() {
+		if not this.p.was_acknowledged() then {			
+			-- time out this packet
+			this.p.get_flow_source().time_out(this.p);
+		}
+	}
+end class
+
+class Switch_Link_Direction extends Event
+	private Link l; 	-- Link which needs to switch traffic direction
+
+	-- initialization
+	public method void Switch_Link_Direction(Link l, double completion_time) {
+		this.l = l;
+		set_completion_time(completion_time);
+	}
+
+	public method void event_action() {
+		this.l.switch_direction();
+	}
+end class
+
+class Transmission_Callback extends Event
+	private Link l; 	-- Link which needs to know a packet 
+						-- is now propagating down the channel
+	private Link_Queue q; 
+	private boolean active;
+
+	-- initialization
+	public method void Transmission_Callback(	Link l, 
+												Link_Queue q,
+												double completion_time) {
+		this.l = l;
+		this.q = q;
+		this.active = true;
+		set_completion_time(completion_time);
+	}
+
+	public method boolean is_active () {
+		return this.active;
+	}
+
+	public method void event_action() {
+		this.active = false;
+		this.l.transfer_next_packet(this.q);
+	}
+end class
