@@ -1,0 +1,17 @@
+#############
+## Packets ##
+#############
+
+class Packet
+	private double completion_time;	
+	public method void event_action() {}
+	
+	-- initialization
+	public method void set_completion_time(double completion_time) {
+		this.completion_time = completion_time;
+	}
+	
+	public method double get_completion_time() {
+		return this.completion_time;
+	}
+end class

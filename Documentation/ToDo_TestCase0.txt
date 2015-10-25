@@ -31,7 +31,12 @@ Implement in C++: Code & Commenting
 Testing & Visualization Scripts off Logs
 Documentation & Presentation for Phase 1 Report
 	Add detail in roadmap
+		specific deliverables, specific dates
 	Add detail in approach
+		link delay-based switching, link delay telepathy
+		link contains buffers, equal size on each end of listed capacity
+		link has tx events 
+		flow has packet timeout events
 		multiple flows (routing source, routing sink, 
 						 data source, data sink)
 		delay/congestion estimates for links based on ?? telepathy?
