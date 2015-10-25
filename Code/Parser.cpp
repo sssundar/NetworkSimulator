@@ -58,8 +58,9 @@ std::vector<std::string> split(const std::string &s, char delim) {
     return elems;
 }
 
+
+// Parser ignoring routers for now
 std::map<std::string, Node*> networkNode(std::vector<std::string> elems, std::map<std::string, Node*> node_map) {
-    // IF HOST
     std::map<std::string, Node*>::iterator i;
     std::map<std::string, Node*>::iterator j;
     std::map<std::string, Node*>::iterator k;
@@ -67,21 +68,21 @@ std::map<std::string, Node*> networkNode(std::vector<std::string> elems, std::ma
     if (elems[0].compare("host") == 0) {
         i = node_map.find(elems[1]);
         if (i == node_map.end()) {
-            node_map[elem[1]] = host(elems[1]);
+            node_map[elem[1]] = new host(elems[1]);
         }
         
         i = node_map.find(elems[1]);
         j = node_map.find(elems[2]);
         if (j == node_map.end()) {
-            node_map[elem[2]] = link(elems[2]);
+            node_map[elem[2]] = new link(elems[2]);
         }
-        i.addLink(j);
+        i.addNode(j);
     }
     
     else if (elems[0].compare("link") == 0) {
         i = node_map.find(elems[1]);
         if (i == node_map.end()) {
-            node_map[elem[1]] = link(elems[1]);
+            node_map[elem[1]] = new link(elems[1]);
         }
         
         i = node_map.find(elems[1]);
@@ -92,7 +93,7 @@ std::map<std::string, Node*> networkNode(std::vector<std::string> elems, std::ma
     }
     
     else if (elems[0].compare("flow") == 0) {
-        node_map[elem[1]] = flow(elems[1]);
+        node_map[elem[1]] = new flow(elems[1]);
         
         i = node_map.find(elems[1]);
         j = node_map.find(elems[2]);
