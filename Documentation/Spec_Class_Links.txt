@@ -15,28 +15,37 @@ class Link extends Reporter
 	private string current_direction = "right"; -- "right" or "left"
 	private double traffic_period; -- seconds after which link flips direction
 
-	public method void Link(Event_Simulator sim, 
-							string LinkID,
-							Node left_node, 
-							Node right_node
-							integer buffer_length,
-							integer capacity, 
-							double propagation_delay, 
-							double traffic_period						
-							) {
-		this.sim = sim;
+	public method void Link(string LinkID) {
 		this.ID = LinkID;
+	}
+
+	public method void set_simulator(Event_Priority_Queue sim) {
+		this.sim = sim;
+	}
+
+	public method void set_nodes (Node left_node, Node right_node) {
 		this.left_node = left_node;
 		this.right_node = right_node;
-		this.buffer_length = buffer_length;
-		this.capacity = capacity;
-		this.propagation_delay = propagation_delay;
-		this.traffic_period = traffic_period;
+	}
 
+	public method void set_buffer_bit_length (integer buffer_length) {
+		this.buffer_length = buffer_length;
 		this.left_queue = new Link_Queue(buffer_length, "left");
 		this.right_queue = new Link_Queue(buffer_length, "right");
-		setup_direction_timeout();
 	}
+
+	public method void set_channel_capacity (double capacity) {
+		this.capacity = capacity;
+	}							
+	
+	public method void set_prop_delay (double propagation_delay) {
+		this.propagation_delay = propagation_delay;
+	}
+
+	public method void set_traffic_switch_period (double traffic_period) {
+		this.traffic_period = traffic_period;
+		setup_direction_timeout();
+	}			
 
 	private method void setup_direction_timeout () {
 		this.dir_time_out = new Switch_Link_Direction(	
@@ -96,9 +105,9 @@ class Link extends Reporter
 
 	-- how a Node attempts to send a packet through this link
 	public method void send (Packet p, Node source) {
-		if ( source.getID() = left_node.getID() ) {
+		if ( source.get_id() = left_node.get_id() ) {
 			-- Transfer Requested Left -> Right
-			if left_queue.can_enqueue() {
+			if left_queue.can_enqueue(p) {
 				left_queue.enqueue(p);
 				transfer_next_packet(left_queue);
 			} else {
@@ -106,7 +115,7 @@ class Link extends Reporter
 			}			
 		} else {
 			-- Transfer Requested Right -> Left
-			if right_queue.can_enqueue() {
+			if right_queue.can_enqueue(p) {
 				right_queue.enqueue(p);
 				transfer_next_packet(right_queue);
 			} else {
@@ -117,22 +126,31 @@ class Link extends Reporter
 
 end class
 
+<include constants -> contains integer MINIMUM_PACKET_BIT_LENGTH = 128; >
+
 class Link_Queue
 	private integer head;
 	private integer tail;
-	private integer max_capacity;
-	private integer current_length;
+	private integer max_bit_capacity;	
+	private integer current_bit_length;
+	private integer max_packets_queued;
+	private integer packets_queued;
 	private Packet[] buffer;	
 	private String direction;
 
 	-- initialization	
-	public method void Link_Queue(integer capacity, String direction) {
-		this.max_capacity = capacity;		
+	public method void Link_Queue(integer bit_capacity, String direction) {
+		this.max_bit_capacity = capacity;		
+		this.current_bit_length = 0;
+		this.max_packets_queued = math.ceiling(
+			((double) max_bit_capacity) / MINIMUM_PACKET_BIT_LENGTH );
+		this.current_packet_index = 0;
+		
+		this.direction = direction;
+
 		this.buffer = new Packet[capacity];		
 		this.head = 0;
-		this.tail = 0;
-		this.current_length = 0;
-		this.direction = direction;
+		this.tail = 0;		
 	}
 
 	public method boolean isMyDirection(String d) {
@@ -140,18 +158,20 @@ class Link_Queue
 	}
 
 	-- returns true if could enqueue, false if queue is full
-	public method boolean can_enqueue() {
-		return (this.max_capacity < this.current_length);
+	public method boolean can_enqueue(Packet p) {
+		return (this.current_bit_length + p.bit_length() <= max_bit_capacity);
 	}	
+
 	public method boolean enqueue(Packet p) {
 		boolean flag = false;
-		if can_enqueue() {			
+		if can_enqueue(p) {			
 			this.buffer[this.tail] = p;
 			this.tail += 1;
-			if this.tail == this.max_capacity {
+			if this.tail == this.max_packets_queued {
 				this.tail = 0;
 			} 
-			this.current_length += 1;
+			this.packets_queued += 1;
+			this.current_bit_length += p.bit_length();
 			flag = true;			
 		} 
 		return flag;
@@ -159,16 +179,17 @@ class Link_Queue
 
 	-- returns true if could dequeue, false if queue is empty
 	public method boolean can_dequeue() {
-		return (this.current_length > 0);
+		return (this.packets_queued > 0);
 	}
 	-- Must only be called after checking can_dequeue()
 	public method Packet dequeue() {		
 		Packet popped = this.buffer[this.head];
 		this.head += 1;
-		if this.head == this.max_capacity {
+		if this.head == this.max_packets_queued {
 			this.head = 0;
 		}
-		this.current_length -= 1;
+		this.packets_queued -= 1;
+		this.current_bit_length -= popped.bit_length();
 		return popped;		
 	}	
 	
