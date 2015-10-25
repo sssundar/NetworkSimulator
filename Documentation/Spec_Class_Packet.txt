@@ -11,8 +11,12 @@ private integer packet_id; 		-- flow sink/source
 private integer bits; 			-- bit width of the packet
 private Flow f; 				-- this packet's source
 private boolean acknowledged = false; 
+private boolean in_transit = false;
 								-- if this packet is from a source, was
 								-- it acknowledged yet by the sink?
+private double tx_time;
+private double ack_time; 
+								-- for logging, flow control
 
 public Packet (Node s, Node d, Flow f, String type, integer id, integer bits) {
 	this.source = s;
@@ -22,6 +26,25 @@ public Packet (Node s, Node d, Flow f, String type, integer id, integer bits) {
 	this.packet_id = id;
 	this.bits = bits;
 	this.acknowledged = false;
+	this.in_transit = false;
+	this.tx_time = -1;
+	this.ack_time = -1;
+}
+
+public void set_tx_time (double t) {
+	this.tx_time = t;
+}
+
+public void set_ack_time (double t) {
+	this.ack_time = t;
+}
+
+public double get_RTT () {
+	if this.ack_time < 0 {
+		return -1;
+	} else {
+		return this.ack_time - this.tx_time;
+	}
 }
 
 public integer bit_length() {
@@ -32,6 +55,14 @@ public Node getCurrentDestination() {
 	return this.destination;
 }
 
+public integer get_id() {
+	return this.packet_id;
+}
+
+public String get_type() {
+	return this.type;	
+}
+
 public Flow get_flow_source() {
 	return this.f;
 }
@@ -40,8 +71,21 @@ public boolean was_acknowledged() {
 	return this.acknowledged;
 }
 
-public boolean acknowledge() {
+public void acknowledge() {
 	this.acknowledged = true;
+	this.in_transit = false;
+}
+
+public boolean is_in_transit() {
+	return this.in_transit;
+}
+
+public void flag_in_transit() {
+	this.in_transit = true;
+}
+
+public void flag_timed_out () {
+	this.in_transit = false;
 }
 
 end class
