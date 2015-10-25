@@ -32,5 +32,9 @@ struct LessThanByTime {
 }
 
 bool Event_Simulator::are_flows_done() {
-    
+    bool flag = true;
+    for (int i = 0; i < flows.size(); i++) {
+		flag = flag & flows[i].is_done();
+	}
+	return flag;
 }
