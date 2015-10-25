@@ -76,7 +76,7 @@ std::map<std::string, Node*> networkNode(std::vector<std::string> elems, std::ma
         if (j == node_map.end()) {
             node_map[elem[2]] = new link(elems[2]);
         }
-        i.addNode(j);
+        i->second->addNode(j->second);
     }
     
     else if (elems[0].compare("link") == 0) {
@@ -88,8 +88,8 @@ std::map<std::string, Node*> networkNode(std::vector<std::string> elems, std::ma
         i = node_map.find(elems[1]);
         j = node_map.find(elems[2]);
         k = node_map.find(elems[3]);
-        i.addNode(j,k);
-        i.addSpec(atoi(elems[4].c_str()), atoi(elems[5].c_str()), atoi(elems[6].c_str()))
+        i->second->addNode(j->second,k->second);
+        i->addSpec(atoi(elems[4].c_str()), atoi(elems[5].c_str()), atoi(elems[6].c_str()))
     }
     
     else if (elems[0].compare("flow") == 0) {
@@ -98,8 +98,8 @@ std::map<std::string, Node*> networkNode(std::vector<std::string> elems, std::ma
         i = node_map.find(elems[1]);
         j = node_map.find(elems[2]);
         k = node_map.find(elems[3]);
-        i.addNode(j,k);
-        i.addSpec(atoi(elems[4].c_str()), atoi(elems[5].c_str()))
+        i->second->addNode(j->second,k->second);
+        i->secondaddSpec(atoi(elems[4].c_str()), atoi(elems[5].c_str()))
     }
     
     return node_map
