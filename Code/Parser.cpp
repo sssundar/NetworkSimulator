@@ -15,9 +15,10 @@ Exist in Map?
 
 #include <iostream>
 #include <fstream>
-#include <string>
 #include <sstream>
+#include <string>
 #include <vector>
+#include <map>
 
 using namespace std;
 
@@ -30,8 +31,7 @@ int main () {
             std::vector<std::string> elems;
             elems = split(line,",");
             
-            networkNode(elems, node_map);
-            
+            node_map = networkNode(elems, node_map);
         }
     file.close();
     }
@@ -58,7 +58,7 @@ std::vector<std::string> split(const std::string &s, char delim) {
     return elems;
 }
 
-networkNode(std::vector<std::string> elems, std::map<std::string, Node*> node_map) {
+std::map<std::string, Node*> networkNode(std::vector<std::string> elems, std::map<std::string, Node*> node_map) {
     // IF HOST
     std::map<std::string, Node*>::iterator i;
     std::map<std::string, Node*>::iterator j;
@@ -100,4 +100,6 @@ networkNode(std::vector<std::string> elems, std::map<std::string, Node*> node_ma
         i.addNode(j,k);
         i.addSpec(atoi(elems[4].c_str()), atoi(elems[5].c_str()))
     }
+    
+    return node_map
 }
