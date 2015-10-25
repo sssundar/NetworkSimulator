@@ -1,11 +1,12 @@
-/*(host,hostID,linkID)
+/*
+(host,hostID,linkID)
 (router,routerID,linkID,linkID)
 (link,ID,nodeID,nodeID,rate(Mbps),delay(ms),buffer(KB))
 (flow,ID,nodeID,nodeID,data(MB),start(s))
 
-Vector of nodes
+Map of nodes
 
-Exist in Vector?
+Exist in Map?
     If No, create new node(ID)
     
     If Yes, add infoto(ID) 
@@ -14,23 +15,23 @@ Exist in Vector?
 
 #include <iostream>
 #include <fstream>
-#include <string>
 #include <sstream>
+#include <string>
 #include <vector>
+#include <map>
 
 using namespace std;
 
 int main () {
     string line;
-    std::vector<Node*> node_array;
+    std::map<std::string, Node*> node_map;
     ifstream file ("input.txt");
     if (file.is_open()) {
         while (getline (file,line)) {
             std::vector<std::string> elems;
             elems = split(line,",");
             
-            networkNode(elems, node_array);
-            
+            node_map = networkNode(elems, node_map);
         }
     file.close();
     }
@@ -57,40 +58,48 @@ std::vector<std::string> split(const std::string &s, char delim) {
     return elems;
 }
 
-networkNode(std::vector<std::string> elems, std::vector<Node*> node_array) {
+std::map<std::string, Node*> networkNode(std::vector<std::string> elems, std::map<std::string, Node*> node_map) {
     // IF HOST
+    std::map<std::string, Node*>::iterator i;
+    std::map<std::string, Node*>::iterator j;
+    std::map<std::string, Node*>::iterator k;
+    
     if (elems[0].compare("host") == 0) {
-        if (search(elems[1], node_array) == -1) {
-            node_array.push_back(host(elems[1]));   // INIT HOST with ID
-        }
-        for (int i = 2; i < elems.size(); i++) {
-            if (search(elems[i], node_array) == -1) {
-                node_array.push_back(link(elems[i]));
-            }
+        i = node_map.find(elems[1]);
+        if (i == node_map.end()) {
+            node_map[elem[1]] = host(elems[1]);
         }
         
+        i = node_map.find(elems[1]);
+        j = node_map.find(elems[2]);
+        if (j == node_map.end()) {
+            node_map[elem[2]] = link(elems[2]);
+        }
+        i.addLink(j);
     }
     
-    // IF ROUTER
-    else if (elems[0].compare("router") == 0) {
-        if (search(elems[1], node_array) == -1) {
-            node_array.push_back(router(elems[1])); // INIT Router with ID
+    else if (elems[0].compare("link") == 0) {
+        i = node_map.find(elems[1]);
+        if (i == node_map.end()) {
+            node_map[elem[1]] = link(elems[1]);
         }
-        for (int i = 2; i < elems.size(); i++) {
-            if (search(elems[i], node_array) == -1) {
-                node_array.push_back(link(elems[i]));
-            }
-        }
+        
+        i = node_map.find(elems[1]);
+        j = node_map.find(elems[2]);
+        k = node_map.find(elems[3]);
+        i.addNode(j,k);
+        i.addSpec(atoi(elems[4].c_str()), atoi(elems[5].c_str()), atoi(elems[6].c_str()))
     }
     
-}
-
-bool search(const std::string &s, std::vector<Node*> node_array){
-    int exist = -1;
-    for (int i = 0; i < node_array.size(); i++) {
-        if (s.compare(node_array[i].getID()) == 0) {
-            exist = i;
-        }
+    else if (elems[0].compare("flow") == 0) {
+        node_map[elem[1]] = flow(elems[1]);
+        
+        i = node_map.find(elems[1]);
+        j = node_map.find(elems[2]);
+        k = node_map.find(elems[3]);
+        i.addNode(j,k);
+        i.addSpec(atoi(elems[4].c_str()), atoi(elems[5].c_str()))
     }
-    return exist;
+    
+    return node_map
 }

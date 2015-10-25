@@ -1,0 +1,13 @@
+###########
+## Flows ##
+###########
+
+class Flow extends Reporter
+	public method 
+end class;
+
+class Source extends Flow
+end class;
+
+class Sink extends Flow
+end class;

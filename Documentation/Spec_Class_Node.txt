@@ -1,0 +1,37 @@
+##########
+## Node ##
+##########
+
+class Node extends Reporter
+
+public void receive (Packet p) {}
+
+end class;
+
+
+class Host extends Node
+
+	private Link l;
+	private Flow f;
+
+	public Host (String ID) {	
+		this.ID = ID;
+	}
+
+	public void set_link (Link l) {
+		this.l = l;	
+	}
+
+	public void set_flow (Flow f) {
+		this.f = f;
+	}
+
+	public void receive (Packet p) {
+		this.f.receive(p);
+	}
+
+	public void send () {
+		this.l.send(p, this);
+	}
+
+end class;
