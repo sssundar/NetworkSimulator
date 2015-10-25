@@ -43,6 +43,9 @@ class Event_Priority_Queue extends Reporter extends C++PriorityQueue
     
     //Dequeue
     //Event.event_action()
+    
+    //Current time (exist in the event_simulator)
+    //Event.get_completion_time()
 	public method boolean run_next_event() {    
 		if (this.num_events == 0 or are_flows_done()) {
 			return false;
