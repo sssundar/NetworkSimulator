@@ -69,7 +69,7 @@ class Link extends Reporter
 				if q.can_dequeue() {					
 					Packet potential_tx = q.head();
 					double channel_loading_delay = 
-						((double) potential_tx.get_size()) / this.capacity;
+						((double) potential_tx.bit_length()) / this.capacity;
 
 					if (channel_loading_delay + propagation_delay < time_left) {
 

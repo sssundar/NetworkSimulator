@@ -11,34 +11,50 @@ Revision History
 	17 October 2015; Sushant 
 		spec/pseudocode for	logging, sim, events, queues for test 0 
 		most of pseudocode for links for test 0
-	23 October 2015; Sushant, Sith, Ahmed
-		finished spec for links for test 0
-		decided on c++ priority queue for event simulator
-		started Packet spec/pseudocode
+	21 October 2015; Sith
+		wrote event, linkqueue, reporter using spec
+	23 October 2015; Sushant
+		finished spec for links for test 0		
+		finished Packet spec/pseudocode
+		started Node, Host
+	23 October 2015; Ahmed
+		finished majority of milestone 1 presentation
+		revised link_queue to use c++queue
+	23 October 2015; Sith
+		created network parser
+		created main loop
+		revised to c++ priority queue for event simulator
 
-######################
+######################	
 ## To Do for Test 0 ##
 ######################
-Spec
-	class Packet (see packet methods required in classes above)
+Spec	
 	class Node extends Reporter
-	class Host extends Node
-	class Flow extends Node
+	class Host extends Node	
+	class Flow extends Reporter
 	class Source extends Flow
 	class Sink extends Flow
 	Main Loop
+
 Implement in C++: Code & Commenting
 Testing & Visualization Scripts off Logs
 Documentation & Presentation for Phase 1 Report
 	Add detail in roadmap
 		specific deliverables, specific dates
 	Add detail in approach
+		class Router extends Node (not implemented for now)
+		class RoutingSource extends Flow (not implemented for now)
+		class RoutingSink extends Flow (not implemented for now )
 		link delay-based switching, link delay telepathy
 		link contains buffers, equal size on each end of listed capacity
 		link has tx events 
 		flow has packet timeout events
 		multiple flows (routing source, routing sink, 
 						 data source, data sink)
+		if a packet times out, the flow should still be able to accept
+			later acks for that packet (possibly in transit during timeout)
+			gracefully
+		flow telepathy - during parsing flows - both source/sink know max size
 		delay/congestion estimates for links based on ?? telepathy?
 			why wouldn't this loop like in hw2?
 			ritvik said in practice, implement static routes with oversight.

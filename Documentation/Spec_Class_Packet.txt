@@ -3,15 +3,45 @@
 #############
 
 class Packet
-	private double completion_time;	
-	public method void event_action() {}
-	
-	-- initialization
-	public method void set_completion_time(double completion_time) {
-		this.completion_time = completion_time;
-	}
-	
-	public method double get_completion_time() {
-		return this.completion_time;
-	}
+
+private Node source;
+private Node destination;  		-- host, router
+private String type; 		 	-- ack, data for now
+private integer packet_id; 		-- flow sink/source 
+private integer bits; 			-- bit width of the packet
+private Flow f; 				-- this packet's source
+private boolean acknowledged = false; 
+								-- if this packet is from a source, was
+								-- it acknowledged yet by the sink?
+
+public Packet (Node s, Node d, Flow f, String type, integer id, integer bits) {
+	this.source = s;
+	this.destination = d;
+	this.f = f;
+	this.type = type;
+	this.packet_id = id;
+	this.bits = bits;
+	this.acknowledged = false;
+}
+
+public integer bit_length() {
+	return this.bits;
+}
+
+public Node getCurrentDestination() {
+	return this.destination;
+}
+
+public Flow get_flow_source() {
+	return this.f;
+}
+
+public boolean was_acknowledged() {
+	return this.acknowledged;
+}
+
+public boolean acknowledge() {
+	this.acknowledged = true;
+}
+
 end class

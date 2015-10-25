@@ -1,0 +1,7 @@
+###########
+## Flows ##
+###########
+
+class Flow extends Reporter
+class Source extends Flow
+class Sink extends Flow

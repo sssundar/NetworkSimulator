@@ -1,0 +1,12 @@
+##########
+## Node ##
+##########
+
+class Node extends Reporter
+
+end class;
+
+class Host extends Node
+
+end class;
+
