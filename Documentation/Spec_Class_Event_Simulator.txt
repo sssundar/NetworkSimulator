@@ -8,7 +8,7 @@
 -- functions become part of the main loop.
 -- We do want to be able to access the current time so extending C++ Priority
 -- Queue might be a good approach
-class Event_Simulator extends Reporter
+class Event_Priority_Queue extends Reporter extends C++PriorityQueue
 	private Event[] events;
 	private Flow[] flows;
 	private integer max_events = 1024;
