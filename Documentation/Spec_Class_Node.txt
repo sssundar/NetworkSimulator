@@ -10,6 +10,8 @@ end class;
 
 
 class Host extends Node
+	
+	<Import Header Defining Packet Types, BitWidth>
 
 	private Link l;
 	private Flow f;
@@ -27,10 +29,13 @@ class Host extends Node
 	}
 
 	public void receive (Packet p) {
-		this.f.receive(p);
+		if p.get_type() == constants.DATA_PACKET_ACKNOWLEDGEMENT_TYPE 
+			or p.get_type() == constants.DATA_PACKET_TYPE {
+			this.f.receive(p);			
+		}					
 	}
 
-	public void send () {
+	public void send (Packet p) {
 		this.l.send(p, this);
 	}
 

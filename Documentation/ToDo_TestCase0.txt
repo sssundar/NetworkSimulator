@@ -29,43 +29,16 @@ Revision History
 ######################	
 ## To Do for Test 0 ##
 ######################
-Spec	
-	class Node extends Reporter
-	class Host extends Node	
-	class Flow extends Reporter
-	class Source extends Flow
-	class Sink extends Flow
-	Main Loop
-
 Implement in C++: Code & Commenting
 Testing & Visualization Scripts off Logs
-Documentation & Presentation for Phase 1 Report
-	Add detail in roadmap
-		specific deliverables, specific dates
-	Add detail in approach
-		link buffers keep track of bit size; acks are not the same size as
-			info packets
-		there is a constant (non-UI specifiable) header with this size
-		class Router extends Node (not implemented for now)
-		class RoutingSource extends Flow (not implemented for now)
-		class RoutingSink extends Flow (not implemented for now )
-		link delay-based switching, link delay telepathy
-		link contains buffers, equal size on each end of listed capacity
-		link has tx events 
-		flow has packet timeout events
-		multiple flows (routing source, routing sink, 
-						 data source, data sink)
-		if a packet times out, the flow should still be able to accept
-			later acks for that packet (possibly in transit during timeout)
-			gracefully
-		flow telepathy - during parsing flows - both source/sink know max size
-		delay/congestion estimates for links based on ?? telepathy?
-			why wouldn't this loop like in hw2?
-			ritvik said in practice, implement static routes with oversight.
-			look/type out notes from last meeting
-		timeouts/callback structure for events
-		c++ priority queue for event-based simulation
 
+ritvik said in practice, implement static routes with oversight.
+	look/type out notes from last meeting
+flow control on source ok, but sink? how measure ack delays? buffer 
+	size in links?
+delay/congestion estimates for links based on ?? telepathy?
+	why wouldn't this loop like in hw2?		
+		
 --------------------------------------------------------------------------------
 
 

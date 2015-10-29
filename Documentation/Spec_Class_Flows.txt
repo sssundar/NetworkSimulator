@@ -2,12 +2,162 @@
 ## Flows ##
 ###########
 
-class Flow extends Reporter
-	public method 
+class Flow extends Reporter		
+	<Import Header Defining Packet Types, BitWidth>
+	
+	private integer packet_window;
+	private Node src;
+	private Node dst;
+	private Event_Simulator sim;
+
+	public void send(Packet p) {}
+	public void receive(Packet p) {}
+	public void start() {};
+		
+	-- Routing Flows Talk Host-Router or Router-Router
+	-- Data Flows Talk Host-Host
+	public void set_src(Node src) {
+		this.src = src;
+	}
+	public void set_dst(Node dst) {
+		this.dst = dst;
+	}
+	public void set_sim(Event_Simulator sim) {
+		this.sim = sim;
+	}
+
+	public void set_window (integer window) {
+		this.packet_window = window;
+	}		
 end class;
 
-class Source extends Flow
+class DataSource extends Flow
+	<Import Header Defining Packet Types, BitWidth>
+	
+	private Packet[] tx_buffer;		
+	private integer num_packets_outstanding;		
+
+	public void DataSource (String ID) {
+		this.ID = ID;		
+	}	
+
+	-- approximate
+	public void set_flow_size (integer bits) {
+		integer total_packets = (integer) ceiling(
+			((double) bits) / constants.DATA_PACKET_BITWIDTH
+			);
+		this.num_packets_outstanding = 0;				
+		this.tx_buffer = Packet[total_packets];
+		for i = 0 : total_packets - 1 do
+			this.tx_buffer[i] = new Packet(
+				this.src,
+				this.dst, 
+				this, 
+				constants.DATA_PACKET_TYPE, 
+				i, 
+				constants.DATA_PACKET_BITWIDTH);
+		end for;		
+	}	
+	public integer get_flow_size () {
+		return length(tx_buffer);
+	}
+
+	public boolean is_done () {
+		-- TO DO -- 
+	}
+
+	public void send(Packet p) {
+		p.flag_in_transit();
+		p.set_tx_time(this.sim.get_current_time());		
+		this.src.send(p);		
+		this.num_packets_outstanding += 1;
+	}
+
+	-- can assume a packet here is meant for this flow --
+	-- routing packets processed elsewhere --	
+	public void receive(Packet p) {
+		-- even if packet was timed out on our side, can still gracefully ack--
+
+		-- acknowledge everything up to but not including the ack packet id --
+		-- if not already acknowledged --
+		-- send the next packet in sequence --
+
+		-- TO DO: THE CODE BELOW DOES NOT MATCH THE SPEC ABOVE --
+		Packet ackd = tx_buffer[p.get_id()];
+		ackd.acknowledge();
+		ackd.set_ack_time(this.sim.get_current_time());
+		log("Packet " . ackd.get_id() . " had RTT: " . ackd.get_RTT() . "\n");
+
+		this.num_packets_outstanding -= 1;
+		poke_tcp();
+	}
+
+	public void time_out (Packet p) {
+		p.set_tx_time(-1);
+		p.flag_timed_out();
+		this.num_packets_outstanding -= 1;
+		poke_tcp();
+	}
+
+	public void start () {
+		poke_tcp();
+	}
+
+	-- no congetsion/flow control for now --
+	public void poke_tcp () {
+		if this.num_packets_outstanding < this.window {
+			send(get_next_packet_to_transmit());
+		}
+		poke_tcp();
+	}
+	
+	private Packet get_next_packet_to_transmit () {
+		for i = 0 : length(tx_buffer) {
+			if not (tx_buffer[i].is_in_transit() or 
+					tx_buffer[i].was_acknowledged()) {
+				return tx_buffer[i];				
+			}
+		}
+	}
 end class;
 
-class Sink extends Flow
+class DataSink extends Flow
+
+	-- was packet at the index in the buffer received?
+	private boolean[] rx_buffer; 	
+	
+	public void DataSink (String ID) {
+		this.ID = ID;
+	}
+
+	public void set_flow_size (integer num_packets) {
+		this.rx_buffer = boolean[num_packets];
+		for i = 0 : num_packets-1 {
+			this.rx_buffer[i] = 0;
+		}
+	}	
+
+	public void send(Packet p) {
+		p.set_tx_time(this.sim.get_current_time());	
+		p.flag_in_transit();
+		this.src.send(p);
+	}
+	
+	-- acknowledge by requesting the smallest packet we haven't seen yet
+	public void receive(Packet p) {
+		rx_buffer[p.get_id()] = 1;
+		for i = 0 : length(rx_buffer)-1 {
+			if rx_buffer[i] == 0 {
+				send(new Packet(
+					this.src,
+					this.dst, 
+					this,
+					constants.DATA_PACKET_ACKNOWLEDGEMENT_TYPE,
+					i, 
+					constants.DATA_PACKET_ACKNOWLEDGEMENT_BITWIDTH));					
+				break;
+			}
+		}
+	}
+	
 end class;

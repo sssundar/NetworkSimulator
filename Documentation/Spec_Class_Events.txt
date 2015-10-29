@@ -88,3 +88,16 @@ class Transmission_Callback extends Event
 		this.l.transfer_next_packet(this.q);
 	}
 end class
+
+class Flow_Start extends Event
+	private Flow f;
+
+	public void Flow_Start ( Flow f, double completion_time) {
+		this.f = f;
+		set_completion_time(completion_time);
+	}
+
+	public void event_action() {
+		this.f.start();
+	}
+end class
