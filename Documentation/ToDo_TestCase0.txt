@@ -32,6 +32,7 @@ Revision History
 Implement in C++: Code & Commenting
 Testing & Visualization Scripts off Logs
 
+add notes from last meeting (10-29) here
 ritvik said in practice, implement static routes with oversight.
 	look/type out notes from last meeting
 flow control on source ok, but sink? how measure ack delays? buffer 
