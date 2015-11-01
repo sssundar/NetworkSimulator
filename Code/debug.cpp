@@ -17,10 +17,10 @@ std::vector<std::string> &split(const std::string &s, char delim, std::vector<st
     return elems;
 }
 
-std::vector<std::string> split(std::string &s, char delim) {
-    std::vector<std::string> elems;
-    split(s, delim, elems);
-    return elems;
+std::vector<std::string> split(const std::string &s, char delim) {
+    std::vector<std::string> word;
+    word = split(s, delim, word);
+    return word;
 }
 
 /* Main Loop for Testing */
@@ -31,7 +31,11 @@ int main () {
     if (file.is_open()) {
         while (getline (file,line)) {
             std::vector<std::string> elems;
-            elems = split(line,",");
+            std::cout << line << "\n";
+            elems = split(line,',');
+            for (unsigned int i = 0; i < elems.size();i++) {
+                std::cout << elems[i] << "\n";
+            }
         }
     file.close();
     }
