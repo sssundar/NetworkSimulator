@@ -1,19 +1,24 @@
+#ifndef PACKET_HEADER
+#define PACKET_HEADER
+
 #include <cstdlib>
 #include <string>
 #include "Node.hpp"
 #include "Flow.hpp"
 
+using namespace std;
+
 class Packet {
 
 public:    
-	void Packet (Node s, Node d, Flow f, string type, integer id, integer bits);
+	Packet (Node s, Node d, Flow f, std::string type, integer id, integer bits);
 	void set_tx_time (double t);
 	void set_ack_time (double t);
 	double get_RTT ();
 	int bit_length();
 	Node getCurrentDestination();
 	int get_id();
-	string get_type();
+	std::string get_type();
 	Flow get_flow_source();
 	bool was_acknowledged();
 	void acknowledge();
@@ -27,7 +32,7 @@ private:
     Node destination;  		// host, router
 	Flow f; 				// this packet's source
 
-	string type; 		 	// ack, data for now
+	std::string type; 		 	// ack, data for now
 	int packet_id; 		// flow sink/source 
 	int bits; 			// bit width of the packet
 	
@@ -40,3 +45,5 @@ private:
 	double tx_time;
 	double ack_time; 	
 };
+
+#endif

@@ -1,3 +1,6 @@
+#ifndef REPORTER_HEADER
+#define REPORTER_HEADER
+
 #include <cstdlib>
 #include <string>
 using namespace std;
@@ -10,3 +13,5 @@ public:
 private:
     string ID;
 };
+
+#endif
