@@ -24,7 +24,6 @@ std::vector<std::string> split(const std::string &s, char delim) {
 }
 
 /* Main Loop for Testing */
-
 int main () {
     string line;
     ifstream file ("input.txt");
