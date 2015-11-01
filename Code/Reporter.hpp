@@ -11,7 +11,7 @@ public:
     void get_id();
 
 private:
-    string ID;
+    std::string ID;
 };
 
 #endif

@@ -1,23 +1,19 @@
-#include <cstdlib>
-#include <string>
-#include "Node.hpp"
-#include "Flow.hpp"
 #include "Packet.hpp"
 
 using namespace std;
 
 Packet::Packet (Node s, Node d, Flow f, std::string type, 
-					int id, int bits) {
- 	this->source = s;
-	this->destination = d;
-	this->f = f;
-	this->type = type;
-	this->packet_id = id;
-	this->bits = bits;
-	this->acknowledged = false;
-	this->in_transit = false;
-	this->tx_time = -1;
-	this->ack_time = -1;
+					int id, int bits) : 
+					f(f), 
+					source(s),
+					destination(d),
+					type(type),
+					packet_id(id),
+					bits(bits),
+					acknowledged(false),
+					in_transit(false),
+					tx_time(-1),
+					ack_time(-1) { 		
 }
 
 void Packet::set_tx_time (double t) {
@@ -42,7 +38,7 @@ int Packet::bit_length() {
 }
 
 Node Packet::getCurrentDestination() {
-	return destination;
+	return destination;	
 }
 
 int Packet::get_id() {

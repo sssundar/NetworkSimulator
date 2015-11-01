@@ -10,10 +10,8 @@ using namespace std;
 
 class TestFlow : public Flow {
 	public: 
+		TestFlow ();
 		TestFlow (std::string ID); 
-		void send(Packet p) = 0;
-		void receive(Packet p) = 0;
-		void start() = 0;
 };
 
 #endif

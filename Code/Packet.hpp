@@ -10,8 +10,8 @@ using namespace std;
 
 class Packet {
 
-public:    
-	Packet (Node s, Node d, Flow f, std::string type, integer id, integer bits);
+public: 	 
+	Packet (Node s, Node d, Flow f, std::string type, int id, int bits);
 	void set_tx_time (double t);
 	void set_ack_time (double t);
 	double get_RTT ();

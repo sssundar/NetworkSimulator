@@ -1,6 +1,6 @@
 #include "Event_Simulator.hpp"
 
-void Event_Simulator::Event_Simulator(std::vector<Flow> f) {
+Event_Simulator::Event_Simulator(std::vector<Flow> f) {
     flows = f;
     time = 0    
 }
@@ -24,12 +24,6 @@ bool Event_Simulator::run_next_event() {
 double Event_Simulator::get_current_time() {
     return time;
 }
-
-struct LessThanByTime {
-    bool operator()(const Event& lhs, const Event& rhs) const {
-        return lhs.time < rhs.time;
-    }
-};
 
 bool Event_Simulator::are_flows_done() {
     bool flag = true;

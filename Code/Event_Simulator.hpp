@@ -8,16 +8,25 @@
 
 using namespace std;
 
+class Flow; // forward declared
+
+class LessThanByTime
+{
+    public:
+        bool operator() (Event lhs, Event rhs) {
+            return lhs.get_completion_time() < rhs.get_completion_time();
+        }
+};
+
 class Event_Simulator {
 
 public:
-    void Event_Simulator(std::vector<Flow> f);
+    Event_Simulator(std::vector<Flow> f);
     void request_event(Event e);
     bool run_next_event();
     double get_current_time();
 
-private:
-    struct LessThanByTime();
+private:    
     std::priority_queue<Event, std::vector<Event>, LessThanByTime> EventQueue;
     std::vector<Flow> flows;  
     bool are_flows_done(); 

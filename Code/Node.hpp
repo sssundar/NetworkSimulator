@@ -7,10 +7,12 @@
 
 using namespace std;
 
+class Packet;
+
 class Node : public Reporter {
 
 public:    
-	virtual void receive (Packet p) = 0;
+	void receive (Packet p);
 	
 };
 

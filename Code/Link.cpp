@@ -1,9 +1,9 @@
-#include <cstdlib>
-#include <string>
-#include "Reporter.hpp"
+#include "Link.hpp"
 
 using namespace std;
 
-Link (std::string ID) {
+Link::Link () {}
+
+Link::Link (std::string ID) {
 	this->ID = ID;
 }

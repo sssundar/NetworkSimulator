@@ -1,15 +1,10 @@
-#include <cstdlib>
-#include <string>
-#include "Reporter.hpp"
-#include "Packet.hpp"
-#include "Link.hpp"
-#include "Flow.hpp"
-#include "CONSTANTS.hpp"
-#include "Node.hpp"
+#include "Host.hpp"
 
 using namespace std;
 
-Host (std::string ID) {	
+Host::Host () {}
+
+Host::Host (std::string ID) {	
 	this->ID = ID;
 }
 

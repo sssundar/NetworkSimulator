@@ -19,6 +19,7 @@ class Host : public Node {
 		Flow f;
 
 	public:
+		Host ();
 		Host (std::string ID);
 		void set_link (Link l);
 		void set_flow (Flow f);

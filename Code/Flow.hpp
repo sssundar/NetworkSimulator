@@ -6,17 +6,17 @@
 #include "Reporter.hpp"
 #include "Node.hpp"
 #include "Packet.hpp"
-#include "Event_Simulator.hpp"
 #include "CONSTANTS.hpp"
+#include "Event_Simulator.hpp"
 
 using namespace std;
 
 class Flow : public Reporter {
-	public:
+	public:				
 		Flow (std::string ID);
-		virtual void send(Packet p) = 0;
-		virtual void receive(Packet p) = 0;
-		virtual void start() = 0;
+		void send(Packet p);
+		void receive(Packet p);
+		void start();
 	
 	 	void set_src(Node src); 
 	 	void set_dst(Node dst); 
