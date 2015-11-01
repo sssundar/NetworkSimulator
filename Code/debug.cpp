@@ -4,7 +4,7 @@
 #include <string>
 #include <vector>
 #include <map>
-#include "Event_Simulator.cpp""
+#include "Event_Simulator.cpp"
 
 using namespace std;
 
