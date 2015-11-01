@@ -1,15 +1,21 @@
+// Parser with Main Loop
+// Sith Domrongkitchaiporn
+// NetworkNode needs to be debugged
+
 /*
-(host,hostID,linkID)
-(router,routerID,linkID,linkID)
-(link,ID,nodeID,nodeID,rate(Mbps),delay(ms),buffer(KB))
-(flow,ID,nodeID,nodeID,data(MB),start(s))
 
-Map of nodes
+*** Format for Input File ***
+host,hostID,linkID)
+router,routerID,linkID,linkID)
+link,ID,nodeID,nodeID,rate(Mbps),delay(ms),buffer(KB)
+flow,ID,nodeID,nodeID,data(MB),start(s)
 
+
+Algorithm:
+Create Node Map
 Exist in Map?
     If No, create new node(ID)
-    
-    If Yes, add infoto(ID) 
+    If Yes, add info to(ID) 
     
 */
 
@@ -22,44 +28,9 @@ Exist in Map?
 
 using namespace std;
 
-int main () {
-    string line;
-    std::map<std::string, Node*> node_map;
-    ifstream file ("input.txt");
-    if (file.is_open()) {
-        while (getline (file,line)) {
-            std::vector<std::string> elems;
-            elems = split(line,",");
-            
-            node_map = networkNode(elems, node_map);
-        }
-    file.close();
-    }
-
-    else {
-        cout << "Unable to open file"; 
-    }
-    
-    return 0;
-}
-
-std::vector<std::string> &split(const std::string &s, char delim, std::vector<std::string> &elems) {
-    std::stringstream ss(s);
-    std::string item;
-    while (std::getline(ss, item, delim)) {
-        elems.push_back(item);
-    }
-    return elems;
-}
-
-std::vector<std::string> split(const std::string &s, char delim) {
-    std::vector<std::string> elems;
-    split(s, delim, elems);
-    return elems;
-}
-
-
-// Parser ignoring routers for now
+/* 
+// Ignoring Routers for now
+// Has not been debugged
 std::map<std::string, Node*> networkNode(std::vector<std::string> elems, std::map<std::string, Node*> node_map) {
     std::map<std::string, Node*>::iterator i;
     std::map<std::string, Node*>::iterator j;
@@ -103,4 +74,51 @@ std::map<std::string, Node*> networkNode(std::vector<std::string> elems, std::ma
     }
     
     return node_map
+}
+*/
+
+/* String Parsing
+ * Splits a string by a delim
+ * Works
+ */
+std::vector<std::string> &split(const std::string &s, char delim, std::vector<std::string> &elems) {
+    std::stringstream ss(s);
+    std::string item;
+    while (std::getline(ss, item, delim)) {
+        elems.push_back(item);
+    }
+    return elems;
+}
+
+std::vector<std::string> split(const std::string &s, char delim) {
+    std::vector<std::string> word;
+    split(s, delim, word);
+    return word;
+}
+
+/* Main Loop */
+int main () {
+    string line;
+    //std::map<std::string, Node*> node_map;
+    ifstream file ("input.txt");
+    if (file.is_open()) {
+        while (getline (file,line)) {
+            std::vector<std::string> elems;
+            std::cout << line << "\n";
+            elems = split(line,',');
+            
+            for (unsigned int i = 0; i < elems.size();i++) {
+                std::cout << elems[i] << "\n";
+            }
+            
+            //node_map = networkNode(elems, node_map);
+        }
+    file.close();
+    }
+
+    else {
+        cout << "Unable to open file"; 
+    }
+    
+    return 0;
 }
