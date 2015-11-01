@@ -28,8 +28,8 @@ private:
 	Flow f; 				// this packet's source
 
 	string type; 		 	// ack, data for now
-	integer packet_id; 		// flow sink/source 
-	integer bits; 			// bit width of the packet
+	int packet_id; 		// flow sink/source 
+	int bits; 			// bit width of the packet
 	
 							// if this packet is from a source, was
 							// it acknowledged yet by the sink?
@@ -39,5 +39,4 @@ private:
 							// for logging, flow control
 	double tx_time;
 	double ack_time; 	
-
 };
