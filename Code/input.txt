@@ -1,6 +1,9 @@
-host,h1,l1
+h1,l1
 host,h2,l2
 router,r1,l1,l2
 link,l1,h1,r1,10,10,64
 link,l2,h2,r1,10,10,64
 flow,f1,h1,h2,20,1
+
+objs = jsondecode({"id":"h1","links":["l1","l2","l3"],...}))
+objs["hi"]["links"]
