@@ -5,5 +5,6 @@ link,l1,h1,r1,10,10,64
 link,l2,h2,r1,10,10,64
 flow,f1,h1,h2,20,1
 
+** JSON FORMAT **
 objs = jsondecode({"id":"h1","links":["l1","l2","l3"],...}))
 objs["hi"]["links"]
