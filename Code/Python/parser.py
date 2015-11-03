@@ -23,6 +23,7 @@ def parser (myfile):
                 h = host()
                 map[line["id"]] = h            
             map[line["id"]].addlink(line["links"])
+            
         elif line["type"] == "link":
             print "L"
             if line["id"] not in map:
@@ -30,8 +31,14 @@ def parser (myfile):
                 map[line["id"]] = l            
             map[line["id"]].addnode(line["left"],line["right"])
             map[line["id"]].addconst(line["rate"],line["delay"],line["buffer"])
+            
         elif line["type"] == "router":
             print "R"
+            if line["id"] not in map:
+                r = router()
+                map[line["id"]] = r            
+            map[line["id"]].addlink(line["links"])
+            
         elif line["type"] == "flow":
             print "F"
             if line["id"] not in map:
@@ -40,16 +47,16 @@ def parser (myfile):
             map[line["id"]].addflow(line["source"],line["dest"])
             map[line["id"]].addconst(line["size"],line["start"])
             
-            """   
-           h = test()
-            h.append(2)
-            h.append('m')
-            h.append("hi sith")
-            print h.getval()
-            if in map            
+        """   
+        h = test()
+        h.append(2)
+        h.append('m')
+        h.append("hi sith")
+        print h.getval()
+        if in map            
         """
     
-    return data    
+    return map    
 
 myfile = 'input.json'
 data = parser(myfile)
