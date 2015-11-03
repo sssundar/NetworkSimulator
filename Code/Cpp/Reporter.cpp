@@ -1,9 +1,9 @@
 #include "Reporter.hpp"
 
-public string get_id() {
+public std::string get_id() {
     return ID;
 }
 
-public void log(String message) {
+public void log(std::string message) {
     printf("%s reports %s \n", get_id, message);
 }

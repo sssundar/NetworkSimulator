@@ -25,6 +25,11 @@ Revision History
 		created network parser
 		created main loop
 		revised to c++ priority queue for event simulator
+	31 October 2015; Sushant, Sith
+		debugged parser
+		finished packet
+		finished node, host
+		
 
 ######################	
 ## To Do for Test 0 ##
@@ -32,6 +37,8 @@ Revision History
 Implement in C++: Code & Commenting
 Testing & Visualization Scripts off Logs
 
+add notes from last meeting (10-29) here
+	changes to link need to be made for stability of FAST-TCP
 ritvik said in practice, implement static routes with oversight.
 	look/type out notes from last meeting
 flow control on source ok, but sink? how measure ack delays? buffer 

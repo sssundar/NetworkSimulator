@@ -1,3 +1,6 @@
+#ifndef LINK_QUEUE_HEADER
+#define LINK_QUEUE_HEADER
+
 #include <cstdlib>
 #include "Packet.hpp"
 
@@ -17,3 +20,5 @@ private:
     int current_length;
     std::vector<Packet *> buffer; 
 };
+
+#endif
