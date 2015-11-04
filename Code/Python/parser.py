@@ -19,34 +19,24 @@ def parser (myfile):
                 
         if line["type"] == "host":
             print "H"
-            if line["id"] not in map:
-                h = host()
-                map[line["id"]] = h            
-            map[line["id"]].addlink(line["links"])
+            h = host(line["id"], line["links"])
+            map[line["id"]] = h            
             
         elif line["type"] == "link":
             print "L"
-            if line["id"] not in map:
-                l = link()
-                map[line["id"]] = l            
-            map[line["id"]].addnode(line["left"],line["right"])
-            map[line["id"]].addconst(line["rate"],line["delay"],line["buffer"])
+            l = link(line["id"], line["left"], line["right"], line["rate"], line["delay"], line["buffer"])
+            map[line["id"]] = l
             
         elif line["type"] == "router":
             print "R"
-            if line["id"] not in map:
-                r = router()
-                map[line["id"]] = r            
-            map[line["id"]].addlink(line["links"])
+            r = router(line["id"], line["links"])
+            map[line["id"]] = r            
             
         elif line["type"] == "flow":
             print "F"
-            if line["id"] not in map:
-                f = flow()
-                map[line["id"]] = f            
-            map[line["id"]].addflow(line["source"],line["dest"])
-            map[line["id"]].addconst(line["size"],line["start"])
-            
+            f = flow(line["id"], line["source"], line["dest"], line["size"],line["start"])
+            map[line["id"]] = f            
+
         """   
         h = test()
         h.append(2)
