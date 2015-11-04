@@ -40,6 +40,7 @@ class TestHost(unittest.TestCase):
 		h = host.Host(ID,Links)
 		h.log("Hello World!")
 		self.assertEqual(h.get_id(), ID)
+		self.assertEqual(h.get_element_type(), constants.HOST_ELEMENT)
 		with self.assertRaises(ValueError):
 			h2 = host.Host(ID,["L1","L2"])					
 	

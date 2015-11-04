@@ -15,6 +15,7 @@ import constants
 # The class Node extends the class Reporter
 class Host(Node):
 
+	element_type = ""
 	link = ""
 	flow = ""
 	sim = ""
@@ -24,9 +25,13 @@ class Host(Node):
 	def __init__(self, identity, links):
 		if len(links) > 1:
 			raise ValueError('Host constructed with >1 link.')
-		else:
+		else:			
 			Node.__init__(self, identity)				
+			self.element_type = constants.HOST_ELEMENT
 			self.link = links[0]
+
+	def get_element_type (self):
+		return self.element_type
 
 	def set_flow (self, f):
 		self.flow  = f
