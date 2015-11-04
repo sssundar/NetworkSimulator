@@ -5,7 +5,7 @@
 import unittest
 
 # Test Modules
-import reporter, node
+import reporter, node, host
 
 class TestReporter(unittest.TestCase):
   
@@ -31,11 +31,32 @@ class TestNode(unittest.TestCase):
 		n = node.Node(ID)
 		n.receive(0)
 
+class TestHost(unittest.TestCase):
+
+	# Set ID of host through super initialiation
+	def test_init(self):
+		ID = "H1"
+		Links = ["L1"]
+		h = host.Host(ID,Links)
+		h.log("Hello World!")
+		self.assertEqual(h.get_id(), ID)
+		with self.assertRaises(ValueError):
+			h2 = host.Host(ID,["L1","L2"])					
+	
+	def test_sendreceive(self):		
+		# Should break, as flows not yet implemented in Python
+		ID = "H1"
+		Links = ["L1"]
+		h = host.Host(ID,Links)		
+		h.receive("nothing")
+		h.send("nothing")
+
 # Run Specific Tests
 if __name__ == "__main__":
 	reporter_suite = unittest.TestLoader().loadTestsFromTestCase(TestReporter)
 	node_suite = unittest.TestLoader().loadTestsFromTestCase(TestNode)
+	host_suite = unittest.TestLoader().loadTestsFromTestCase(TestHost)
 	
-	test_suites = [reporter_suite, node_suite]
+	test_suites = [reporter_suite, node_suite, host_suite]
 	for suite in test_suites:
 		unittest.TextTestRunner(verbosity=2).run(suite)		
