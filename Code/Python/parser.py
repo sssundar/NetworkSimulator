@@ -39,7 +39,7 @@ def parser (myfile):
         elif line["type"] == "router":
             print "R"
             r = router(line["id"], line["links"])
-            map[line["id"]] = r            
+            map[line["id"]] = r
             
         elif line["type"] == "flow":
             print "F"

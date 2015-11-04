@@ -23,3 +23,6 @@ class Router(Node):
 	
     def set_event_simulator (self, sim):
         self.sim = sim
+        
+    def get_link(self):
+        return self.link

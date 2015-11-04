@@ -22,3 +22,15 @@ class flow(Reporter):
 
     def set_event_simulator (self, sim):
         self.sim = sim
+        
+    def get_source (self):
+        return self.source
+        
+    def get_dest (self):
+        return self.dest  
+        
+    def get_size (self):
+        return self.size  
+    
+    def get_start (self):
+        return self.start  

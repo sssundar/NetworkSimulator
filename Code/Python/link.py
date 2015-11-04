@@ -27,3 +27,18 @@ class Link(Node):
 	
     def set_event_simulator (self, sim):
         self.sim = sim
+        
+    def get_left(self):
+        return self.left
+        
+    def get_right(self):
+        return self.right
+        
+    def get_rate(self):
+        return self.rate
+        
+    def get_delay(self):
+        return self.delay
+        
+    def get_buffer(self):
+        return self.buffer
