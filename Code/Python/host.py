@@ -33,8 +33,8 @@ class Host(Node):
 	def get_element_type (self):
 		return self.element_type
 
-      def get_link (self):
-            return self.link
+	def get_link (self):
+		return self.link
 
 	def set_flow (self, f):
 		self.flow  = f
