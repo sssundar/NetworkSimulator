@@ -9,12 +9,12 @@ import reporter, node, host
 
 class TestReporter(unittest.TestCase):
   
-  # Set ID of reporter
-  def test_get_id(self):
-  	ID = "H1"
-  	r = reporter.Reporter(ID)
-  	r.log("Hello World!")
-  	self.assertEqual(r.get_id(), ID)
+	# Set ID of reporter
+	def test_get_id(self):
+		ID = "H1"
+		r = reporter.Reporter(ID)
+		r.log("Hello World!")
+		self.assertEqual(r.get_id(), ID)
 
 class TestNode(unittest.TestCase):
 
