@@ -10,7 +10,7 @@ class Link(Node):
     right = ""
     rate = -1 
     delay = -1
-    buffer = -1
+    buff = -1
     left_buffer = []
     right_buffer = []
     sim = ""
@@ -23,7 +23,7 @@ class Link(Node):
         self.right = right
         self.rate = int(rate)
         self.delay = int(delay)
-        self.buffer = int(size)
+        self.buff = int(size)
 	
     def set_event_simulator (self, sim):
         self.sim = sim
