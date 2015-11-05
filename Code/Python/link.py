@@ -11,8 +11,8 @@ class Link(Node):
 	rate = -1 
 	delay = -1
 	buff = -1
-	left_buffer = []
-	right_buffer = []
+	left_buff = []
+	right_buff = []
 	sim = ""
 
 	# Call Node initialization code, with the Node ID (required unique)
@@ -40,5 +40,5 @@ class Link(Node):
 	def get_delay(self):
 		return self.delay
 
-	def get_buffer(self):
-		return self.buffer
+	def get_buff(self):
+		return self.buff

@@ -5,7 +5,7 @@
 import unittest
 
 # Test Modules
-import reporter, node, host, link, flow, event_simulator, event
+import reporter, node, host, link, router, flow, event_simulator, event
 
 class TestReporter(unittest.TestCase):
   
@@ -77,37 +77,75 @@ class TestHost(unittest.TestCase):
 		h.send("nothing")
 
 class TestLink(unittest.TestCase):
+	ID = ""
+	left = ""
+	right = ""
+	rate = ""
+	delay = ""
+	buff = ""
+	l = ""
+
+	def setUp(self):
+		self.ID = "L1"
+		self.left = "H1"
+		self.right = "H2"
+		self.rate = "10"
+		self.delay = "10"
+		self.buff = "64"
+		self.l = link.Link(self.ID,self.left,self.right,self.rate,self.delay,self.buff)
+
+	# Set ID of link through super initialiation
+	def test_get_id(self):	
+		self.assertEqual(self.l.get_id(), self.ID)
+	def test_get_left(self):	
+		self.assertEqual(self.l.get_left(),self.left)
+	def test_get_right(self):		
+		self.assertEqual(self.l.get_right(),self.right)
+	def test_get_rate(self):	
+		self.assertEqual(self.l.get_rate(),int(self.rate))
+	def test_get_delay(self):	
+		self.assertEqual(self.l.get_delay(),int(self.delay))
+	def test_get_buff(self):	
+		self.assertEqual(self.l.get_buff(),int(self.buff))
+
+class TestRouter(unittest.TestCase):
 
 	# Set ID of link through super initialiation
 	def test_init(self):
-		ID = "L1"
-		left = "H1"
-		right = "H2"
-		rate = 10
-		delay = 10
-		buff = 64
-		l = link.Link(ID,left,right,rate,delay,buff)
-		self.assertEqual(l.get_id(), ID)
-		self.assertEqual(l.get_left(),left)
-		self.assertEqual(l.get_right(),right)
-		self.assertEqual(l.get_rate(),rate)
-	
-	def test_sendreceive(self):		
-		# Should break, as flows not yet implemented in Python
-		ID = "H1"
-		Links = ["L1"]
-		h = host.Host(ID,Links)		
-		h.receive("nothing")
-		h.send("nothing")
+		ID = "R1"
+		links = ["H1","H2","H3"]
+		r = router.Router(ID,links)
+		self.assertEqual(r.get_id(), ID)
+		self.assertEqual(r.get_link(),links)
+
+class TestFlow(unittest.TestCase):
+
+	# Set ID of link through super initialiation
+	def test_init(self):
+		ID = "F1"
+		source = "H1"
+		dest = "H2"
+		size = "20"
+		start =  "1"
+
+		f = flow.Flow(ID,source,dest,size,start)
+		self.assertEqual(f.get_id(), ID)
+		self.assertEqual(f.get_source(), source)
+		self.assertEqual(f.get_dest(), dest)
+		self.assertEqual(f.get_size(), int(size))
+		self.assertEqual(f.get_start(), int(start))
 
 # Run Specific Tests
 if __name__ == "__main__":
 	reporter_suite = unittest.TestLoader().loadTestsFromTestCase(TestReporter)
 	node_suite = unittest.TestLoader().loadTestsFromTestCase(TestNode)
 	host_suite = unittest.TestLoader().loadTestsFromTestCase(TestHost)
+	link_suite = unittest.TestLoader().loadTestsFromTestCase(TestLink)
+	router_suite = unittest.TestLoader().loadTestsFromTestCase(TestRouter)
+	flow_suite = unittest.TestLoader().loadTestsFromTestCase(TestFlow)
 	sim_suite = unittest.TestLoader().loadTestsFromTestCase(TestEventSimulator)
-	
-	
-	test_suites = [reporter_suite, node_suite, host_suite, sim_suite]
+
+	test_suites = [reporter_suite, node_suite, host_suite, link_suite, router_suite, flow_suite, sim_suite]
+
 	for suite in test_suites:
 		unittest.TextTestRunner(verbosity=2).run(suite)		
