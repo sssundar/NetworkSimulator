@@ -14,11 +14,11 @@ class Flow(Reporter):
 	# Call Node initialization code, with the Node ID (required unique)
 	# Initializes itself
 	def __init__(self, identity, src, sink, size, start):
-	Reporter.__init__(self, identity)
-	self.source = src
-	self.dest = sink
-	self.size = int(size)
-	self.start = int(start)
+		Reporter.__init__(self, identity)
+		self.source = src
+		self.dest = sink
+		self.size = int(size)
+		self.start = int(start)
 
 	def set_event_simulator (self, sim):
 		self.sim = sim

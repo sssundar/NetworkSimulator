@@ -52,6 +52,30 @@ class TestHost(unittest.TestCase):
 		h.receive("nothing")
 		h.send("nothing")
 
+class TestLink(unittest.TestCase):
+
+	# Set ID of link through super initialiation
+	def test_init(self):
+		ID = "L1"
+		left = "H1"
+		right = "H2"
+		rate = 10
+		delay = 10
+		buff = 64
+		l = link.Link(ID,left,right,rate,delay,buff)
+		self.assertEqual(l.get_id(), ID)
+		self.assertEqual(l.get_left(),left)
+		self.assertEqual(l.get_right(),right)
+		self.assertEqual(l.get_rate(),rate)
+	
+	def test_sendreceive(self):		
+		# Should break, as flows not yet implemented in Python
+		ID = "H1"
+		Links = ["L1"]
+		h = host.Host(ID,Links)		
+		h.receive("nothing")
+		h.send("nothing")
+
 # Run Specific Tests
 if __name__ == "__main__":
 	reporter_suite = unittest.TestLoader().loadTestsFromTestCase(TestReporter)
