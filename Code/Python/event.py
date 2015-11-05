@@ -16,6 +16,7 @@ class Event ():
 
 	def set_completion_time(self, time):
 		self.completion_time = time
+		return self
 
 	def get_completion_time(self):
 		return self.completion_time

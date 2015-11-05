@@ -1,5 +1,8 @@
-# flow Code
+# Flow Code
+# Includes sub-class Data_Source
+
 # Sith Domrongkitchaiporn
+# Sushant Sundaresh
 
 from reporter import Reporter
 
@@ -10,6 +13,7 @@ class Flow(Reporter):
 	size = -1
 	start =  -1
 	sim = ""
+	am_i_done = 0
 
 	# Call Node initialization code, with the Node ID (required unique)
 	# Initializes itself
@@ -19,6 +23,7 @@ class Flow(Reporter):
 		self.dest = sink
 		self.size = int(size)
 		self.start = int(start)
+		self.am_i_done = 0
 
 	def set_event_simulator (self, sim):
 		self.sim = sim
@@ -34,3 +39,10 @@ class Flow(Reporter):
 
 	def get_start (self):
 		return self.start  
+
+	def is_done (self):
+		return self.am_i_done
+
+class Data_Source(Flow):
+	def __init__(self, identity, src, sink, size, start):
+		Flow.__init__(self, identity, src, sink, size, start)

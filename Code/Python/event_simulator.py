@@ -21,7 +21,7 @@ Last Revised: 3 November 2015 by Sushant Sundaresh
                   set up priority queue & tested
 '''
 
-import constants
+import constants, itertools, flow
 
 class Event_Simulator():
 
@@ -39,35 +39,35 @@ class Event_Simulator():
 		self.global_time = 0.0            
 		# keep track of which flows are active sources
 		for el in self.network_elements.keys():
-			if isinstance(self.network_elements[el], Data_Source):
-				network_flow_sources.append(self.network_elements[el])
+			if isinstance(self.network_elements[el], flow.Data_Source):
+				self.network_flow_sources.append(self.network_elements[el])
 
 	# takes a network id and returns the element object
 	def get_element (self, network_id):
 		try:
 			return self.network_elements[network_id]
-		except KeyError e:
+		except KeyError:
 			raise
 
 	def are_flows_done (self):
 		result = 1
-		for f in network_flow_sources:
+		for f in self.network_flow_sources:
 			result = result & f.is_done()
 		return result
 
 	def get_current_time (self):
-		return global_time
+		return self.global_time
 
 	def request_event(self, event):    
-		count = next(event_counter)
+		count = next(self.event_counter)
 		entry = [event.get_completion_time(), count, event]    
-		heappush(event_heap, entry)
+		heappush(self.event_heap, entry)
 
 	def run_next_event(self):
 		'Pop the event with the lowest completion time from the heap.'    
 		if event_heap:
-			completion_time, count, event = heappop(event_heap)
+			completion_time, count, event = heappop(self.event_heap)
 			self.global_time = completion_time        
-			event.event_action()
+			event.event_action()			
 		else:
 			raise KeyError('No more events to simulate')	

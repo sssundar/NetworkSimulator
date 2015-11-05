@@ -5,7 +5,7 @@
 import unittest
 
 # Test Modules
-import reporter, node, host
+import reporter, node, host, link, flow, event_simulator, event
 
 class TestReporter(unittest.TestCase):
   
@@ -31,6 +31,31 @@ class TestNode(unittest.TestCase):
 		n = node.Node(ID)
 		n.receive(0)
 
+class TestEventSimulator(unittest.TestCase):
+	def test_init_and_basic_simulation (self):
+		e = event_simulator.Event_Simulator({"h1":host.Host("h1",["l1"]),\
+			"h2":host.Host("h2",["l1"])})
+		self.assertEqual(e.get_current_time(), 0.0)
+		self.assertFalse(e.are_flows_done())
+		self.assertEqual(e.get_element("h1").get_id(), "h1")
+		self.assertEqual(e.get_element("h2").get_id(), "h2")
+		e.request_event(event.Event().set_completion_time(1.0))
+		e.request_event(event.Event().set_completion_time(2.0))
+		e.request_event(event.Event().set_completion_time(0.5))
+		e.request_event(event.Event().set_completion_time(1.5))
+		e.request_event(event.Event().set_completion_time(0.2))
+		''' Now event heap should be ordered 0.2, 0.5, 1, 1.5, 2 '''
+		e.run_next_event()
+		self.assertEqual(e.get_current_time(), 0.2)
+		e.run_next_event()
+		self.assertEqual(e.get_current_time(), 0.5)
+		e.run_next_event()
+		self.assertEqual(e.get_current_time(), 1.0)				
+		e.run_next_event()
+		self.assertEqual(e.get_current_time(), 1.5)
+		e.run_next_event()
+		self.assertEqual(e.get_current_time(), 2.0)
+
 class TestHost(unittest.TestCase):
 
 	# Set ID of host through super initialiation
@@ -39,8 +64,7 @@ class TestHost(unittest.TestCase):
 		Links = ["L1"]
 		h = host.Host(ID,Links)
 		h.log("Hello World!")
-		self.assertEqual(h.get_id(), ID)
-		self.assertEqual(h.get_element_type(), constants.HOST_ELEMENT)
+		self.assertEqual(h.get_id(), ID)		
 		with self.assertRaises(ValueError):
 			h2 = host.Host(ID,["L1","L2"])					
 	
@@ -81,7 +105,9 @@ if __name__ == "__main__":
 	reporter_suite = unittest.TestLoader().loadTestsFromTestCase(TestReporter)
 	node_suite = unittest.TestLoader().loadTestsFromTestCase(TestNode)
 	host_suite = unittest.TestLoader().loadTestsFromTestCase(TestHost)
+	sim_suite = unittest.TestLoader().loadTestsFromTestCase(TestEventSimulator)
 	
-	test_suites = [reporter_suite, node_suite, host_suite]
+	
+	test_suites = [reporter_suite, node_suite, host_suite, sim_suite]
 	for suite in test_suites:
 		unittest.TextTestRunner(verbosity=2).run(suite)		
