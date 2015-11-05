@@ -29,18 +29,18 @@ Revision History
 		debugged parser
 		finished packet
 		finished node, host
-		
+			
 
 ######################	
 ## To Do for Test 0 ##
 ######################
-Implement in C++: Code & Commenting
-Testing & Visualization Scripts off Logs
 
-add notes from last meeting (10-29) here
+add notes from last meeting (10-29) here (wrote them up for ahmed on slack)
 	changes to link need to be made for stability of FAST-TCP
+
 ritvik said in practice, implement static routes with oversight.
 	look/type out notes from last meeting
+
 flow control on source ok, but sink? how measure ack delays? buffer 
 	size in links?
 delay/congestion estimates for links based on ?? telepathy?
