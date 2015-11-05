@@ -1,10 +1,16 @@
-# Link Code
-# Sith Domrongkitchaiporn
+'''
+Link Code
 
-from node import Node
+Operation
+	
 
-# The class Node extends the class Reporter
-class Link(Node):
+Last Revised by Sith Domrongkitchaiporn & Sushant Sundaresh on 4 Nov 2015
+'''
+
+from reporter import Reporter
+
+# The class Link extends the class Reporter
+class Link(Reporter):
 
 	left = ""
 	right = ""
@@ -18,7 +24,7 @@ class Link(Node):
 	# Call Node initialization code, with the Node ID (required unique)
 	# Initializes itself
 	def __init__(self, identity, left, right, rate, delay, size):
-		Node.__init__(self, identity)				
+		Reporter.__init__(self, identity)				
 		self.left = left
 		self.right = right
 		self.rate = int(rate)
