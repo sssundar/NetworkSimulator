@@ -34,17 +34,24 @@ class TestNode(unittest.TestCase):
 class TestEventSimulator(unittest.TestCase):
 	def test_init_and_basic_simulation (self):
 		e = event_simulator.Event_Simulator({"h1":host.Host("h1",["l1"]),\
-			"h2":host.Host("h2",["l1"])})
+			"h2":host.Host("h2",["l1"]),\
+			"f1":flow.Data_Source("f1", "h1", "h2", 20, 1)})
+		
 		self.assertEqual(e.get_current_time(), 0.0)
 		self.assertFalse(e.are_flows_done())
+		
 		self.assertEqual(e.get_element("h1").get_id(), "h1")
 		self.assertEqual(e.get_element("h2").get_id(), "h2")
+		self.assertEqual(e.get_element("f1").get_id(), "f1")
+
 		e.request_event(event.Event().set_completion_time(1.0))
 		e.request_event(event.Event().set_completion_time(2.0))
 		e.request_event(event.Event().set_completion_time(0.5))
 		e.request_event(event.Event().set_completion_time(1.5))
 		e.request_event(event.Event().set_completion_time(0.2))
+		
 		''' Now event heap should be ordered 0.2, 0.5, 1, 1.5, 2 '''
+		
 		e.run_next_event()
 		self.assertEqual(e.get_current_time(), 0.2)
 		e.run_next_event()
@@ -149,3 +156,4 @@ if __name__ == "__main__":
 
 	for suite in test_suites:
 		unittest.TextTestRunner(verbosity=2).run(suite)		
+		print "\n\n\n"

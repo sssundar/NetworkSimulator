@@ -19,9 +19,13 @@ Last Revised: 3 November 2015 by Sushant Sundaresh
                   created
               4 November 2015 by Sushant Sundaresh
                   set up priority queue & tested
+
+Reference: https://docs.python.org/2/library/heapq.html
+
 '''
 
 import constants, itertools, flow
+from heapq import *
 
 class Event_Simulator():
 
@@ -65,7 +69,7 @@ class Event_Simulator():
 
 	def run_next_event(self):
 		'Pop the event with the lowest completion time from the heap.'    
-		if event_heap:
+		if self.event_heap:
 			completion_time, count, event = heappop(self.event_heap)
 			self.global_time = completion_time        
 			event.event_action()			
