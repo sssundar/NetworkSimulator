@@ -4,7 +4,7 @@
 from reporter import Reporter
 
 # This class only extends Reporter Class
-class flow(Reporter):
+class Flow(Reporter):
     source = ""
     dest = ""
     size = -1
@@ -14,7 +14,7 @@ class flow(Reporter):
     # Call Node initialization code, with the Node ID (required unique)
     # Initializes itself
     def __init__(self, identity, src, sink, size, start):
-        Reporter.__init__(self, ID)
+        Reporter.__init__(self, identity)
         self.source = src
         self.dest = sink
         self.size = int(size)
