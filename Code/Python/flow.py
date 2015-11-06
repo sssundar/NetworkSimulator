@@ -44,5 +44,17 @@ class Flow(Reporter):
 		return self.am_i_done
 
 class Data_Source(Flow):
+	tx_buffer = []
+	num_pack_outstanding = -1
+
 	def __init__(self, identity, src, sink, size, start):
 		Flow.__init__(self, identity, src, sink, size, start)
+
+	def get_flow_size(self):
+		return len(tx_buffer)
+
+	def send(self, p):
+		p.flag_in_transit(1)
+
+
+
