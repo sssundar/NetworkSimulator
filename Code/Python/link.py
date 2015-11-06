@@ -43,6 +43,8 @@ class Link(Reporter):
 
 	def set_event_simulator (self, sim):
 		self.sim = sim
+		self.left_buff.set_event_simulator(sim)
+		self.right_buff.set_event_simulator(sim)
 
 	def get_left(self):
 		return self.left_node
@@ -58,3 +60,79 @@ class Link(Reporter):
 
 	def get_buff(self):
 		return self.buff_bits
+
+'''
+The link cannot act like a stoplight; we'll get large fluctuations in queueing 
+delay and our TCP algorithms will not stabilize.
+
+Let's make a packet in the buffer (time_queued, packet). 
+
+Now, when we send a packet, we just ask the system to transfer next packet.
+If there's nothing in transit, we send whichever of the buffers has a head
+with the smaller timestamp.
+
+If there is something in transit, it checks.. does its origin have a packet
+that could be sent and arrive before the earliest in the other end of the link
+
+When something in transit arrives, it ...
+
+'''
+
+class Link extends Reporter
+	private Switch_Link_Direction dir_time_out; 
+	private Transmission_Callback tx_callback = null;
+
+	private method void transfer_next_packet (Link_Queue q) {
+		double current_time = this.sim.get_current_time();
+		double time_left = this.time_out.get_completion_time() - current_time;		
+
+		if q.isMyDirection(this.current_direction) {			
+			if (not tx_callback == null AND not tx_callback.is_active()) {				
+				if q.can_dequeue() {					
+					Packet potential_tx = q.head();
+					double channel_loading_delay = 
+						((double) potential_tx.bit_length()) / this.capacity;
+
+					if (channel_loading_delay + propagation_delay < time_left) {
+
+						this.tx_callback = 
+							new Transmission_Callback(
+								this,
+								q,
+								current_time+channel_loading_delay);
+						this.sim.request_event(this.tx_callback);			
+						
+						this.sim.request_event(
+							Handle_Packet_Arrival(
+								q.dequeue(), 
+								current_time + channel_loading_delay + 
+									propagation_delay
+									)
+								);
+					}
+				}	
+			}
+		}
+	}
+
+
+	-- how a Node attempts to send a packet through this link
+	public method void send (Packet p, Node source) {
+		if ( source.get_id() = left_node.get_id() ) {
+			-- Transfer Requested Left -> Right
+			if left_queue.can_enqueue(p) {
+				left_queue.enqueue(p);
+				transfer_next_packet(left_queue);
+			} else {
+				log("packet dropped at " . this.sim.get_current_time());
+			}			
+		} else {
+			-- Transfer Requested Right -> Left
+			if right_queue.can_enqueue(p) {
+				right_queue.enqueue(p);
+				transfer_next_packet(right_queue);
+			} else {
+				log("packet dropped at " . this.sim.get_current_time());
+			}			
+		}		
+	}
