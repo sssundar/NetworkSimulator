@@ -5,7 +5,37 @@
 import unittest
 
 # Test Modules
-import reporter, node, host, link, router, flow, event_simulator, event
+import reporter, node, host, link, router
+import flow, event_simulator, event
+import link_buffer, packet
+
+class TestLinkBuffer(unittest.TestCase):
+	# test variables
+	l = "" # a link buffer
+	p = "" # a packet exactly half the size of the buffer
+
+	def setUp (self):
+		c = 100 # buffer capacity in bits
+		self.l = link_buffer.LinkBuffer(c)
+		self.p = packet.Packet("","","","","",c/2)
+
+	def test_enqueue_dequeue (self):
+		self.assertTrue(self.l.can_enqueue(self.p))
+		self.l.enqueue(self.p)
+		self.assertTrue(self.l.can_enqueue(self.p))
+		self.l.enqueue(self.p)
+		self.assertFalse(self.l.can_enqueue(self.p))
+		self.l.enqueue(self.p) # dropped
+		self.l.enqueue(self.p) # dropped
+
+		self.assertTrue(self.l.can_dequeue())
+		self.assertTrue( isinstance(self.l.dequeue(),packet.Packet) )
+		self.assertTrue(self.l.can_dequeue())
+		self.assertTrue( isinstance(self.l.dequeue(),packet.Packet) )
+		
+		self.assertFalse(self.l.can_dequeue())
+		with self.assertRaises(ValueError):
+			self.l.dequeue()
 
 class TestReporter(unittest.TestCase):
   
@@ -151,8 +181,10 @@ if __name__ == "__main__":
 	router_suite = unittest.TestLoader().loadTestsFromTestCase(TestRouter)
 	flow_suite = unittest.TestLoader().loadTestsFromTestCase(TestFlow)
 	sim_suite = unittest.TestLoader().loadTestsFromTestCase(TestEventSimulator)
+	linkbuffer_suite = unittest.TestLoader().loadTestsFromTestCase(TestLinkBuffer)
 
-	test_suites = [reporter_suite, node_suite, host_suite, link_suite, router_suite, flow_suite, sim_suite]
+	test_suites = [reporter_suite, node_suite, host_suite, link_suite,\
+					router_suite, flow_suite, sim_suite, linkbuffer_suite]
 
 	for suite in test_suites:
 		unittest.TextTestRunner(verbosity=2).run(suite)		
