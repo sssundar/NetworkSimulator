@@ -13,7 +13,7 @@ class Packet:
     ack = 0         # Boolean (Has it been acknowledged)
     in_transit = 0  # Boolean
     tx_time = -1    
-    ack_time = 1
+    ack_time = -1
 
     # Call Node initialization code, with the Node ID (required unique)
     # Initializes itself
@@ -34,6 +34,9 @@ class Packet:
     def get_dest(self):
         return self.dest
 
+    def get_type(self):
+        return self.typ
+
     def get_ID(self):
         return self.ID
 
@@ -51,6 +54,12 @@ class Packet:
 
     def get_ack_time(self):
         return self.ack_time
+
+    def get_RTT(self):
+        t = -1
+        if (self.ack_time is not -1):
+            t = self.ack_time - self.tx_time
+        return t
 
     def set_ack(self, flag):
         self.ack = flag
