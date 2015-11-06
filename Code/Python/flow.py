@@ -12,7 +12,7 @@ class Flow(Reporter):
 	dest = ""
 	size = -1
 	start =  -1
-	sim = ""
+	sim = "" # should be set to an event_simulator object before any action
 	am_i_done = 0
 
 	# Call Node initialization code, with the Node ID (required unique)
@@ -55,6 +55,9 @@ class Data_Source(Flow):
 
 	def send(self, p):
 		p.flag_in_transit(1)
+		p.set_tx_time(self.sim.get_current_time())
+		self.source.send(p)
+		self.num_pack_outstanding += 1
 
 
 
