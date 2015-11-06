@@ -2,6 +2,17 @@
 ## Links ##
 ###########
 
+The link cannot act like a stoplight; we'll get large fluctuations in queueing 
+delay and our TCP algorithms will not stabilize.
+
+So, instead, we need to add a time stamp to a packet as it's added to the link
+buffer. 
+
+When we're sending a packet, we check the max timestamp of both buffers.
+If we can send more than one packet before the next timestamp in the other buffer
+we do it. Otherwise we don't. This is telepathy.
+
+
 class Link extends Reporter
 	private Link_Queue left_queue, right_queue;
 	private Switch_Link_Direction dir_time_out; 
