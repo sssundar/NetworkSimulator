@@ -5,7 +5,21 @@
 import unittest
 
 # Test Modules
-import reporter, node, host, link, router, flow, event_simulator, event
+import reporter, node, host, link, router
+import flow, event_simulator, event
+import link_buffer, packet
+
+class TestLinkBuffer(unittest.TestCase):
+	# test variables
+	l = "" # a link buffer
+	p1 = "" # a small packet
+	p2 = "" # a very large packet
+	
+
+	# setup
+	def setUp (self):
+
+
 
 class TestReporter(unittest.TestCase):
   
