@@ -5,6 +5,7 @@
 # Sushant Sundaresh
 
 from reporter import Reporter
+from packet import *
 
 # This class only extends Reporter Class
 class Flow(Reporter):
@@ -59,5 +60,11 @@ class Data_Source(Flow):
 		self.source.send(p)
 		self.num_pack_outstanding += 1
 
+	def set_flow_size(self, bits):
+		total = math.ceil(float(bits)/constants.DATA_PACKET_BITWIDTH)
+		self.num_packets_outstanding = 0
+
+		for i in range(0,total_packets - 1):
+			self.tx_buffer[i] = Packet(self, self.source, self.dest, constants.DATA_PACKET_TYPE, i, constants.DATA_PACKET_BITWIDTH)
 
 

@@ -4,7 +4,7 @@
 # The class Node extends the class Reporter
 class Packet:
 
-	flow = ""
+	flow = "" # object not id
 	source = ""
 	dest = ""
 	typ = ""
