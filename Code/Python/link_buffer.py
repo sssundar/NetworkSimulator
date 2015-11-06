@@ -22,7 +22,7 @@ class LinkBuffer:
 		return False # packet dropped
 
 	def can_dequeue (self):
-		if length(self.queued) > 0:
+		if len(self.queued) > 0:
 			return True
 		return False
 
@@ -33,3 +33,5 @@ class LinkBuffer:
 			p = self.queued.pop(0)
 			self.current_bits_in_queue -= p.get_bits()
 			return p
+		else:
+			raise ValueError('Dequeue violated. No packet in buffer.')
