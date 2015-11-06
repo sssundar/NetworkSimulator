@@ -12,12 +12,13 @@ import link_buffer, packet
 class TestLinkBuffer(unittest.TestCase):
 	# test variables
 	l = "" # a link buffer
-	p1 = "" # a small packet
-	p2 = "" # a very large packet
-	
+	p = "" # a packet exactly half the size of the buffer
 
-	# setup
 	def setUp (self):
+		c = 100 # buffer capacity in bits
+		self.l = link_buffer.LinkBuffer(c)
+		self.p = packet.Packet("","","","","",c/2)
+	def test_buffer_init (self):
 
 
 
