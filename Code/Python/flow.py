@@ -1,5 +1,5 @@
 # Flow Code
-# Includes sub-class Data_Source
+# Includes sub-class Data_Source/Data_Sink
 
 # Sith Domrongkitchaiporn
 # Sushant Sundaresh
