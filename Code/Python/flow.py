@@ -15,6 +15,7 @@ class Flow(Reporter):
 	start =  -1
 	sim = "" # should be set to an event_simulator object before any action
 	am_i_done = 0
+	window = 2
 
 	# Call Node initialization code, with the Node ID (required unique)
 	# Initializes itself
@@ -46,19 +47,19 @@ class Flow(Reporter):
 
 class Data_Source(Flow):
 	tx_buffer = []
-	num_pack_outstanding = -1
+	num_packets_outstanding = -1
 
 	def __init__(self, identity, src, sink, size, start):
 		Flow.__init__(self, identity, src, sink, size, start)
 
 	def get_flow_size(self):
-		return len(tx_buffer)
+		return len(self.tx_buffer)
 
 	def send(self, p):
 		p.flag_in_transit(1)
 		p.set_tx_time(self.sim.get_current_time())
-		self.source.send(p)
-		self.num_pack_outstanding += 1
+		self.sim.get_element(self.source).send(p)
+		self.num_packets_outstanding += 1
 
 	def set_flow_size(self, bits):
 		total = math.ceil(float(bits)/constants.DATA_PACKET_BITWIDTH)
@@ -67,11 +68,33 @@ class Data_Source(Flow):
 		for i in range(0,total_packets - 1):
 			self.tx_buffer[i] = Packet(self, self.source, self.dest, constants.DATA_PACKET_TYPE, i, constants.DATA_PACKET_BITWIDTH)
 
-	def receive(self):
+	def receive(self, p):
+		p.set_ack(1)
 		
+		for i in range(0, len(self.tx_buffer)):
+			if (self.tx_buffer[i].get_ack() is 0):
+				self.send(self.tx_buffer[i])
+				break
+
+	def start():
+		poke_tcp()
+
+	def time_out(self, p):
+		p.set_tx_time(-1)
+		p.set_in_transit(0)	# Set in Transit as False
+		self.num_packets_outstanding -= 1
+		poke_tcp()
+
+	def poke_tcp(self):
+		if (self.num_packets_outstanding < self.window):
+			send(get_next_packet_to_transmit())
+		poke_tcp()
+
+	def get_next_packet_to_transmit():
+		for i in range (0, len(self.tx_buffer)):
+			if not (self.tx_buffer[i].is_in_transit() or self.tx_buffer[i].get_ack())
+				return self.tx_buffer[i]
 
 
-
-		
 
 
