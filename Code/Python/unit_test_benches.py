@@ -10,6 +10,24 @@ import flow, event_simulator, event, events
 import link, link_buffer, packet
 import constants
 
+class TestStaticDataSourceFlow (unittest.TestCase):
+	'''
+		### Will break for dynamic TCP ###	
+		Create Flow Data Source 
+		Create Static_Data_Source_Test_Node
+		Set Flow Window Size To 2
+		Start Flow -> pokes tcp -> sends two packets to Node
+		Check that these were sent to Node
+
+		Fake Acks through Node to Flow
+		Check that this updates Node Tx_Buffer (more sends from Flow)
+
+		Check what Timeout Does
+	'''
+	
+	flow
+		
+
 class TestLinkTransmissionEvents(unittest.TestCase):	
 	sim = "" # simulator
 	link = "" # link
@@ -27,8 +45,8 @@ class TestLinkTransmissionEvents(unittest.TestCase):
 		# don't need flow, as no packet timeouts created to callback to flow
 		# and node receive is a dummy function		
 		for i in 1, 2, 3:
-			lPs.append(packet.Packet("","h1","h2","data",i,1000)) # 1000kbit
-			rPs.append(packet.Packet("","h2","h1","data",i,1000))
+			self.lPs.append(packet.Packet("","h1","h2","data",i,1000)) # 1000kbit
+			self.rPs.append(packet.Packet("","h2","h1","data",i,1000))
 		
 		self.link = link.Link("l1", "h1", "h2", 1000.0, 10.0, 3000.0) 
 					# 1000kbit/ms, 10 ms prop delay, 3000kbit buffers
@@ -44,11 +62,11 @@ class TestLinkTransmissionEvents(unittest.TestCase):
 	# the queue, and two propagations in each direction chained, and one isolated.
 	# Note this tests most events we're trying to deal with.
 	def test_packet_callbacks_and_timing (self):
-		self.link.send(rPs.pop(0),"h2")  	# right going packets
+		self.link.send(self.rPs.pop(0),"h2")  	# right going packets
 											# are favored in time tie breaks
-		self.link.send(rPs.pop(0),"h2") 
-		self.link.send(rPs.pop(0),"h2") 
-		self.link.send(lPs.pop(0),"h1") 
+		self.link.send(self.rPs.pop(0),"h2") 
+		self.link.send(self.rPs.pop(0),"h2") 
+		self.link.send(self.lPs.pop(0),"h1") 
 										# all have timestamp 0.0
 										# so link should switch directions
 										# between each packet
@@ -78,18 +96,18 @@ class TestLinkTransmissionEvents(unittest.TestCase):
 													# loaded, as left buffer 
 													# is empty 
 		self.sim.run_next_event()
-		self.assertEqual(self.sim.get_current_time() == 12)
+		self.assertTrue(self.sim.get_current_time() == 12)
 		self.sim.run_next_event()
-		self.assertEqual(self.sim.get_current_time() == 22)
+		self.assertTrue(self.sim.get_current_time() == 22)
 		self.assertTrue(self.link.transmission_direction == constants.RTL)	
 		self.sim.run_next_event()
 		self.sim.run_next_event() 		# two loads
-		self.assertEqual(self.sim.get_current_time() == 24)
+		self.assertTrue(self.sim.get_current_time() == 24)
 		self.assertTrue(self.link.transmission_direction == constants.RTL)										
 		self.sim.run_next_event() 		# two propagations
 		self.sim.run_next_event() 		
 		self.assertTrue(self.link.transmission_direction == constants.RTL)										
-		self.assertEqual(self.sim.get_current_time() == 34)
+		self.assertTrue(self.sim.get_current_time() == 34)
 		
 class TestLinkBuffer(unittest.TestCase):
 	# test variables

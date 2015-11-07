@@ -11,7 +11,6 @@ from node import Node
 class Router(Node):
 
 	link = []
-	sim = ""
 
 	# Routing Tables    
 	# - Current one
@@ -24,9 +23,6 @@ class Router(Node):
 	def __init__(self, identity, links):
 		Node.__init__(self, identity)				
 		self.link = links
-
-	def set_event_simulator (self, sim):
-		self.sim = sim
 
 	def get_link(self):
 		return self.link

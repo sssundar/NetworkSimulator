@@ -17,7 +17,7 @@ class Host(Node):
 
 	link = ""
 	flow = ""
-	sim = ""
+	
 
 	# Call Node initialization code, with the Node ID (required unique)
 	# Error handling on links length (indicates parser failure)
@@ -34,9 +34,6 @@ class Host(Node):
 	def set_flow (self, f):
 		self.flow  = f
 	
-	def set_event_simulator (self, sim):
-		self.sim = sim
-
 	# Pre-Routing: Pass the packet directly to the flow, if it exists	
 	# Post-Routing: Handle whether the packet is for routing or data flow
 	def receive (self, packet):		
