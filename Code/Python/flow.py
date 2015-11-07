@@ -153,6 +153,6 @@ class DataSink(Flow):
 	# Create an ACK packet to send back
 	# Call the send function to send it over
 	def receive(self, packet):
-		self.rx_buffer[packet.get_id() = 1]
+		self.rx_buffer[packet.get_id()] = 1
 		p = Packet(self, self.source, self.dest, constants.DATA_PACKET_ACKNOWLEDGEMENT_TYPE, i, constants.DATA_PACKET_BITWIDTH)
 		self.send(p)
