@@ -4,11 +4,12 @@
 # The class Node extends the class Reporter
 class Packet:
 
-	flow = "" # object not id
-	source = ""
-	dest = ""
-	typ = ""
-	ID = -1
+	flow = "" 		# associated flow source object
+	source = "" 	# original source id string
+	dest = "" 		# final destination id string
+	curr_dest = "" 	# intermediate destination id (next hop)
+	typ = "" 		# Data, Ack, Routing.. 
+	ID = -1 		# Packet ID in its flow, or Ack ID (next in sequence?)
 	kbits = -1      # How big the packet is
 	ack = 0         # Boolean (Has it been acknowledged)
 	in_transit = 0  # Boolean
@@ -33,6 +34,12 @@ class Packet:
 
 	def get_dest(self):
 		return self.dest
+
+	def get_curr_dest(self):
+		return self.curr_dest
+	
+	def set_curr_dest(self, d):
+		self.curr_dest = d
 
 	def get_type(self):
 		return self.typ
@@ -72,6 +79,3 @@ class Packet:
 
 	def set_ack_time(self, time):
 		self.ack_time = time
-
-
-

@@ -45,18 +45,27 @@ Last Revised by Sith Domrongkitchaiporn & Sushant Sundaresh on 6 Nov 2015
 
 from reporter import Reporter
 from link_buffer import LinkBuffer
+from events import *
+import constants
 
 # The class Link extends the class Reporter
 class Link(Reporter):
 
 	left_node = ""
 	right_node = ""
-	bit_rate = -1 
-	prop_delay = -1
-	buff_bits = -1 	
+	
+	capacity_kbit_per_ms = -1 
+	kbits_in_each_buffer = -1 	
+	ms_prop_delay = -1
+	
 	left_buff = []
 	right_buff = []
 	sim = ""
+
+	packet_loading = False
+	packets_in_flight = 0
+	transmission_direction = "" # left-to-right, right-to-left
+
 
 	# Call Node initialization code, with the Node ID (required unique)
 	# Initializes itself
@@ -64,12 +73,12 @@ class Link(Reporter):
 		Reporter.__init__(self, identity)				
 		self.left_node = left
 		self.right_node = right
-		self.bit_rate = int(rate)
-		self.prop_delay = int(delay)
-		self.buff_bits = int(size)
+		self.capacity_kbit_per_ms = int(rate)
+		self.ms_prop_delay = int(delay)
+		self.kbits_in_each_buffer = int(size)
 
-		self.left_buff = LinkBuffer(self.buff_bits)
-		self.right_buff = LinkBuffer(self.buff_bits)
+		self.left_buff = LinkBuffer(self.kbits_in_each_buffer)
+		self.right_buff = LinkBuffer(self.kbits_in_each_buffer)
 
 	def set_event_simulator (self, sim):
 		self.sim = sim
@@ -83,71 +92,122 @@ class Link(Reporter):
 		return self.right_node
 
 	def get_rate(self):
-		return self.bit_rate
+		return self.capacity_kbit_per_ms
 
 	def get_delay(self):
-		return self.prop_delay
+		return self.ms_prop_delay
 
 	def get_buff(self):
-		return self.buff_bits
+		return self.kbits_in_each_buffer
 
-'''
-class Link extends Reporter
-	private Switch_Link_Direction dir_time_out; 
-	private Transmission_Callback tx_callback = null;
+	# reset packet loading, decide how to transfer_next_packet
+	def packet_transmitted (self, packet):
+		self.packet_loading = False		
+		self.sim.request_event(\
+			Handle_Packet_Propagation(packet, self.get_id(),\
+			self.sim.get_current_time() + self.ms_prop_delay))
+		self.packets_in_flight += 1
+		self.transfer_next_packet()
 
-	private method void transfer_next_packet (Link_Queue q) {
-		double current_time = this.sim.get_current_time();
-		double time_left = this.time_out.get_completion_time() - current_time;		
+	# decrement packets in flight counter, decide how to transfer_next_packet
+	def packet_propagated (self):
+		self.packets_in_flight -= 1
+		self.transfer_next_packet()
 
-		if q.isMyDirection(this.current_direction) {			
-			if (not tx_callback == null AND not tx_callback.is_active()) {				
-				if q.can_dequeue() {					
-					Packet potential_tx = q.head();
-					double channel_loading_delay = 
-						((double) potential_tx.bit_length()) / this.capacity;
+	# load packet-to-send to the appropriate buffer, then decide how to 
+	# transfer it
+	def send (self, packet, sender_id):
+		if sender_id == left_node:
+			self.left_buff.enqueue(packet)
+			self.transfer_next_packet()
+		elif sender_id == right_node:
+			self.right_buff.enqueue(packet)
+			self.transfer_next_packet()
+		else:
+			raise ValueError ('Packet received by Link %s \
+				from unknown Node %s' % (self.ID, sender_id) )
 
-					if (channel_loading_delay + propagation_delay < time_left) {
+	def transfer_next_packet (self):
+		ms_tx_delay = lambda (packet): (packet.get_kbits() / capacity_kbit_per_ms) # ms
+		ms_total_delay = lambda (packet): ms_tx_delay(packet) + self.ms_prop_delay # ms
 
-						this.tx_callback = 
-							new Transmission_Callback(
-								this,
-								q,
-								current_time+channel_loading_delay);
-						this.sim.request_event(this.tx_callback);			
-						
-						this.sim.request_event(
-							Handle_Packet_Arrival(
-								q.dequeue(), 
-								current_time + channel_loading_delay + 
-									propagation_delay
-									)
-								);
-					}
-				}	
-			}
-		}
-	}
+		if (not self.packet_loading) and (self.packets_in_flight == 0):
+			
+			lt = self.left_buff.get_head_timestamp() \
+						if self.left_buff.can_dequeue() else -1
+			rt = self.right_buff.get_head_timestamp() \
+						if self.right_buff.can_dequeue() else -1
+			
+			if (lt >= 0) or (rt >= 0):				
+				if (lt >= 0) and (rt >= 0):
+					if (lt < rt):
+						# Start loading Packet from head of left buffer into channel
+						self.transmission_direction = constants.LTR
+						packet_to_transmit = self.left_buff.dequeue()
+						packet_to_transmit.set_curr_dest(self.get_right())
+					else:
+						# Start loading Packet from head of right buffer into channel
+						self.transmission_direction = constants.RTL
+						packet_to_transmit = self.right_buff.dequeue()
+						packet_to_transmit.set_curr_dest(self.get_left())
+				elif (lt >= 0):
+					# Start loading Packet from head of left buffer into channel				
+					self.transmission_direction = constants.LTR
+					packet_to_transmit = self.left_buff.dequeue()
+					packet_to_transmit.set_curr_dest(self.get_right())
+				else:
+					# Start loading Packet from head of right buffer into channel					
+					self.transmission_direction = constants.RTL
+					packet_to_transmit = self.right_buff.dequeue()
+					packet_to_transmit.set_curr_dest(self.get_left())
+				
+				self.packet_loading = True
+				completion_time = \
+					self.sim.get_current_time() + ms_tx_delay(packet_to_transmit)
+				
+				self.sim.request_event(\
+					Handle_Packet_Transmission(	packet_to_transmit,\
+												self.get_id(),\
+					 							completion_time))
+			else:
+				pass
 
+		elif (not self.packet_loading) and (self.packets_in_flight > 0):
+			lt = self.left_buff.get_head_timestamp() \
+				if self.left_buff.can_dequeue() else -1			
+			rt = self.right_buff.get_head_timestamp() \
+				if self.right_buff.can_dequeue() else -1
+			self.attempt_to_transmit_in_same_direction (lt, rt)
 
-	-- how a Node attempts to send a packet through this link
-	public method void send (Packet p, Node source) {
-		if ( source.get_id() = left_node.get_id() ) {
-			-- Transfer Requested Left -> Right
-			if left_queue.can_enqueue(p) {
-				left_queue.enqueue(p);
-				transfer_next_packet(left_queue);
-			} else {
-				log("packet dropped at " . this.sim.get_current_time());
-			}			
-		} else {
-			-- Transfer Requested Right -> Left
-			if right_queue.can_enqueue(p) {
-				right_queue.enqueue(p);
-				transfer_next_packet(right_queue);
-			} else {
-				log("packet dropped at " . this.sim.get_current_time());
-			}			
-		}		
-	}
-'''
+		else:
+			pass
+
+	# lt, rt are left and right heads-of-buffer timestamps
+	def attempt_to_transmit_in_same_direction (self, lt, rt):		
+		# if there are any more to send in the current direction,
+		# can they get there before the timestamp of the head of the
+		# other buffer?
+		if self.transmission_direction == constants.constants.RTL:
+			buff = self.right_buff
+			curr_dest = self.get_left()
+			t1 = lt
+			t2 = rt
+		else:
+			buff = self.left_buff
+			curr_dest = self.get_right()
+			t1 = rt
+			t2 = lt
+
+		if t2 >= 0:	
+			proposed_receive_time = self.sim.get_current_time() + \
+				ms_total_delay(buff.see_head_packet())
+			if ((t1 >= 0) and (proposed_receive_time < t1)) or (t1 < 0):	
+				packet_to_transmit = buff.dequeue()
+				packet_to_transmit.set_curr_dest(curr_dest)
+				self.packet_loading = True
+				completion_time = self.sim.get_current_time() + \
+					ms_tx_delay(packet_to_transmit)
+				self.sim.request_event(\
+					Handle_Packet_Transmission(	packet_to_transmit,\
+											self.get_id(),\
+				 							completion_time))

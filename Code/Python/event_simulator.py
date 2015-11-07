@@ -72,6 +72,6 @@ class Event_Simulator():
 		if self.event_heap:
 			completion_time, count, event = heappop(self.event_heap)
 			self.global_time = completion_time        
-			event.event_action()			
+			event.event_action(self)
 		else:
 			raise KeyError('No more events to simulate')	
