@@ -13,10 +13,13 @@ class TestLinkBuffer(unittest.TestCase):
 	# test variables
 	l = "" # a link buffer
 	p = "" # a packet exactly half the size of the buffer
+	s = "" # event simulator
 
 	def setUp (self):
 		c = 100 # buffer capacity in bits
+		self.s = event_simulator.Event_Simulator({})
 		self.l = link_buffer.LinkBuffer(c)
+		self.l.set_event_simulator(self.s)
 		self.p = packet.Packet("","","","","",c/2)
 
 	def test_enqueue_dequeue (self):

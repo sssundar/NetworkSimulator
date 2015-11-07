@@ -1,16 +1,46 @@
 '''
-Link & LinkBuffer Code
+Link
 
 Operation
-	LinkBuffers are just arrays. They keep track of the byte size of their
-	contents, and use that to determine whether new arrivals are dropped.
-
 	Links have a bit of telepathy. They take on initialization their
-	left and right node IDs, their rate in bits/s, their propagation delay
-	in seconds, and their buffer size (for each of the left/right buffers)
-	in bits.
+	left and right node IDs, their rate in kbits/ms, their propagation delay
+	in ms, and their buffer size (for each of the left/right buffers)
+	in kbits.
 
-Last Revised by Sith Domrongkitchaiporn & Sushant Sundaresh on 5 Nov 2015
+	The link cannot act like a stoplight; we'll get large fluctuations in 
+	queueing delay and our TCP algorithms will not stabilize.
+
+	A packet in the buffer looks like (time_queued, packet). 
+	The link keeps track of the number of packets in transit, which direction
+	packets are currently flowing, and whether a packet is currently
+	being loaded into the channel.
+
+	Now, when we send a packet, we just queue it up and 
+	ask the system to transfer_next_packet. Callbacks do the same, only
+	loading callbacks reset the loading flag, and in transit callbacks
+	ask a Node to receive the packet, and decrement the in transit count.
+	
+	Let event A = a packet is being loaded currently
+	Let event B = a packet is in transit currently
+
+	If !A & !B
+		Start loading the head packet from whichever buffer has a smaller 
+		head timestamp. Create a loading callback for this event. Set the
+		direction.
+
+	If !A & B
+		Check the direction, and get the timestamp of both buffer heads. 
+		If the source buffer of the packet in transit has another packet
+		that can be loaded/propagate before the timestamp of the dest buffer,
+		go ahead and load it (creating a callback). Otherwise, do nothing.
+
+	If A & !B
+		Do nothing.
+
+	If A & B
+		Do nothing.
+
+Last Revised by Sith Domrongkitchaiporn & Sushant Sundaresh on 6 Nov 2015
 '''
 
 from reporter import Reporter
@@ -62,22 +92,6 @@ class Link(Reporter):
 		return self.buff_bits
 
 '''
-The link cannot act like a stoplight; we'll get large fluctuations in queueing 
-delay and our TCP algorithms will not stabilize.
-
-Let's make a packet in the buffer (time_queued, packet). 
-
-Now, when we send a packet, we just ask the system to transfer next packet.
-If there's nothing in transit, we send whichever of the buffers has a head
-with the smaller timestamp.
-
-If there is something in transit, it checks.. does its origin have a packet
-that could be sent and arrive before the earliest in the other end of the link
-
-When something in transit arrives, it ...
-
-'''
-
 class Link extends Reporter
 	private Switch_Link_Direction dir_time_out; 
 	private Transmission_Callback tx_callback = null;
@@ -136,3 +150,4 @@ class Link extends Reporter
 			}			
 		}		
 	}
+'''
