@@ -65,7 +65,7 @@ class Link(Reporter):
 	packet_loading = False
 	packets_in_flight = 0
 	transmission_direction = "" # left-to-right, right-to-left
-
+	switch_direction_flag = False
 
 	# Call Node initialization code, with the Node ID (required unique)
 	# Initializes itself
@@ -140,7 +140,19 @@ class Link(Reporter):
 			
 			if (lt >= 0) or (rt >= 0):				
 				if (lt >= 0) and (rt >= 0):
-					if (lt < rt):
+					if self.switch_direction_flag:
+						# there are packets on both sides,
+						# and it's time to switch link direction
+						self.switch_direction_flag = False
+						if (self.transmission_direction == constants.LTR):
+							self.transmission_direction = constants.RTL
+							packet_to_transmit = self.right_buff.dequeue()
+							packet_to_transmit.set_curr_dest(self.get_left())
+						else:
+							self.transmission_direction = constants.LTR
+							packet_to_transmit = self.left_buff.dequeue()
+							packet_to_transmit.set_curr_dest(self.get_right())
+					elif (lt < rt):
 						# Start loading Packet from head of left buffer into channel
 						self.transmission_direction = constants.LTR
 						packet_to_transmit = self.left_buff.dequeue()
@@ -211,3 +223,5 @@ class Link(Reporter):
 					Handle_Packet_Transmission(	packet_to_transmit,\
 											self.get_id(),\
 				 							completion_time))
+			else:
+				self.switch_direction_flag = True

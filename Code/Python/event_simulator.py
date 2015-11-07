@@ -42,9 +42,11 @@ class Event_Simulator():
 		# set global time to 0
 		self.global_time = 0.0            
 		# keep track of which flows are active sources
+		# let each network element know we are the simulator
 		for el in self.network_elements.keys():
 			if isinstance(self.network_elements[el], flow.Data_Source):
 				self.network_flow_sources.append(self.network_elements[el])
+			self.network_elements[el].set_event_simulator(self)
 
 	# takes a network id and returns the element object
 	def get_element (self, network_id):

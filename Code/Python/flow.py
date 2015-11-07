@@ -92,7 +92,7 @@ class Data_Source(Flow):
 
 	def get_next_packet_to_transmit():
 		for i in range (0, len(self.tx_buffer)):
-			if not (self.tx_buffer[i].is_in_transit() or self.tx_buffer[i].get_ack())
+			if not (self.tx_buffer[i].is_in_transit() or self.tx_buffer[i].get_ack()):
 				return self.tx_buffer[i]
 
 class DataSink(Flow):
