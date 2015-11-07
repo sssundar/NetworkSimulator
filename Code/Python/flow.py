@@ -69,8 +69,8 @@ class Data_Source(Flow):
 			self.tx_buffer[i] = Packet(self, self.source, self.dest, constants.DATA_PACKET_TYPE, i, constants.DATA_PACKET_BITWIDTH)
 
 	def receive(self, p):
-		p.set_ack(1)
-		
+		self.tx_buffer[p.get_ID - 1].set_ack(1)
+
 		for i in range(0, len(self.tx_buffer)):
 			if (self.tx_buffer[i].get_ack() is 0):
 				self.send(self.tx_buffer[i])
