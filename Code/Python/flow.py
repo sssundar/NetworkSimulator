@@ -9,16 +9,16 @@ from packet import *
 
 # This class only extends Reporter Class
 class Flow(Reporter):
-	source = ""
-	dest = ""
-	size = -1
-	start =  -1
+	source = ""		# String
+	dest = ""		# String
+	size = -1		# float
+	start =  -1 	# float
 	sim = "" # should be set to an event_simulator object before any action
-	am_i_done = 0
-	window = 2
+	am_i_done = 0	# Boolean
+	window = 2		# float (window size) 
 
-	# Call Node initialization code, with the Node ID (required unique)
-	# Initializes itself
+	# Call Node initialization code, with unique ID
+	# Input are all Strings
 	def __init__(self, identity, src, sink, size, start):
 		Reporter.__init__(self, identity)
 		self.source = src
@@ -27,6 +27,7 @@ class Flow(Reporter):
 		self.start = int(start)
 		self.am_i_done = 0
 
+	# Set itself a simulator object
 	def set_event_simulator (self, sim):
 		self.sim = sim
 
@@ -42,70 +43,116 @@ class Flow(Reporter):
 	def get_start (self):
 		return self.start  
 
+	# Check to see if done
 	def is_done (self):
 		return self.am_i_done
 
-class Data_Source(Flow):
-	tx_buffer = []
-	num_packets_outstanding = -1
 
+# Extends Flow class
+# Used by the Flow Source
+class Data_Source(Flow):
+	tx_buffer = []		# Array for storing Packets
+	num_packets_outstanding = 0	
+
+	# Calls Flow class to init
 	def __init__(self, identity, src, sink, size, start):
 		Flow.__init__(self, identity, src, sink, size, start)
 
 	def get_flow_size(self):
 		return len(self.tx_buffer)
 
+	# Send Packets
+	# Set a flag in packet as transmitting
+	# Set Tx Time
+	# Initiate the source to send the packet over
+	#	- Requires sim to do look Hash Table look up
+	# In crease the number of packets remaining
 	def send(self, p):
 		p.flag_in_transit(1)
 		p.set_tx_time(self.sim.get_current_time())
 		self.sim.get_element(self.source).send(p)
 		self.num_packets_outstanding += 1
 
+	# Set Flow Size
+	# Use calculatied formula
 	def set_flow_size(self, bits):
 		total = math.ceil(float(bits)/constants.DATA_PACKET_BITWIDTH)
 		self.num_packets_outstanding = 0
 
+		# Create Packets in the buffer so that it's read to be sent
+		# Packet number starts at 0
 		for i in range(0,total_packets):
 			self.tx_buffer[i] = Packet(self, self.source, self.dest, constants.DATA_PACKET_TYPE, i, constants.DATA_PACKET_BITWIDTH)
 
+	# Read ACK packet ID and set the Acknowledgement are received even if already Timed out
+	# Check for the lowest value ID without an ACK and CALL send()
 	def receive(self, p):
-		self.tx_buffer[p.get_ID - 1].set_ack(1)
+		self.tx_buffer[p.get_ID].set_ack(1)
 
+		# Search entire buffer for the lowest packet without an ACK
+		# Send it over and break from the loop
 		for i in range(0, len(self.tx_buffer)):
 			if (self.tx_buffer[i].get_ack() is 0):
 				self.send(self.tx_buffer[i])
 				break
 
+	# Poking TCP
 	def start():
-		poke_tcp()
+		self.poke_tcp()
 
+	# Timing out in the source
 	def time_out(self, p):
-		p.set_tx_time(-1)
+		p.set_tx_time(-1)	# Set TX_Time as no longer valid
 		p.set_in_transit(0)	# Set in Transit as False
-		self.num_packets_outstanding -= 1
-		poke_tcp()
+		self.num_packets_outstanding -= 1	# Decreased the number of packets there
+		self.poke_tcp()						# Poke TCP
 
+	# When the window size is bigger than packets outstanding
+	# Start sending the next one.
+	# re Poke TCP
 	def poke_tcp(self):
 		if (self.num_packets_outstanding < self.window):
-			send(get_next_packet_to_transmit())
-		poke_tcp()
+			send(self.get_next_packet_to_transmit())
+			self.poke_tcp()
 
+	# Get the next Packet to send over
+	# If a packet != sending or GOT ACK
+	#	- Return the packet
 	def get_next_packet_to_transmit():
 		for i in range (0, len(self.tx_buffer)):
 			if not (self.tx_buffer[i].is_in_transit() or self.tx_buffer[i].get_ack())
 				return self.tx_buffer[i]
 
+# Extends Flow class
+# Used by the Flow Destination
+# Deal mostly with receiving and sending ACKs
 class DataSink(Flow):
-	rx_buffer[]
+	rx_buffer = []	# A boolean array
 
+	# Calls flow class to init
 	def __init__(self, identity, src, sink, size, start):
 		Flow.__init__(self, identity, src, sink, size, start)
-		
-	def set_flow_size(num_packets):
-		for i in range (num_packets):
+	
+	# Init array so the Rx for each packet = FALSE
+	def set_flow_size(self, num_packets):
+		for i in range (0, num_packets):
 			self.rx_buffer[i] = 0
 
-	def send(packet):
-		p.set_tx_time(self.sim.get_current_time())
-		p.set_in_transit(1)
-		self.source.send(p)
+	# Send Function
+	# Set Tx_time
+	# Set Packet as In_Transit
+	# Make the source send it over
+	#	- Find the source object via hash table in Simulator
+	def send(self, packet):
+		packet.set_tx_time(self.sim.get_current_time())
+		packet.set_in_transit(1)
+		self.sim.get_element(self.source).send(packet)
+
+	# Destination receiving
+	# Set the RX buffer for that ID as Received
+	# Create an ACK packet to send back
+	# Call the send function to send it over
+	def receive(self, packet):
+		self.rx_buffer[packet.get_id() = 1]
+		p = Packet(self, self.source, self.dest, constants.DATA_PACKET_ACKNOWLEDGEMENT_TYPE, i, constants.DATA_PACKET_BITWIDTH)
+		self.send(p)
