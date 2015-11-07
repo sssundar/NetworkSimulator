@@ -65,7 +65,7 @@ class Data_Source(Flow):
 		total = math.ceil(float(bits)/constants.DATA_PACKET_BITWIDTH)
 		self.num_packets_outstanding = 0
 
-		for i in range(0,total_packets - 1):
+		for i in range(0,total_packets):
 			self.tx_buffer[i] = Packet(self, self.source, self.dest, constants.DATA_PACKET_TYPE, i, constants.DATA_PACKET_BITWIDTH)
 
 	def receive(self, p):
@@ -95,6 +95,17 @@ class Data_Source(Flow):
 			if not (self.tx_buffer[i].is_in_transit() or self.tx_buffer[i].get_ack())
 				return self.tx_buffer[i]
 
+class DataSink(Flow):
+	rx_buffer[]
 
+	def __init__(self, identity, src, sink, size, start):
+		Flow.__init__(self, identity, src, sink, size, start)
+		
+	def set_flow_size(num_packets):
+		for i in range (num_packets):
+			self.rx_buffer[i] = 0
 
-
+	def send(packet):
+		p.set_tx_time(self.sim.get_current_time())
+		p.set_in_transit(1)
+		self.source.send(p)
