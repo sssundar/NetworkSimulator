@@ -1,52 +1,11 @@
---------------------------------------------------------------------------------
-Description: Pseudocode Excluding Main Loop
-Target: Test Case 0
-Project: NetworkSimulator
-Class: CS143, Caltech, Fall 2015
-Team: Ahmed, Sith, Sushant
-
-Revision History 
-	15 & 17 October 2015; Ahmed, Sith, Sushant 
-		designed for test case 0 at a high level
-	17 October 2015; Sushant 
-		spec/pseudocode for	logging, sim, events, queues for test 0 
-		most of pseudocode for links for test 0
-	21 October 2015; Sith
-		wrote event, linkqueue, reporter using spec
-	23 October 2015; Sushant
-		finished spec for links for test 0		
-		finished Packet spec/pseudocode
-		finished Node, Host
-		revised links, host for easier parsing/initialization
-		revised link_queue to allow variable length packets
-	23 October 2015; Ahmed
-		finished majority of milestone 1 presentation		
-	23 October 2015; Sith
-		created network parser
-		created main loop
-		revised to c++ priority queue for event simulator
-	31 October 2015; Sushant, Sith
-		debugged parser
-		finished packet
-		finished node, host
-			
-
-######################	
-## To Do for Test 0 ##
-######################
+To Do 
+-----
 
 add notes from last meeting (10-29) here (wrote them up for ahmed on slack)
 	changes to link need to be made for stability of FAST-TCP
 
 ritvik said in practice, implement static routes with oversight.
 	look/type out notes from last meeting
-
-flow control on source ok, but sink? how measure ack delays? buffer 
-	size in links?
-delay/congestion estimates for links based on ?? telepathy?
-	why wouldn't this loop like in hw2?		
-		
---------------------------------------------------------------------------------
 
 
 

@@ -11,7 +11,7 @@ class Event ():
 	def __init__(self):
 		pass
 	
-	def event_action(self):
+	def event_action(self, sim):
 		pass
 
 	def set_completion_time(self, time):

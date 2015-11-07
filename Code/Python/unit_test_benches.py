@@ -6,17 +6,47 @@ import unittest
 
 # Test Modules
 import reporter, node, host, link, router
-import flow, event_simulator, event
-import link_buffer, packet
+import flow, event_simulator, event, events
+import link, link_buffer, packet
+
+class TestLinkTransmissionEvents(unittest.TestCase):
+	# Create Event Simulator
+	# Create Link & Nodes (not Hosts, so don't need working Flow) on either side
+	# Create three packets from either side, to the other, and send them.
+	# Order the packet sends 2L-2R-L-R
+	# Run Sim Forward
+	# Watch for transmission events in EventSimulator, with proper timestamp
+	# Watch for propagation events in EventSimulator, with proper timestamp
+	# Make sure these are sequential, with only one Tx event at a time in
+	# the queue, and two propagations in each direction chained, and one isolated.
+	# Note this tests most events we're trying to deal with.
+	def test_packet_transmitted (self):
+		print "Not Yet Implemented"
+		self.assertFalse(True)
+	def test_packet_propagated (self):
+		print "Not Yet Implemented"
+		self.assertFalse(True)
+	def test_send (self):
+		print "Not Yet Implemented"
+		self.assertFalse(True)
+	def test_transfer_next_packet (self):
+		print "Not Yet Implemented"
+		self.assertFalse(True)
+	def test_attempt_to_transmit_in_same_direction (self):	
+		print "Not Yet Implemented"
+		self.assertFalse(True)
 
 class TestLinkBuffer(unittest.TestCase):
 	# test variables
 	l = "" # a link buffer
 	p = "" # a packet exactly half the size of the buffer
+	s = "" # event simulator
 
 	def setUp (self):
 		c = 100 # buffer capacity in bits
+		self.s = event_simulator.Event_Simulator({})
 		self.l = link_buffer.LinkBuffer(c)
+		self.l.set_event_simulator(self.s)
 		self.p = packet.Packet("","","","","",c/2)
 
 	def test_enqueue_dequeue (self):
@@ -182,9 +212,11 @@ if __name__ == "__main__":
 	flow_suite = unittest.TestLoader().loadTestsFromTestCase(TestFlow)
 	sim_suite = unittest.TestLoader().loadTestsFromTestCase(TestEventSimulator)
 	linkbuffer_suite = unittest.TestLoader().loadTestsFromTestCase(TestLinkBuffer)
+	link_tx_suite = unittest.TestLoader().loadTestsFromTestCase(TestLinkTransmissionEvents)
 
 	test_suites = [reporter_suite, node_suite, host_suite, link_suite,\
-					router_suite, flow_suite, sim_suite, linkbuffer_suite]
+					router_suite, flow_suite, sim_suite, linkbuffer_suite,\
+					link_tx_suite]
 
 	for suite in test_suites:
 		unittest.TextTestRunner(verbosity=2).run(suite)		
