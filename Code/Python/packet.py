@@ -9,21 +9,21 @@ class Packet:
 	dest = ""
 	typ = ""
 	ID = -1
-	bits = -1       # How big the packet is
+	kbits = -1      # How big the packet is
 	ack = 0         # Boolean (Has it been acknowledged)
 	in_transit = 0  # Boolean
-	tx_time = -1    
-	ack_time = -1
+	tx_time = -1    # ms
+	ack_time = -1 	# ms 	
 
 	# Call Node initialization code, with the Node ID (required unique)
 	# Initializes itself
-	def __init__(self,flow,src,sink,typ,ID,bits):
+	def __init__(self,flow,src,sink,typ,ID,kbits):
 		self.flow = flow              
 		self.source = src
 		self.dest = sink
 		self.typ = typ
 		self.ID = ID
-		self.bits = bits
+		self.kbits = kbits
 
 	def get_flow(self):
 		return self.flow
@@ -40,8 +40,8 @@ class Packet:
 	def get_ID(self):
 		return self.ID
 
-	def get_bits(self):
-		return self.bits
+	def get_kbits(self):
+		return self.kbits
 
 	def get_ack(self): 
 		return self.ack
