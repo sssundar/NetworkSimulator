@@ -41,7 +41,7 @@ class Flow(Reporter):
 		return self.size  
 
 	def get_start (self):
-		return self.start  
+		return self.start
 
 	# Check to see if done
 	def is_done (self):
@@ -75,14 +75,14 @@ class Data_Source(Flow):
 
 	# Set Flow Size
 	# Use calculatied formula
-	def set_flow_size(self, bits):
-		total = math.ceil(float(bits)/constants.DATA_PACKET_BITWIDTH)
+	def set_flow_size(self, kilobits):
+		total = math.ceil(float(kilobits)/constants.DATA_PACKET_BITWIDTH)
 		self.num_packets_outstanding = 0
 
 		# Create Packets in the buffer so that it's read to be sent
 		# Packet number starts at 0
-		for i in range(0,total_packets):
-			self.tx_buffer[i] = Packet(self, self.source, self.dest, constants.DATA_PACKET_TYPE, i, constants.DATA_PACKET_BITWIDTH)
+		for i in range(0,total):
+			self.tx_buffer.append(Packet(self, self.source, self.dest, constants.DATA_PACKET_TYPE, i, constants.DATA_PACKET_BITWIDTH))
 
 	# Read ACK packet ID and set the Acknowledgement are received even if already Timed out
 	# Check for the lowest value ID without an ACK and CALL send()
@@ -135,8 +135,7 @@ class DataSink(Flow):
 	
 	# Init array so the Rx for each packet = FALSE
 	def set_flow_size(self, num_packets):
-		for i in range (0, num_packets):
-			self.rx_buffer[i] = 0
+		self.rx_buffer = [0] * num_packets
 
 	# Send Function
 	# Set Tx_time
@@ -154,5 +153,5 @@ class DataSink(Flow):
 	# Call the send function to send it over
 	def receive(self, packet):
 		self.rx_buffer[packet.get_id()] = 1
-		p = Packet(self, self.source, self.dest, constants.DATA_PACKET_ACKNOWLEDGEMENT_TYPE, i, constants.DATA_PACKET_BITWIDTH)
+		p = Packet(self, self.source, self.dest, constants.DATA_PACKET_ACKNOWLEDGEMENT_TYPE, i, constants.DATA_ACK_BITWIDTH)
 		self.send(p)
