@@ -67,4 +67,11 @@ class Data_Source(Flow):
 		for i in range(0,total_packets - 1):
 			self.tx_buffer[i] = Packet(self, self.source, self.dest, constants.DATA_PACKET_TYPE, i, constants.DATA_PACKET_BITWIDTH)
 
+	def receive(self):
+		
+
+
+
+		
+
 
