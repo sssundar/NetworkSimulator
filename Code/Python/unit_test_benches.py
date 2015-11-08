@@ -9,7 +9,47 @@ import reporter, node, host, link, router
 import flow, event_simulator, event, events
 import link, link_buffer, packet
 import constants
-from static_flow_test_node import Static_Data_Source_Test_Node
+from static_flow_test_node import *
+
+class TestStaticDataSinkFlow (unittest.TestCase):
+	'''
+		### Might break for dynamic TCP ### 
+		if this is implemented on receiver side as well
+
+		Create Flow Data Sink
+		Create Static_Data_Sink_Test_Node	
+		Tell Flow its number or expected packets
+		Create Event Simulator 
+
+		For now:
+		Ask flow to receive a packet, check that Ack has same packet ID
+		Ask flow to receive the same packet again, should get same result.
+	'''
+	
+	sim = "" # event simulator
+	f = "" # flow, data source, static
+	n = "" # test node
+
+	def setUp (self):				
+		self.f = flow.Data_Sink("f1sink","h2","h1",\
+			3*constants.DATA_PACKET_BITWIDTH, 1.0)
+		self.n = Static_Data_Sink_Test_Node ("h2","f1sink")
+		self.sim = event_simulator.Event_Simulator({"f1sink":self.f,"h2":self.n})
+		self.f.set_flow_size(2)
+
+	def test_basic_ack (self):
+		packets = [	packet.Packet("f1source","h1","h2","",0,0), \
+					packet.Packet("f1source","h1","h2","",1,0)]
+		self.n.receive(packets[0])
+		self.assertEqual(self.n.head_of_tx_buff(),0)
+		self.n.receive(packets[1])
+		self.assertEqual(self.n.head_of_tx_buff(),1)
+		# Two packets received, two packets acknowledged
+		with self.assertRaises(ValueError):
+			self.n.head_of_tx_buff()
+		# Repeated packets just get repeated acks
+		self.n.receive(packets[1])
+		self.assertEqual(self.n.head_of_tx_buff(),1)
 
 class TestStaticDataSourceFlow (unittest.TestCase):
 	'''
@@ -19,6 +59,7 @@ class TestStaticDataSourceFlow (unittest.TestCase):
 
 		Create Flow Data Source 
 		Create Static_Data_Source_Test_Node	
+		Create Event Simulator 
 		Start Flow -> pokes tcp -> sends two packets to Node
 		Check that these were sent to Node
 
@@ -325,10 +366,13 @@ if __name__ == "__main__":
 	link_tx_suite = unittest.TestLoader().loadTestsFromTestCase(TestLinkTransmissionEvents)
 	static_flow_data_source_suite = \
 		unittest.TestLoader().loadTestsFromTestCase(TestStaticDataSourceFlow)
-
+	static_flow_data_sink_suite = \
+		unittest.TestLoader().loadTestsFromTestCase(TestStaticDataSinkFlow)
+	
 	test_suites = [reporter_suite, node_suite, host_suite, link_suite,\
 					router_suite, flow_suite, sim_suite, linkbuffer_suite,\
-					link_tx_suite,static_flow_data_source_suite]
+					link_tx_suite,static_flow_data_source_suite,\
+					static_flow_data_sink_suite]
 
 	for suite in test_suites:
 		unittest.TextTestRunner(verbosity=2).run(suite)		
