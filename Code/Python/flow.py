@@ -24,8 +24,8 @@ class Flow(Reporter):
 		Reporter.__init__(self, identity)
 		self.source = src
 		self.dest = sink
-		self.size = float(amount * 8000)
-		self.start_time = float(start * 1000)		# 1000ms in a second
+		self.size = float(amount) * 8000.0 			# amount in MByte -> 1000*8 KBits
+		self.start_time = float(start) * 1000.0		# 1000ms in a second
 		self.am_i_done = 0
 
 	# Set itself a simulator object
@@ -146,15 +146,19 @@ class Data_Source(Flow):
 # Extends Flow class
 # Used by the Flow Destination
 # Deal mostly with receiving and sending ACKs
-class DataSink(Flow):
+class Data_Sink(Flow):
 	rx_buffer = ""	# A boolean array
 
 	# Calls flow class to init
+ 	# Start is irrelevant here, sinks can be started immediately. 
+ 	# Size is irrelevant here too, the parser will call set_flow_size
+ 	# once it creates the source & asks it to calculate the packet count
 	def __init__(self, identity, src, sink, size, start):
 		self.rx_buffer = []
-		Flow.__init__(self, identity, src, sink, size, start)
-	
+		Flow.__init__(self, identity, src, sink, size, start)		
+
 	# Init array so the Rx for each packet = FALSE
+	# This must be done by the parser (telepathy)
 	def set_flow_size(self, num_packets):
 		self.rx_buffer = [0] * num_packets
 
@@ -173,6 +177,8 @@ class DataSink(Flow):
 	# Create an ACK packet to send back
 	# Call the send function to send it over
 	def receive(self, packet):
-		self.rx_buffer[packet.get_id()] = 1
-		p = Packet(self, self.source, self.dest, constants.DATA_PACKET_ACKNOWLEDGEMENT_TYPE, i, constants.DATA_ACK_BITWIDTH)
+		self.rx_buffer[packet.get_ID()] = 1
+		p = Packet(self, self.source, self.dest, \
+			constants.DATA_PACKET_ACKNOWLEDGEMENT_TYPE, packet.get_ID(), \
+			constants.DATA_ACK_BITWIDTH)
 		self.send(p)
