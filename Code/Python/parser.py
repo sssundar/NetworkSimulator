@@ -58,5 +58,5 @@ def parser (myfile):
 
 	return map    
 
-myfile = 'input.json'
-data = parser(myfile)
+# myfile = 'input.json'
+# data = parser(myfile)
