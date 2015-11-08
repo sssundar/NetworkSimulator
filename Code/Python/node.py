@@ -10,6 +10,8 @@ from reporter import Reporter
 # The class Node extends the class Reporter
 class Node(Reporter):
 
+	sim = ""
+
 	# Call Reporter initialization code, with the Node ID (required unique)
 	def __init__(self, ID):
 		Reporter.__init__(self, ID)				
@@ -17,3 +19,6 @@ class Node(Reporter):
 	# This function must be overridden
 	def receive (self, packet):
 		pass 
+
+	def set_event_simulator (self, sim):
+		self.sim = sim

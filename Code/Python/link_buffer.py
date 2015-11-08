@@ -13,16 +13,16 @@ class LinkBuffer:
 	def __init__(self, kbit_capacity):
 		self.kbit_capacity = kbit_capacity
 		self.current_kbits_in_queue = 0.0
-		queued = []
+		self.queued = []
 
 	def set_event_simulator (self, sim):
 		self.sim = sim
 
 	def get_head_timestamp (self):
-		return queued[0][0]
+		return self.queued[0][0]
 
 	def see_head_packet (self):
-		return queued[0][1]
+		return self.queued[0][1]
 		
 	def can_enqueue (self, packet):
 		if self.current_kbits_in_queue + packet.get_kbits() <= self.kbit_capacity:

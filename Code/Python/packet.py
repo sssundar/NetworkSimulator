@@ -62,6 +62,10 @@ class Packet:
 	def get_ack_time(self):
 		return self.ack_time
 
+	# Get Round Trip Time
+	# If ack time is NOT invalid
+	# 	- return ack time - tx time
+	# Otherwise, return -1
 	def get_RTT(self):
 		t = -1
 		if (self.ack_time is not -1):

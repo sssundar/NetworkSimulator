@@ -65,8 +65,14 @@ class Link(Reporter):
 	packet_loading = False
 	packets_in_flight = 0
 	transmission_direction = "" # left-to-right, right-to-left
+	switch_direction_flag = False
 
+	def ms_tx_delay (self, packet): 
+		return (packet.get_kbits() / self.capacity_kbit_per_ms) # ms
 
+	def ms_total_delay (self, packet): 
+		return self.ms_tx_delay(packet) + self.ms_prop_delay # ms
+	
 	# Call Node initialization code, with the Node ID (required unique)
 	# Initializes itself
 	def __init__(self, identity, left, right, rate, delay, size):
@@ -117,10 +123,10 @@ class Link(Reporter):
 	# load packet-to-send to the appropriate buffer, then decide how to 
 	# transfer it
 	def send (self, packet, sender_id):
-		if sender_id == left_node:
+		if sender_id == self.left_node:
 			self.left_buff.enqueue(packet)
 			self.transfer_next_packet()
-		elif sender_id == right_node:
+		elif sender_id == self.right_node:
 			self.right_buff.enqueue(packet)
 			self.transfer_next_packet()
 		else:
@@ -128,9 +134,6 @@ class Link(Reporter):
 				from unknown Node %s' % (self.ID, sender_id) )
 
 	def transfer_next_packet (self):
-		ms_tx_delay = lambda (packet): (packet.get_kbits() / capacity_kbit_per_ms) # ms
-		ms_total_delay = lambda (packet): ms_tx_delay(packet) + self.ms_prop_delay # ms
-
 		if (not self.packet_loading) and (self.packets_in_flight == 0):
 			
 			lt = self.left_buff.get_head_timestamp() \
@@ -140,7 +143,19 @@ class Link(Reporter):
 			
 			if (lt >= 0) or (rt >= 0):				
 				if (lt >= 0) and (rt >= 0):
-					if (lt < rt):
+					if self.switch_direction_flag:
+						# there are packets on both sides,
+						# and it's time to switch link direction
+						self.switch_direction_flag = False
+						if (self.transmission_direction == constants.LTR):
+							self.transmission_direction = constants.RTL
+							packet_to_transmit = self.right_buff.dequeue()
+							packet_to_transmit.set_curr_dest(self.get_left())
+						else:
+							self.transmission_direction = constants.LTR
+							packet_to_transmit = self.left_buff.dequeue()
+							packet_to_transmit.set_curr_dest(self.get_right())
+					elif (lt < rt):
 						# Start loading Packet from head of left buffer into channel
 						self.transmission_direction = constants.LTR
 						packet_to_transmit = self.left_buff.dequeue()
@@ -163,7 +178,7 @@ class Link(Reporter):
 				
 				self.packet_loading = True
 				completion_time = \
-					self.sim.get_current_time() + ms_tx_delay(packet_to_transmit)
+					self.sim.get_current_time() + self.ms_tx_delay(packet_to_transmit)
 				
 				self.sim.request_event(\
 					Handle_Packet_Transmission(	packet_to_transmit,\
@@ -187,7 +202,7 @@ class Link(Reporter):
 		# if there are any more to send in the current direction,
 		# can they get there before the timestamp of the head of the
 		# other buffer?
-		if self.transmission_direction == constants.constants.RTL:
+		if self.transmission_direction == constants.RTL:
 			buff = self.right_buff
 			curr_dest = self.get_left()
 			t1 = lt
@@ -200,14 +215,16 @@ class Link(Reporter):
 
 		if t2 >= 0:	
 			proposed_receive_time = self.sim.get_current_time() + \
-				ms_total_delay(buff.see_head_packet())
+				self.ms_total_delay(buff.see_head_packet())
 			if ((t1 >= 0) and (proposed_receive_time < t1)) or (t1 < 0):	
 				packet_to_transmit = buff.dequeue()
 				packet_to_transmit.set_curr_dest(curr_dest)
 				self.packet_loading = True
 				completion_time = self.sim.get_current_time() + \
-					ms_tx_delay(packet_to_transmit)
+					self.ms_tx_delay(packet_to_transmit)
 				self.sim.request_event(\
 					Handle_Packet_Transmission(	packet_to_transmit,\
 											self.get_id(),\
 				 							completion_time))
+			else:
+				self.switch_direction_flag = True
