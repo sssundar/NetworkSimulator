@@ -92,7 +92,7 @@ class Data_Source(Flow):
 		# Search entire buffer for the lowest packet without an ACK
 		# Send it over and break from the loop
 		for i in range(0, len(self.tx_buffer)):
-			if (self.tx_buffer[i].get_ack() is 0):
+			if (self.tx_buffer[i].get_ack() is 0) and (self.tx_buffer[i].get_in_transit() is 0):
 				self.send(self.tx_buffer[i])
 				break
 
