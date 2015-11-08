@@ -2,10 +2,10 @@
 # Sith Domrongkitchaiporn
 
 import json
-from host import Host
-from link import Link
-from router import Router
-from flow import Flow
+from host import *
+from link import *
+from router import *
+from flow import *
 
 """
 Parser Function
@@ -43,12 +43,18 @@ def parser (myfile):
 
 		elif line["type"] == "flow":
 			print "F"
-			f = Flow(line["id"], line["source"], line["dest"], line["size"],line["start"])
-			map[line["id"]] = f 
+			ds = Data_Source(line["id"], line["source"], line["dest"], line["size"],line["start"])
+			dd = Data_Sink(line["id"], line["dest"], line["source"], line["size"],line["start"])		# Dest and Src is swapped for sink
+
+			keys = line["id"] + "_src"
+			keyd = line["id"] + "_dest"
+
+			map[keys] = ds
+			map[keyd] = dd
 
 			# Set flow for the hosts
-			map[line["source"]].set_flow(line["id"])
-			map[line["dest"]].set_flow(line["id"])    
+			map[line["source"]].set_flow(keys)
+			map[line["dest"]].set_flow(keyd)    
 
 	return map    
 
