@@ -48,6 +48,9 @@ class Flow(Reporter):
 	def is_done (self):
 		return self.am_i_done
 
+	def set_is_done(self, flag):
+		self.am_i_done = flag
+
 
 # Extends Flow class
 # Used by the Flow Source
@@ -116,7 +119,9 @@ class Data_Source(Flow):
 	# Start sending the next one.
 	# re Poke TCP
 	def poke_tcp(self):
-		if (self.num_packets_outstanding < self.window) and \
+		if (self.is_flow_done() is 1):
+			return 0
+		elif (self.num_packets_outstanding < self.window) and \
 			(self.get_next_packet_to_transmit() is not None):
 			self.send(self.get_next_packet_to_transmit())
 			self.poke_tcp()
@@ -130,6 +135,13 @@ class Data_Source(Flow):
 			if not (self.tx_buffer[i].get_in_transit() or self.tx_buffer[i].get_ack()):
 				return self.tx_buffer[i]
 		return None
+
+	def is_flow_done(self):
+		for i in range (0, len(self.tx_buffer)):
+			if (self.tx_buffer[i].get_ack() is not 1):
+				return 0
+		self.set_is_done(1)
+		return 1
 
 # Extends Flow class
 # Used by the Flow Destination
