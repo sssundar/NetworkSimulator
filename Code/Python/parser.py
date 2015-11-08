@@ -2,10 +2,10 @@
 # Sith Domrongkitchaiporn
 
 import json
-from host import Host
-from link import Link
-from router import Router
-from flow import Flow
+from host import *
+from link import *
+from router import *
+from flow import *
 
 """
 Parser Function
