@@ -82,10 +82,10 @@ class Link(Reporter):
 		self.left_node = left
 		self.right_node = right
 
-		# Need to standardize units to kbit/ms, kbits, and ms
-		self.capacity_kbit_per_ms = float(1000 * rate)	# 1000 Kilo in a Mega
+		# Need to standardize units to kbit/ms, kbits, and ms		
+		self.capacity_kbit_per_ms = float(rate)				# 1000 Kilobits in a Megabit, 1000 ms in a s
 		self.ms_prop_delay = float(delay)					# Already standardized
-		self.kbits_in_each_buffer = float(8 * size) 		# 8 = conversion from BYTE to BIT
+		self.kbits_in_each_buffer = 8.0 * float(size) 		# 8 = conversion from BYTE to BIT, ignore 1024 vs 1000 convention
 
 		self.left_buff = LinkBuffer(self.kbits_in_each_buffer)
 		self.right_buff = LinkBuffer(self.kbits_in_each_buffer)

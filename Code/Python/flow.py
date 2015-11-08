@@ -24,8 +24,8 @@ class Flow(Reporter):
 		Reporter.__init__(self, identity)
 		self.source = src
 		self.dest = sink
-		self.size = float(amount * 8000)
-		self.start_time = float(start * 1000)		# 1000ms in a second
+		self.size = float(amount) * 8000.0 			# amount in MByte -> 1000*8 KBits
+		self.start_time = float(start) * 1000.0		# 1000ms in a second
 		self.am_i_done = 0
 
 	# Set itself a simulator object

@@ -320,11 +320,11 @@ class TestLink(unittest.TestCase):
 	def test_get_right(self):		
 		self.assertEqual(self.l.get_right(),self.right)
 	def test_get_rate(self):	
-		self.assertEqual(self.l.get_rate(),int(self.rate))
+		self.assertEqual(self.l.get_rate(),float(self.rate))
 	def test_get_delay(self):	
-		self.assertEqual(self.l.get_delay(),int(self.delay))
+		self.assertEqual(self.l.get_delay(),float(self.delay))
 	def test_get_buff(self):	
-		self.assertEqual(self.l.get_buff(),int(self.buff))
+		self.assertEqual(self.l.get_buff(),float(self.buff) * 8.0) # bytes to bits
 
 class TestRouter(unittest.TestCase):
 
@@ -350,8 +350,8 @@ class TestFlow(unittest.TestCase):
 		self.assertEqual(f.get_id(), ID)
 		self.assertEqual(f.get_source(), source)
 		self.assertEqual(f.get_dest(), dest)
-		self.assertEqual(f.get_size(), int(size))
-		self.assertEqual(f.get_start(), int(start))
+		self.assertEqual(f.get_size(), int(size) * 8.0 * 1000.0) # MByte -> KBit
+		self.assertEqual(f.get_start(), int(start) * 1000) # s to ms
 
 # Run Specific Tests
 if __name__ == "__main__":
