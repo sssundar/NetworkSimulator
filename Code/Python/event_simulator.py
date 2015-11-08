@@ -45,7 +45,7 @@ class Event_Simulator():
 		# let each network element know we are the simulator
 		for el in self.network_elements.keys():
 			if isinstance(self.network_elements[el], flow.Data_Source):
-				self.network_flow_sources.append(self.network_elements[el])
+				self.network_flow_sources.append(self.network_elements[el])				
 			self.network_elements[el].set_event_simulator(self)
 
 	# takes a network id and returns the element object
