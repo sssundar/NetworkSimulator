@@ -20,12 +20,12 @@ class Flow(Reporter):
 
 	# Call Node initialization code, with unique ID
 	# Input are all Strings
-	def __init__(self, identity, src, sink, size, start):
+	def __init__(self, identity, src, sink, amount, start):
 		Reporter.__init__(self, identity)
 		self.source = src
 		self.dest = sink
-		self.size = int(size)
-		self.start_time = int(start)
+		self.size = float(amount * 8000)
+		self.start_time = float(start * 1000)		# 1000ms in a second
 		self.am_i_done = 0
 
 	# Set itself a simulator object

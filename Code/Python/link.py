@@ -75,13 +75,17 @@ class Link(Reporter):
 	
 	# Call Node initialization code, with the Node ID (required unique)
 	# Initializes itself
+	# Inputs: rate (Mbps), Delay (ms), size (KB)
+	# We need to standardize units to kbit/ms, kbits, and ms
 	def __init__(self, identity, left, right, rate, delay, size):
 		Reporter.__init__(self, identity)				
 		self.left_node = left
 		self.right_node = right
-		self.capacity_kbit_per_ms = int(rate)
-		self.ms_prop_delay = int(delay)
-		self.kbits_in_each_buffer = int(size)
+
+		# Need to standardize units to kbit/ms, kbits, and ms
+		self.capacity_kbit_per_ms = float(1000 * rate)	# 1000 Kilo in a Mega
+		self.ms_prop_delay = float(delay)					# Already standardized
+		self.kbits_in_each_buffer = float(8 * size) 		# 8 = conversion from BYTE to BIT
 
 		self.left_buff = LinkBuffer(self.kbits_in_each_buffer)
 		self.right_buff = LinkBuffer(self.kbits_in_each_buffer)
