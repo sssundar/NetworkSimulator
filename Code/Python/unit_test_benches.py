@@ -74,7 +74,7 @@ class TestStaticDataSourceFlow (unittest.TestCase):
 
 	def setUp (self):				
 		self.f = flow.Data_Source("f1","h1","h2",\
-			3*constants.DATA_PACKET_BITWIDTH, 1.0)
+			3*constants.DATA_PACKET_BITWIDTH, 1.0) 
 		self.n = Static_Data_Source_Test_Node ("h1","f1")
 		self.sim = event_simulator.Event_Simulator({"f1":self.f,"h1":self.n})
 
@@ -82,7 +82,8 @@ class TestStaticDataSourceFlow (unittest.TestCase):
 		# The first static flow source implementation
 		# just has packets/acks have the same id. 
 		# There is no chance of 'duplicate acks' to indicate loss
-		self.f.start()		
+		
+		self.f.start() # do this manually so don't have to run simulator
 
 		self.assertEqual(self.n.head_of_tx_buff(),0)
 		
@@ -285,14 +286,6 @@ class TestHost(unittest.TestCase):
 		self.assertEqual(h.get_id(), ID)		
 		with self.assertRaises(ValueError):
 			h2 = host.Host(ID,["L1","L2"])					
-	
-	def test_sendreceive(self):		
-		# Should break, as flows not yet implemented in Python
-		ID = "H1"
-		Links = ["L1"]
-		h = host.Host(ID,Links)		
-		h.receive("nothing")
-		h.send("nothing")
 
 class TestLink(unittest.TestCase):
 	ID = ""

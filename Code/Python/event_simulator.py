@@ -26,6 +26,7 @@ Reference: https://docs.python.org/2/library/heapq.html
 
 import constants, itertools, flow
 from heapq import *
+from events import *
 
 class Event_Simulator():
 
@@ -36,16 +37,26 @@ class Event_Simulator():
 	event_heap = []                       # list of entries arranged in a heap
 	event_counter = itertools.count()     # unique sequence count
 
-	def __init__(self, network_elements):                             
+	def __init__(self, network_elements):                        
+		self.event_heap = []                     
+		self.event_counter = itertools.count()   
+		self.global_time = 0.0    
+		self.network_flow_sources = []
+
 		# remember all network elements for this simulation               
 		self.network_elements = network_elements
 		# set global time to 0
 		self.global_time = 0.0            
-		# keep track of which flows are active sources
+		# keep track of which flows are active sources - and start them
 		# let each network element know we are the simulator
 		for el in self.network_elements.keys():
 			if isinstance(self.network_elements[el], flow.Data_Source):
-				self.network_flow_sources.append(self.network_elements[el])				
+				self.network_flow_sources.append(self.network_elements[el])		
+				self.request_event(	Flow_Start(\
+									el,\
+									self.network_elements[el].get_start()\
+									)\
+								)
 			self.network_elements[el].set_event_simulator(self)
 
 	# takes a network id and returns the element object
