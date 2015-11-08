@@ -97,7 +97,7 @@ class Data_Source(Flow):
 				break
 
 	# Poking TCP
-	def start():
+	def start(self):
 		self.poke_tcp()
 
 	# Timing out in the source
