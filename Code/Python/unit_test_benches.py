@@ -41,18 +41,26 @@ class TestStaticDataSourceFlow (unittest.TestCase):
 		# The first static flow source implementation
 		# just has packets/acks have the same id. 
 		# There is no chance of 'duplicate acks' to indicate loss
-		self.f.start()
+		self.f.start()		
+
 		self.assertEqual(self.n.head_of_tx_buff(),0)
-		self.assertEqual(self.n.head_of_tx_buff(),1)
+		
+		packet1 = self.n.tx_buff[0]
+		
+		self.assertEqual(self.n.head_of_tx_buff(),1)		
 		with self.assertRaises(ValueError):
 			self.n.head_of_tx_buff()
+		
 		self.n.receive(packet.Packet("","h2","h1",\
 				constants.DATA_PACKET_ACKNOWLEDGEMENT_TYPE,\
 				0,constants.DATA_ACK_BITWIDTH))
+		
 		self.assertEqual(self.n.head_of_tx_buff(),2)
 		with self.assertRaises(ValueError):
 			self.n.head_of_tx_buff()		
-		self.f.time_out(self.n.tx_buff.pop(0)) # packet #1
+		
+		self.f.time_out(packet1) 
+		
 		# check that next packet has id 1
 		self.assertEqual(self.n.head_of_tx_buff(),1)
 

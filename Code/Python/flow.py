@@ -6,13 +6,14 @@
 
 from reporter import Reporter
 from packet import *
+import math, constants
 
 # This class only extends Reporter Class
 class Flow(Reporter):
 	source = ""		# String
 	dest = ""		# String
 	size = -1		# float
-	start =  -1 	# float
+	start_time =  -1 	# float
 	sim = "" # should be set to an event_simulator object before any action
 	am_i_done = 0	# Boolean
 	window = 2		# float (window size) 
@@ -24,7 +25,7 @@ class Flow(Reporter):
 		self.source = src
 		self.dest = sink
 		self.size = int(size)
-		self.start = int(start)
+		self.start_time = int(start)
 		self.am_i_done = 0
 
 	# Set itself a simulator object
@@ -41,7 +42,7 @@ class Flow(Reporter):
 		return self.size  
 
 	def get_start (self):
-		return self.start
+		return self.start_time
 
 	# Check to see if done
 	def is_done (self):
@@ -51,14 +52,17 @@ class Flow(Reporter):
 # Extends Flow class
 # Used by the Flow Source
 class Data_Source(Flow):
-	tx_buffer = []		# Array for storing Packets
+	tx_buffer = ""		# Array for storing Packets
 	num_packets_outstanding = 0	
 
 	# Calls Flow class to init
 	def __init__(self, identity, src, sink, size, start):
+		self.tx_buffer = []		
 		Flow.__init__(self, identity, src, sink, size, start)
+		self.set_flow_size(size)
 
-	def get_flow_size(self):
+	# size in packets
+	def get_flow_size(self): 
 		return len(self.tx_buffer)
 
 	# Send Packets
@@ -68,7 +72,7 @@ class Data_Source(Flow):
 	#	- Requires sim to do look Hash Table look up
 	# In crease the number of packets remaining
 	def send(self, p):
-		p.flag_in_transit(1)
+		p.set_in_transit(1)
 		p.set_tx_time(self.sim.get_current_time())
 		self.sim.get_element(self.source).send(p)
 		self.num_packets_outstanding += 1
@@ -76,18 +80,19 @@ class Data_Source(Flow):
 	# Set Flow Size
 	# Use calculatied formula
 	def set_flow_size(self, kilobits):
-		total = math.ceil(float(kilobits)/constants.DATA_PACKET_BITWIDTH)
+		total = int(math.ceil(float(kilobits)/constants.DATA_PACKET_BITWIDTH))
 		self.num_packets_outstanding = 0
 
 		# Create Packets in the buffer so that it's read to be sent
-		# Packet number starts at 0
+		# Packet number starts at 0		
 		for i in range(0,total):
-			self.tx_buffer.append(Packet(self, self.source, self.dest, constants.DATA_PACKET_TYPE, i, constants.DATA_PACKET_BITWIDTH))
+			self.tx_buffer.append(Packet(self, self.source, self.dest, constants.DATA_PACKET_TYPE, i, constants.DATA_PACKET_BITWIDTH))			
 
 	# Read ACK packet ID and set the Acknowledgement are received even if already Timed out
 	# Check for the lowest value ID without an ACK and CALL send()
 	def receive(self, p):
-		self.tx_buffer[p.get_ID].set_ack(1)
+		self.tx_buffer[p.get_ID()].set_ack(1)
+		self.num_packets_outstanding -= 1	# Decreased the number of packets there
 
 		# Search entire buffer for the lowest packet without an ACK
 		# Send it over and break from the loop
@@ -111,26 +116,30 @@ class Data_Source(Flow):
 	# Start sending the next one.
 	# re Poke TCP
 	def poke_tcp(self):
-		if (self.num_packets_outstanding < self.window):
-			send(self.get_next_packet_to_transmit())
+		if (self.num_packets_outstanding < self.window) and \
+			(self.get_next_packet_to_transmit() is not None):
+			self.send(self.get_next_packet_to_transmit())
 			self.poke_tcp()
 
 	# Get the next Packet to send over
 	# If a packet != sending or GOT ACK
 	#	- Return the packet
-	def get_next_packet_to_transmit():
+	def get_next_packet_to_transmit(self):
 		for i in range (0, len(self.tx_buffer)):
-			if not (self.tx_buffer[i].is_in_transit() or self.tx_buffer[i].get_ack()):
+			# ! ( A | B ) = !A & !B
+			if not (self.tx_buffer[i].get_in_transit() or self.tx_buffer[i].get_ack()):
 				return self.tx_buffer[i]
+		return None
 
 # Extends Flow class
 # Used by the Flow Destination
 # Deal mostly with receiving and sending ACKs
 class DataSink(Flow):
-	rx_buffer = []	# A boolean array
+	rx_buffer = ""	# A boolean array
 
 	# Calls flow class to init
 	def __init__(self, identity, src, sink, size, start):
+		self.rx_buffer = []
 		Flow.__init__(self, identity, src, sink, size, start)
 	
 	# Init array so the Rx for each packet = FALSE

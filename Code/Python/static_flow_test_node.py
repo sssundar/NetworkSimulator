@@ -15,8 +15,8 @@ class Static_Data_Source_Test_Node(Node):
 	
 	# returns packet ids
 	def head_of_tx_buff (self):
-		if len(tx_buff) > 0:
-			return self.tx_buff.pop(0).get_id()
+		if len(self.tx_buff) > 0:
+			return self.tx_buff.pop(0).get_ID()
 		else:
 			raise ValueError("Nothing left in tx buffer")
 
