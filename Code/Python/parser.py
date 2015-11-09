@@ -27,24 +27,25 @@ def parser (myfile):
 		line["type"]
 
 		if line["type"] == "host":
-			print "H"
+			# print "H"
 			h = Host(line["id"], line["links"])
 			map[line["id"]] = h            
 
 		elif line["type"] == "link":
-			print "L"
+			# print "L"
 			l = Link(line["id"], line["left"], line["right"], line["rate"], line["delay"], line["buffer"])
 			map[line["id"]] = l
 
 		elif line["type"] == "router":
-			print "R"
+			# print "R"
 			r = Router(line["id"], line["links"])
 			map[line["id"]] = r
 
 		elif line["type"] == "flow":
-			print "F"
+			# print "F"
 			ds = Data_Source(line["id"], line["source"], line["dest"], line["size"],line["start"])
 			dd = Data_Sink(line["id"], line["dest"], line["source"], line["size"],line["start"])		# Dest and Src is swapped for sink
+			dd.set_flow_size(ds.get_flow_size()) # in packets
 
 			keys = line["id"] + "_src"
 			keyd = line["id"] + "_dest"

@@ -75,7 +75,18 @@ class Event_Simulator():
 	def get_current_time (self):
 		return self.global_time
 
-	def request_event(self, event):    
+	def request_event(self, event):   
+		
+		# if isinstance(event,Handle_Packet_Propagation):
+		# 	message = "a Handle_Packet_Propagation event was requested"
+		# elif isinstance(event,Time_Out_Packet):
+		# 	message = "a Time_Out_Packet event was requested"
+		# elif isinstance(event,Handle_Packet_Transmission):
+		# 	message = "a Handle_Packet_Transmission event was requested"
+		# elif isinstance(event,Flow_Start):
+		# 	message = "a Flow_Start event was requested"
+		# print "\nEvent: %s" % message
+
 		count = next(self.event_counter)
 		entry = [event.get_completion_time(), count, event]    
 		heappush(self.event_heap, entry)

@@ -7,6 +7,7 @@
 from reporter import Reporter
 from packet import *
 import math, constants
+from events import *
 
 # This class only extends Reporter Class
 class Flow(Reporter):
@@ -62,7 +63,7 @@ class Data_Source(Flow):
 	def __init__(self, identity, src, sink, size, start):
 		self.tx_buffer = []		
 		Flow.__init__(self, identity, src, sink, size, start)
-		self.set_flow_size(size)
+		self.set_flow_size(self.size)
 
 	# size in packets
 	def get_flow_size(self): 
@@ -79,6 +80,9 @@ class Data_Source(Flow):
 		p.set_tx_time(self.sim.get_current_time())
 		self.sim.get_element(self.source).send(p)
 		self.num_packets_outstanding += 1
+		self.sim.request_event(\
+			Time_Out_Packet(p, \
+							self.sim.get_current_time() + constants.DATA_PACKET_TIMEOUT))
 
 	# Set Flow Size
 	# Use calculatied formula
@@ -96,13 +100,14 @@ class Data_Source(Flow):
 	def receive(self, p):
 		self.tx_buffer[p.get_ID()].set_ack(1)
 		self.num_packets_outstanding -= 1	# Decreased the number of packets there
-
-		# Search entire buffer for the lowest packet without an ACK
-		# Send it over and break from the loop
-		for i in range(0, len(self.tx_buffer)):
-			if (self.tx_buffer[i].get_ack() is 0) and (self.tx_buffer[i].get_in_transit() is 0):
-				self.send(self.tx_buffer[i])
-				break
+		
+		if not self.is_flow_done():			
+			# Search entire buffer for the lowest packet without an ACK
+			# Send it over and break from the loop
+			for i in range(0, len(self.tx_buffer)):
+				if (self.tx_buffer[i].get_ack() is 0) and (self.tx_buffer[i].get_in_transit() is 0):
+					self.send(self.tx_buffer[i])
+					break
 
 	# Poking TCP
 	def start(self):
@@ -119,9 +124,7 @@ class Data_Source(Flow):
 	# Start sending the next one.
 	# re Poke TCP
 	def poke_tcp(self):
-		if (self.is_flow_done() is 1):
-			return 0
-		elif (self.num_packets_outstanding < self.window) and \
+		if (self.num_packets_outstanding < self.window) and \
 			(self.get_next_packet_to_transmit() is not None):
 			self.send(self.get_next_packet_to_transmit())
 			self.poke_tcp()

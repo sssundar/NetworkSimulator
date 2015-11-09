@@ -17,11 +17,14 @@ python visualize.py data.txt
 
 from parser import *
 from event_simulator import Event_Simulator
+from constants import LOGHEADER as LOG
 
 if __name__ == "__main__":
 	testCase0 = "input.json"
-	element_map = parser(testCase0)
+	element_map = parser(testCase0)	
 	sim = Event_Simulator(element_map)
 
 	while (not sim.are_flows_done()):
 		sim.run_next_event()
+
+	print LOG + "Simulation Done"

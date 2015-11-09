@@ -61,4 +61,4 @@ class Flow_Start (Event):
 		self.set_completion_time(completion_time)
 
 	def event_action (self, sim):
-		self.f.start()
+		sim.get_element(self.f).start()

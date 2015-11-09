@@ -126,8 +126,8 @@ class Link(Reporter):
 
 	# load packet-to-send to the appropriate buffer, then decide how to 
 	# transfer it
-	def send (self, packet, sender_id):
-		if sender_id == self.left_node:
+	def send (self, packet, sender_id):		
+		if sender_id == self.left_node:			
 			self.left_buff.enqueue(packet)
 			self.transfer_next_packet()
 		elif sender_id == self.right_node:
@@ -143,7 +143,7 @@ class Link(Reporter):
 			lt = self.left_buff.get_head_timestamp() \
 						if self.left_buff.can_dequeue() else -1
 			rt = self.right_buff.get_head_timestamp() \
-						if self.right_buff.can_dequeue() else -1
+						if self.right_buff.can_dequeue() else -1			
 			
 			if (lt >= 0) or (rt >= 0):				
 				if (lt >= 0) and (rt >= 0):
