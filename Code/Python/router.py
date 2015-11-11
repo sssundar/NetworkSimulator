@@ -20,7 +20,7 @@ class Router(Node):
 	sim = ""
 	dest = ""		# destination host
 
-	# Routing Tables    
+	# Routing Tables
 	# - Current one
 	# - a new one currently under construction  
 	current = {}
@@ -31,8 +31,24 @@ class Router(Node):
 	def __init__(self, identity, links):
 		Node.__init__(self, identity)				
 		self.link = links
-		self.routing_table = {}	
+		self.current = {}	# Current Routing table
+		self.new = {}		# Routing table under construction	
 		self.default_port = None
+
+	def static_routing(self, table):
+		self.current = table
+
+	def receive(self, packet):
+		self.send(packet)
+
+	# Routing table is a String table with a String key
+	# The key is the final destination
+	# The value is the link
+	def send(self, packet):
+		# Current is a dict.  We are trying to get the packet destination which is the dict key
+		# next_dest is a String of the link that should be sent to
+		next_dest = self.current[packet.get_dest()]
+		self.sim.get_element(next_dest).send(packet, self.get_id())	
 
 	# dict routing_table: routing table
 	# key: destination host id
@@ -50,7 +66,7 @@ class Router(Node):
 			cost = 1, #??
 			self.routing_table[] = cost
 
-	def update_routing_table(self)
+	def update_routing_table(self):
 
 
 	def set_event_simulator (self, sim):
