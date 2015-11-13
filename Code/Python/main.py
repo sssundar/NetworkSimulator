@@ -15,7 +15,7 @@ python main.py > data.txt
 python visualize.py data.txt
 '''
 
-from parser import JSONParser
+from jsonparser import JSONParser
 from event_simulator import Event_Simulator
 
 if __name__ == "__main__":
