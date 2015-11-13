@@ -15,13 +15,13 @@ python main.py > data.txt
 python visualize.py data.txt
 '''
 
-from parser import *
+from parser import JSONParser
 from event_simulator import Event_Simulator
 
 if __name__ == "__main__":
 	testCase0 = "input_test0.json"
 	testCase1 = "input_test1.json"
-	element_map = parser(testCase1)	
+	element_map = JSONParser(testCase1).parser()
 
 	''' Define Static Routing, Test Case 1, Ignoring Router 3 '''		
 	r1_table = {"h1":"l0", "h2":"l1"}

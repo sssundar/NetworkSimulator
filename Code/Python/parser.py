@@ -8,7 +8,7 @@ from router import *
 from flow import *
 
 """
-Parser Function
+Parser Class
 
 Input:      .json file  (Example = input.json)
 return:     hash table(nodes)
@@ -17,47 +17,52 @@ Nodes can be flow, link, router or host. Check input.json for the format.
 
 """
 
-def parser (myfile):
-	with open(myfile) as file:    
-		data = json.load(file)
+class JSONParser ():
 
-	map = {}    # Create Hash Table   
+	myfile = ""
 
-	for line in data:
-		line["type"]
+	def __init__(self,JSONFile):
+		self.myfile = JSONFile
 
-		if line["type"] == "host":
-			# print "H"
-			h = Host(line["id"], line["links"])
-			map[line["id"]] = h            
+	def parser(self):
+		
+		with open(self.myfile) as file:    
+			data = json.load(file)
 
-		elif line["type"] == "link":
-			# print "L"
-			l = Link(line["id"], line["left"], line["right"], line["rate"], line["delay"], line["buffer"])
-			map[line["id"]] = l
+		input_map = {}    # Create Hash Table   
 
-		elif line["type"] == "router":
-			# print "R"
-			r = Router(line["id"], line["links"])
-			map[line["id"]] = r
+		for line in data:
+			line["type"]
 
-		elif line["type"] == "flow":
-			# print "F"
-			ds = Data_Source(line["id"], line["source"], line["dest"], line["size"],line["start"])
-			dd = Data_Sink(line["id"], line["dest"], line["source"], line["size"],line["start"])		# Dest and Src is swapped for sink
-			dd.set_flow_size(ds.get_flow_size()) # in packets
+			if line["type"] == "host":
+				# print "H"
+				h = Host(line["id"], line["links"])
+				input_map[line["id"]] = h            
 
-			keys = line["id"] + "_src"
-			keyd = line["id"] + "_dest"
+			elif line["type"] == "link":
+				# print "L"
+				l = Link(line["id"], line["left"], line["right"], line["rate"], line["delay"], line["buffer"])
+				input_map[line["id"]] = l
 
-			map[keys] = ds
-			map[keyd] = dd
+			elif line["type"] == "router":
+				# print "R"
+				r = Router(line["id"], line["links"])
+				input_map[line["id"]] = r
 
-			# Set flow for the hosts
-			map[line["source"]].set_flow(keys)
-			map[line["dest"]].set_flow(keyd)    
+			elif line["type"] == "flow":
+				# print "F"
+				ds = Data_Source(line["id"], line["source"], line["dest"], line["size"],line["start"])
+				dd = Data_Sink(line["id"], line["dest"], line["source"], line["size"],line["start"])		# Dest and Src is swapped for sink
+				dd.set_flow_size(ds.get_flow_size()) # in packets
 
-	return map    
+				keys = line["id"] + "_src"
+				keyd = line["id"] + "_dest"
 
-# myfile = 'input.json'
-# data = parser(myfile)
+				input_map[keys] = ds
+				input_map[keyd] = dd
+
+				# Set flow for the hosts
+				input_map[line["source"]].set_flow(keys)
+				input_map[line["dest"]].set_flow(keyd)    
+
+		return input_map    
