@@ -18,7 +18,7 @@ class Router(Node):
 
 	link = []
 	sim = ""
-	dest = ""		# destination host
+	# dest = ""		# destination host
 
 	# Routing Tables
 	# - Current one
@@ -33,11 +33,19 @@ class Router(Node):
 		self.link = links
 		self.current = {}	# Current Routing table
 		self.new = {}		# Routing table under construction	
-		self.default_port = None
+		# self.default_port = None
 
+	''' table
+		key: destination (string ID)
+		value: link (string ID)
+	'''
 	def static_routing(self, table):
 		self.current = table
 
+	'''
+		the moment we have dynamic routing
+		care what the packet is (routing, data)
+	'''
 	def receive(self, packet):
 		self.send(packet)
 
@@ -46,14 +54,16 @@ class Router(Node):
 	# The value is the link
 	def send(self, packet):
 		# Current is a dict.  We are trying to get the packet destination which is the dict key
-		# next_dest is a String of the link that should be sent to
-		next_dest = self.current[packet.get_dest()]
+		# next_dest is a String of the link that should be sent to		
+		next_dest = self.current[packet.get_dest()] # a link
 		self.sim.get_element(next_dest).send(packet, self.get_id())	
+		self.log("Sent packet id %d of type %s to %s" % (packet.get_ID(), packet.get_type(), next_dest))
 
 	# dict routing_table: routing table
 	# key: destination host id
 	# cost tuple (distance between current router and destination host,
 	# next hop)
+	'''
 	def initalize_routing_table(self,hosts_ids):
 		self.default_port = self.links[0].dest
 		# set the distance to be inf, the next hop to be the default_port
@@ -67,7 +77,7 @@ class Router(Node):
 			self.routing_table[] = cost
 
 	def update_routing_table(self):
-
+	'''
 
 	def set_event_simulator (self, sim):
 		self.sim = sim

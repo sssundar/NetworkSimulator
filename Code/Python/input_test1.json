@@ -7,9 +7,9 @@
 {"id":"l3","type":"link","left":"r2","right":"r4","rate":"10","delay":"10","buffer":"64"},
 {"id":"l4","type":"link","left":"r3","right":"r4","rate":"10","delay":"10","buffer":"64"},
 {"id":"l5","type":"link","left":"r4","right":"h2","rate":"12.5","delay":"10","buffer":"64"},
-{"id":"f1","type":"flow","source":"h1","dest":"h2","size":"20","start":"1"},
 {"id":"r1","type":"router","links":["l0","l1","l2"]},
 {"id":"r2","type":"router","links":["l1","l3"]},
 {"id":"r3","type":"router","links":["l2","l4"]},
-{"id":"r4","type":"router","links":["l3","l4","l5"]}
+{"id":"r4","type":"router","links":["l3","l4","l5"]},
+{"id":"f1","type":"flow","source":"h1","dest":"h2","size":"0.5","start":"1"}
 ]

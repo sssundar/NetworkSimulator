@@ -1,0 +1,55 @@
+Meetings/Tasks
+---------------
+	Thursday, group meeting, Ritvik 4 PM
+
+	By Nov 8th, were supposed to have
+		Test Case 0, 1 & Logging/Visualization Done
+	On Nov 8th, we actually have
+		Test Case 0 done
+		No Logging/Visualization
+		No Test Case 1
+
+	By Nov 19th we need	Test Case 0, 1 done, with static routing/TCP
+		We were supposed to have the entire project basic code 
+		(Both TCPs with dynamic routing) done
+		
+	To stay on track, we need, this week, by Nov 15th, in order of importance:
+		1) Sushant: by Monday, late evening:		
+			Spec Logging for Test Case 0 & 1
+				What needs to be measured, how graphs will be generated
+				Every event has a timestamp (global clock) -> can be logged to STDOUT
+				Parse this output, do windowed averages. 
+				Put measured variables in ^^ that language. 
+		2) Sith/Sushant: get first-pass logging/visualization done over course of week
+				By Wednesday evening if possible
+		3) Sith: get static routing done & try out Test Case 1 with static TCP
+				By Thursday meeting if possible
+		4) Sushant: get Test Case 0 tested with a TCP-Reno implementation
+				By Thursday meeting
+		
+		5) Ahmed: 
+			Dynamic Routing requires interaction with links, linkbuffers, and hosts.
+			Please share your progress with regular pushes, even if you're not done,
+				even if the code is broken. 
+
+			This week you are responsible for delivering:
+				Bellman Ford design, pseudocode, actual code, test cases
+	
+			Some requirements on your design:
+				Don't shut down network, but move routing packets to top of linkbuffer queues,
+				dropping other packets as needed.
+
+			To test your implementation:
+				Run dynamic Bellman-Ford with the network from Test Case 1
+					Confirm oscillatory behavior
+				Create at least one other test case with a known convergence
+					Demonstrate this convergence
+				This will require understanding our simulator/code flow &
+					developing your own logging format to keep track of
+					updates to routing tables 
+					
+			I'd suggest, to get familiar with our Test Case 0, 
+			check out main.py and follow it down. 
+			
+			Please keep up to date with our logging pushes through the week
+			as visuals (e.g. link rates) can help you debug routing.
