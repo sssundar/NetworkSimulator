@@ -15,5 +15,22 @@ DATA_PACKET_TIMEOUT = 100.0 # ms
 RTL = "right-to-left"
 LTR = "left-to-right"
 
-# Logging Message Identifiers
-LOGHEADER = "DEBUG LOG: "
+# Logging Measurement Functions & Constants
+'''
+LINKRATE_MEASUREMENT_BASE = \
+"\n{\"logtype\":\"measurement\", \"measurement\":\"linkrate\", \"linkid\":\"%s\", \
+\"bits\":\"%d\",\"globaltime\":\"%0.3fms\"}\n"
+
+## kbits / 1000 should be float.
+@$%#$
+MEASURE_LINKRATE = lambda ((link,kbits_propagated,time)):\
+	print LINKRATE_MEASUREMENT_BASE % ((	link.get_id(),\
+									int(float(kbits_propagated)/1000),\
+									time)\
+	)
+
+# takes link object reference
+# take kbits propagated at time
+# prints directly to stdout
+# Mbps, time (ms) with 3 fractional decimal precision digits.
+'''

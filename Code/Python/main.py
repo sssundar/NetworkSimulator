@@ -17,7 +17,6 @@ python visualize.py data.txt
 
 from parser import *
 from event_simulator import Event_Simulator
-from constants import LOGHEADER as LOG
 
 if __name__ == "__main__":
 	testCase0 = "input_test0.json"
@@ -37,6 +36,4 @@ if __name__ == "__main__":
 	sim = Event_Simulator(element_map)
 
 	while (not sim.are_flows_done()):
-		sim.run_next_event()
-
-	print LOG + "Simulation Done"
+		sim.run_next_event()	
