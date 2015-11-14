@@ -7,6 +7,7 @@
 from reporter import Reporter
 from packet import *
 import math, constants
+from events import *
 
 # This class only extends Reporter Class
 class Flow(Reporter):
@@ -16,16 +17,16 @@ class Flow(Reporter):
 	start_time =  -1 	# float
 	sim = "" # should be set to an event_simulator object before any action
 	am_i_done = 0	# Boolean
-	window = 2		# float (window size) 
+	window = 2 		# float (window size) 
 
 	# Call Node initialization code, with unique ID
 	# Input are all Strings
-	def __init__(self, identity, src, sink, size, start):
+	def __init__(self, identity, src, sink, amount, start):
 		Reporter.__init__(self, identity)
 		self.source = src
 		self.dest = sink
-		self.size = int(size)
-		self.start_time = int(start)
+		self.size = float(amount) * 8000.0 			# amount in MByte -> 1000*8 KBits
+		self.start_time = float(start) * 1000.0		# 1000ms in a second
 		self.am_i_done = 0
 
 	# Set itself a simulator object
@@ -48,6 +49,9 @@ class Flow(Reporter):
 	def is_done (self):
 		return self.am_i_done
 
+	def set_is_done(self, flag):
+		self.am_i_done = flag
+
 
 # Extends Flow class
 # Used by the Flow Source
@@ -59,7 +63,7 @@ class Data_Source(Flow):
 	def __init__(self, identity, src, sink, size, start):
 		self.tx_buffer = []		
 		Flow.__init__(self, identity, src, sink, size, start)
-		self.set_flow_size(size)
+		self.set_flow_size(self.size)
 
 	# size in packets
 	def get_flow_size(self): 
@@ -76,6 +80,9 @@ class Data_Source(Flow):
 		p.set_tx_time(self.sim.get_current_time())
 		self.sim.get_element(self.source).send(p)
 		self.num_packets_outstanding += 1
+		self.sim.request_event(\
+			Time_Out_Packet(p, \
+							self.sim.get_current_time() + constants.DATA_PACKET_TIMEOUT))
 
 	# Set Flow Size
 	# Use calculatied formula
@@ -93,13 +100,14 @@ class Data_Source(Flow):
 	def receive(self, p):
 		self.tx_buffer[p.get_ID()].set_ack(1)
 		self.num_packets_outstanding -= 1	# Decreased the number of packets there
-
-		# Search entire buffer for the lowest packet without an ACK
-		# Send it over and break from the loop
-		for i in range(0, len(self.tx_buffer)):
-			if (self.tx_buffer[i].get_ack() is 0) and (self.tx_buffer[i].get_in_transit() is 0):
-				self.send(self.tx_buffer[i])
-				break
+		
+		if not self.is_flow_done():			
+			# Search entire buffer for the lowest packet without an ACK
+			# Send it over and break from the loop
+			for i in range(0, len(self.tx_buffer)):
+				if (self.tx_buffer[i].get_ack() is 0) and (self.tx_buffer[i].get_in_transit() is 0):
+					self.send(self.tx_buffer[i])
+					break
 
 	# Poking TCP
 	def start(self):
@@ -131,18 +139,29 @@ class Data_Source(Flow):
 				return self.tx_buffer[i]
 		return None
 
+	def is_flow_done(self):
+		for i in range (0, len(self.tx_buffer)):
+			if (self.tx_buffer[i].get_ack() is not 1):
+				return 0
+		self.set_is_done(1)
+		return 1
+
 # Extends Flow class
 # Used by the Flow Destination
 # Deal mostly with receiving and sending ACKs
-class DataSink(Flow):
+class Data_Sink(Flow):
 	rx_buffer = ""	# A boolean array
 
 	# Calls flow class to init
+ 	# Start is irrelevant here, sinks can be started immediately. 
+ 	# Size is irrelevant here too, the parser will call set_flow_size
+ 	# once it creates the source & asks it to calculate the packet count
 	def __init__(self, identity, src, sink, size, start):
 		self.rx_buffer = []
-		Flow.__init__(self, identity, src, sink, size, start)
-	
+		Flow.__init__(self, identity, src, sink, size, start)		
+
 	# Init array so the Rx for each packet = FALSE
+	# This must be done by the parser (telepathy)
 	def set_flow_size(self, num_packets):
 		self.rx_buffer = [0] * num_packets
 
@@ -161,6 +180,8 @@ class DataSink(Flow):
 	# Create an ACK packet to send back
 	# Call the send function to send it over
 	def receive(self, packet):
-		self.rx_buffer[packet.get_id()] = 1
-		p = Packet(self, self.source, self.dest, constants.DATA_PACKET_ACKNOWLEDGEMENT_TYPE, i, constants.DATA_ACK_BITWIDTH)
+		self.rx_buffer[packet.get_ID()] = 1
+		p = Packet(self, self.source, self.dest, \
+			constants.DATA_PACKET_ACKNOWLEDGEMENT_TYPE, packet.get_ID(), \
+			constants.DATA_ACK_BITWIDTH)
 		self.send(p)

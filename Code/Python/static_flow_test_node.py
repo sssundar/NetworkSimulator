@@ -27,3 +27,12 @@ class Static_Data_Source_Test_Node(Node):
 	# sent by our associated flow
 	def send (self, packet):
 		self.tx_buff.append(packet)
+
+'''
+For now, static sink test nodes do exactly what static source nodes do.
+'''
+class Static_Data_Sink_Test_Node(Static_Data_Source_Test_Node):
+	
+	def __init__(self, ID, flow):
+		Static_Data_Source_Test_Node.__init__(self, ID, flow)						
+	

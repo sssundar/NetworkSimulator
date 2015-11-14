@@ -36,14 +36,11 @@ class Host(Node):
 	
 	# Pre-Routing: Pass the packet directly to the flow, if it exists	
 	# Post-Routing: Handle whether the packet is for routing or data flow
-	def receive (self, packet):		
-		raise AttributeError('Flows are not defined yet; how am I receiving?')
-
-		# if (packet.get_type() == constants.DATA_PACKET_ACKNOWLEDGEMENT_TYPE) or \
-		# 	(packet.get_type() == constants.DATA_PACKET_TYPE):
-		# 	self.sim.get_element(self.flow).receive(packet)
+	def receive (self, packet):				
+		if (packet.get_type() == constants.DATA_PACKET_ACKNOWLEDGEMENT_TYPE) or \
+			(packet.get_type() == constants.DATA_PACKET_TYPE):
+			self.sim.get_element(self.flow).receive(packet)
 	
 	# Send the packet directly to the link
-	def send (self, packet):			
-		raise AttributeError('Flows are not defined yet; how am I sending?')
-		# self.sim.get_element(self.link).send(packet, self.get_id())					
+	def send (self, packet):					
+		self.sim.get_element(self.link).send(packet, self.get_id())	

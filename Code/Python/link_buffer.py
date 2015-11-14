@@ -10,7 +10,7 @@ class LinkBuffer:
 	current_kbits_in_queue = 0.0
 	sim = "" # event simulator
 
-	def __init__(self, kbit_capacity):
+	def __init__(self, kbit_capacity):		
 		self.kbit_capacity = kbit_capacity
 		self.current_kbits_in_queue = 0.0
 		self.queued = []

@@ -75,13 +75,17 @@ class Link(Reporter):
 	
 	# Call Node initialization code, with the Node ID (required unique)
 	# Initializes itself
+	# Inputs: rate (Mbps), Delay (ms), size (KB)
+	# We need to standardize units to kbit/ms, kbits, and ms
 	def __init__(self, identity, left, right, rate, delay, size):
 		Reporter.__init__(self, identity)				
 		self.left_node = left
 		self.right_node = right
-		self.capacity_kbit_per_ms = int(rate)
-		self.ms_prop_delay = int(delay)
-		self.kbits_in_each_buffer = int(size)
+
+		# Need to standardize units to kbit/ms, kbits, and ms		
+		self.capacity_kbit_per_ms = float(rate)				# 1000 Kilobits in a Megabit, 1000 ms in a s
+		self.ms_prop_delay = float(delay)					# Already standardized
+		self.kbits_in_each_buffer = 8.0 * float(size) 		# 8 = conversion from BYTE to BIT, ignore 1024 vs 1000 convention
 
 		self.left_buff = LinkBuffer(self.kbits_in_each_buffer)
 		self.right_buff = LinkBuffer(self.kbits_in_each_buffer)
@@ -122,8 +126,8 @@ class Link(Reporter):
 
 	# load packet-to-send to the appropriate buffer, then decide how to 
 	# transfer it
-	def send (self, packet, sender_id):
-		if sender_id == self.left_node:
+	def send (self, packet, sender_id):		
+		if sender_id == self.left_node:			
 			self.left_buff.enqueue(packet)
 			self.transfer_next_packet()
 		elif sender_id == self.right_node:
@@ -139,7 +143,7 @@ class Link(Reporter):
 			lt = self.left_buff.get_head_timestamp() \
 						if self.left_buff.can_dequeue() else -1
 			rt = self.right_buff.get_head_timestamp() \
-						if self.right_buff.can_dequeue() else -1
+						if self.right_buff.can_dequeue() else -1			
 			
 			if (lt >= 0) or (rt >= 0):				
 				if (lt >= 0) and (rt >= 0):
