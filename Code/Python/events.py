@@ -11,6 +11,7 @@ Last Revised:
 '''
 
 from event import Event
+import constants
 
 class Handle_Packet_Propagation (Event):
 	p = "" 	# Packet Propagating to a Node (Router/Host)
@@ -21,7 +22,10 @@ class Handle_Packet_Propagation (Event):
 		self.l = link
 		self.set_completion_time(completion_time)
 	
-	def event_action (self, sim):
+	def event_action (self, sim):		
+		print constants.MEASURE_LINKRATE((sim.get_element(self.l),\
+										self.p.get_kbits(),\
+										self.get_completion_time()))
 		sim.get_element(self.l).packet_propagated()
 		sim.get_element(self.p.get_curr_dest()).receive(self.p)
 	

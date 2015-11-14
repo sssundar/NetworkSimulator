@@ -16,21 +16,20 @@ RTL = "right-to-left"
 LTR = "left-to-right"
 
 # Logging Measurement Functions & Constants
-'''
+
 LINKRATE_MEASUREMENT_BASE = \
-"\n{\"logtype\":\"measurement\", \"measurement\":\"linkrate\", \"linkid\":\"%s\", \
-\"bits\":\"%d\",\"globaltime\":\"%0.3fms\"}\n"
+"\n{\"logtype\":\"measurement\",\"measurement\":\"linkrate\",\"linkid\":\"%s\",\
+\"mbits_propagated\":\"%0.3e\",\"ms_globaltime\":\"%0.3e\"}\n"
 
-## kbits / 1000 should be float.
-@$%#$
+# takes link object reference, takes kbits propagated to end of link at t=time
+# prints measurements directly to stdout:
+# mbits propagated, time (ms) in format 0.3e
 MEASURE_LINKRATE = lambda ((link,kbits_propagated,time)):\
-	print LINKRATE_MEASUREMENT_BASE % ((	link.get_id(),\
-									int(float(kbits_propagated)/1000),\
+	LINKRATE_MEASUREMENT_BASE % ((	link.get_id(),\
+									float(kbits_propagated)/1000,\
 									time)\
-	)
+		)
 
-# takes link object reference
-# take kbits propagated at time
-# prints directly to stdout
-# Mbps, time (ms) with 3 fractional decimal precision digits.
-'''
+# Test Case Filenames
+TESTCASE0 = "input_test0.json"
+TESTCASE1 = "input_test1.json"
