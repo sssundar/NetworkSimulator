@@ -17,7 +17,7 @@ class Flow(Reporter):
 	start_time =  -1 	# float
 	sim = "" # should be set to an event_simulator object before any action
 	am_i_done = 0	# Boolean
-	window = 100	# float (window size) 
+	window = 2		# float (window size) 
 
 	# Call Node initialization code, with unique ID
 	# Input are all Strings

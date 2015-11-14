@@ -28,7 +28,7 @@ MEASUREMENT_ENABLE = True
 
 LINKRATE_MEASUREMENT_BASE = \
 "\n{\"logtype\":\"measurement\",\"measurement\":\"linkrate\",\"linkid\":\"%s\",\
-\"mbits_propagated\":\"%0.3e\",\"ms_globaltime\":\"%0.3e\"}\n"
+\"mbits_propagated\":\"%0.3e\",\"ms_globaltime\":\"%0.6e\"}\n"
 
 # takes link object reference, takes kbits propagated to end of link at t=time
 # prints measurements directly to stdout:
@@ -43,7 +43,7 @@ MEASURE_LINKRATE = lambda ((link,kbits_propagated,time)):\
 BUFFER_OCCUPANCY_MEASUREMENT_BASE = \
 "\n{\"logtype\":\"measurement\",\"measurement\":\"bufferoccupancy\",\
 \"linkid\":\"%s\",\"direction\":\"%s\",\
-\"fractional_buffer_occupancy\":\"%0.3e\",\"ms_globaltime\":\"%0.3e\"}\n"
+\"fractional_buffer_occupancy\":\"%0.3e\",\"ms_globaltime\":\"%0.6e\"}\n"
 
 # Units: Percent full, since packets have variable bit width
 # Windowing on logs of changes will not give us the correct result.
