@@ -23,9 +23,10 @@ class Handle_Packet_Propagation (Event):
 		self.set_completion_time(completion_time)
 	
 	def event_action (self, sim):		
-		print constants.MEASURE_LINKRATE((sim.get_element(self.l),\
-										self.p.get_kbits(),\
-										self.get_completion_time()))
+		if constants.MEASUREMENT_ENABLE:
+			print constants.MEASURE_LINKRATE((sim.get_element(self.l),\
+											self.p.get_kbits(),\
+											self.get_completion_time()))
 		sim.get_element(self.l).packet_propagated()
 		sim.get_element(self.p.get_curr_dest()).receive(self.p)
 	

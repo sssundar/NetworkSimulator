@@ -57,7 +57,7 @@ class Router(Node):
 		# next_dest is a String of the link that should be sent to		
 		next_dest = self.current[packet.get_dest()] # a link
 		self.sim.get_element(next_dest).send(packet, self.get_id())	
-		self.log("Sent packet id %d of type %s to %s" % (packet.get_ID(), packet.get_type(), next_dest))
+		# self.log("Sent packet id %d of type %s to %s" % (packet.get_ID(), packet.get_type(), next_dest))
 
 	# dict routing_table: routing table
 	# key: destination host id

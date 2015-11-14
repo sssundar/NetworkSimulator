@@ -15,7 +15,16 @@ DATA_PACKET_TIMEOUT = 100.0 # ms
 RTL = "right-to-left"
 LTR = "left-to-right"
 
-# Logging Measurement Functions & Constants
+# Test Case Filenames
+TESTCASE0 = "input_test0.json"
+TESTCASE1 = "input_test1.json"
+
+#############################################
+# Logging Measurement Functions & Constants #
+#############################################
+
+# Measurement Enable, to make logging-unrelated debugging faster
+MEASUREMENT_ENABLE = True
 
 LINKRATE_MEASUREMENT_BASE = \
 "\n{\"logtype\":\"measurement\",\"measurement\":\"linkrate\",\"linkid\":\"%s\",\
@@ -30,6 +39,24 @@ MEASURE_LINKRATE = lambda ((link,kbits_propagated,time)):\
 									time)\
 		)
 
-# Test Case Filenames
-TESTCASE0 = "input_test0.json"
-TESTCASE1 = "input_test1.json"
+
+BUFFER_OCCUPANCY_MEASUREMENT_BASE = \
+"\n{\"logtype\":\"measurement\",\"measurement\":\"bufferoccupancy\",\
+\"linkid\":\"%s\",\"direction\":\"%s\",\
+\"fractional_buffer_occupancy\":\"%0.3e\",\"ms_globaltime\":\"%0.3e\"}\n"
+
+# Units: Percent full, since packets have variable bit width
+# Windowing on logs of changes will not give us the correct result.
+# We need to account for the timing, i.e. the % of time we were at each level,
+# within our binning window. A true time average. So we can add deltas,
+# and remember the starting value looking into each window on each side.
+# Ok: Have each link log the buffer size for each side, every time it changes.
+# Include a timestamp.
+MEASURE_BUFFER_OCCUPANCY = \
+	lambda ((link,direction_of_buffer,fractional_occupancy,ms_time)):\
+		BUFFER_OCCUPANCY_MEASUREMENT_BASE % ((	link.get_id(),\
+											direction_of_buffer,\
+											fractional_occupancy,\
+											ms_time)\
+			)
+
