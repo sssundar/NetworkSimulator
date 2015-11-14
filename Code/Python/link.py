@@ -93,7 +93,11 @@ class Link(Reporter):
 	def set_event_simulator (self, sim):
 		self.sim = sim
 		self.left_buff.set_event_simulator(sim)
+		self.left_buff.set_my_link(self)
+		self.left_buff.set_my_direction(constants.LTR)
 		self.right_buff.set_event_simulator(sim)
+		self.right_buff.set_my_link(self)
+		self.right_buff.set_my_direction(constants.RTL)
 
 	def get_left(self):
 		return self.left_node
