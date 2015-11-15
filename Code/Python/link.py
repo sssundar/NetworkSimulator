@@ -130,16 +130,24 @@ class Link(Reporter):
 
 	# load packet-to-send to the appropriate buffer, then decide how to 
 	# transfer it
-	def send (self, packet, sender_id):		
+	def send (self, packet, sender_id):				
+		notDroppedFlag = True
 		if sender_id == self.left_node:			
-			self.left_buff.enqueue(packet)
+			notDroppedFlag = self.left_buff.enqueue(packet)
 			self.transfer_next_packet()
 		elif sender_id == self.right_node:
-			self.right_buff.enqueue(packet)
+			notDroppedFlag = self.right_buff.enqueue(packet)
 			self.transfer_next_packet()
 		else:
 			raise ValueError ('Packet received by Link %s \
 				from unknown Node %s' % (self.ID, sender_id) )
+		
+		if (not notDroppedFlag):			
+			if constants.MEASUREMENT_ENABLE: 
+				print constants.MEASURE_PACKET_LOSS((packet.get_flow(),\
+											packet.get_type(),\
+											packet.get_ID(),\
+											self.sim.get_current_time()))
 
 	def transfer_next_packet (self):
 		if (not self.packet_loading) and (self.packets_in_flight == 0):
