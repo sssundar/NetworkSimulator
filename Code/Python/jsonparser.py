@@ -54,9 +54,8 @@ class JSONParser ():
 				keys = line["id"] + "_src"
 				keyd = line["id"] + "_dest"
 			
-				ds = Data_Source(keys, line["source"], line["dest"], line["size"],line["start"])
-				# Dest and Src is swapped for sink
-				dd = Data_Sink(keyd, line["dest"], line["source"], line["size"],line["start"])	
+				ds = Data_Source(keys, line["source"], line["dest"], line["size"],line["start"])				
+				dd = Data_Sink(keyd, line["dest"], line["source"], line["size"],line["start"])	# Dest and Src is swapped for sink
 				dd.set_flow_size(ds.get_flow_size()) # in packets
 
 				input_map[keys] = ds
