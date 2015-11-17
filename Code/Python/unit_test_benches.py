@@ -1,5 +1,9 @@
 # Working Unit Test Benches for Network Simulator 
-# Last Revised: 1 November 2015 by Sushant Sundaresh
+# Last Revised: 14 November 2015 by Sushant Sundaresh
+'''
+IMPORTANT: Please turn off logging  (MEASUREMENT_ENABLE = False) in constants.py
+before running these testbenches.
+'''
 
 # Unit Testing Framework
 import unittest
@@ -10,6 +14,15 @@ import flow, event_simulator, event, events
 import link, link_buffer, packet
 import constants
 from static_flow_test_node import *
+import visualize
+
+class testMeasurementAnalysis (unittest.TestCase):
+	'''
+		Tests visualize.py time-averaging function
+	'''
+
+	def test_time_averaging (self):
+		self.assertTrue(visualize.test_windowed_time_average())
 
 class TestStaticDataSinkFlow (unittest.TestCase):
 	'''
@@ -361,11 +374,14 @@ if __name__ == "__main__":
 		unittest.TestLoader().loadTestsFromTestCase(TestStaticDataSourceFlow)
 	static_flow_data_sink_suite = \
 		unittest.TestLoader().loadTestsFromTestCase(TestStaticDataSinkFlow)
-	
+	visualize_suite = \
+		unittest.TestLoader().loadTestsFromTestCase(testMeasurementAnalysis)
+
+
 	test_suites = [reporter_suite, node_suite, host_suite, link_suite,\
 					router_suite, flow_suite, sim_suite, linkbuffer_suite,\
 					link_tx_suite,static_flow_data_source_suite,\
-					static_flow_data_sink_suite]
+					static_flow_data_sink_suite, visualize_suite]
 
 	for suite in test_suites:
 		unittest.TextTestRunner(verbosity=2).run(suite)		
