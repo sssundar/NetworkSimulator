@@ -1,0 +1,32 @@
+Pending Questions for Ritvik
+----------------------------
+Packet Delay Calculations
+
+Debugging/Questions for Ritvik
+------------------------------
+Have # timeouts count, have measurements.txt showing tons of triple acks, and ft/fr
+Have strange graphs showing very poor congestion control (not stabilizing).
+num_packets_outstanding is very strange.
+
+At some point, add logging for static flows - window size starts at?
+
+If receive packet acknowleding 9, then should ack 8 & set ack_time, remove in transit,
+decrement outstanding packets if 8 is still outstanding. Might lose 8's ack,
+and then outstanding_packets would keep increasing slowly.
+
+Should we also increasing W to match # packets effectively ack'd, rather than # acks received?
+
+Curerntly, logging for time-windowing on packet delay will see a bunch of 
+numbers at the same time and take the last one. This seems wrong.
+
+To Do
+-----
+Debug TCP RENO for Test Case 1 // Log Packet Delays, Timeouts...
+TCP RENO for Test Case 0, 1, 2 - static routing
+TCP FAST for Test Case 0, 1, 2 - static routing
+Dynamic Routing for Test Case 1, 2 - static TCP
+Dynamic Everything for Test Case 0, 1, 2
+Final Presentation, Report
+
+
+

@@ -17,11 +17,10 @@ class Flow(Reporter):
 	start_time =  -1 	# float
 	sim = "" # should be set to an event_simulator object before any action
 	am_i_done = 0	# Boolean
-<<<<<<< HEAD
-	window = 2# float (window size) 
-=======
-	window = 15	 	# float (window size) 
->>>>>>> 006f059ef95b6770a2824b0b6f600cbf28b01321
+	
+	window = 15.0
+					# float (window size) 
+					# TCP RENO (which handles its W=1 start condition) 
 
 	# Call Node initialization code, with unique ID
 	# Input are all Strings
@@ -37,6 +36,11 @@ class Flow(Reporter):
 	def set_event_simulator (self, sim):
 		self.sim = sim
 
+	# cast window as float
+	# IMPORTANT: DO NOT CALL THIS TO MODIFY DYNAMIC TCP - WILL MESS UP LOGGING
+	def set_window (self, window):
+		self.window = float(window)
+		
 	def get_source (self):
 		return self.source
 

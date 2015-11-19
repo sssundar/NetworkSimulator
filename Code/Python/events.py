@@ -38,7 +38,7 @@ class Time_Out_Packet (Event):
 		self.set_completion_time(completion_time)
 	
 	def event_action (self, sim):
-		if not self.p.get_ack():
+		if (not self.p.get_ack()) and (self.p.get_timeout_disabled() is False):
 			self.p.get_flow().time_out(self.p)
 			# ask the flow source to TO the packet
 

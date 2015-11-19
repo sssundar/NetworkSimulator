@@ -6,6 +6,8 @@ from host import *
 from link import *
 from router import *
 from flow import *
+from tcp_flow import *
+from constants import *
 
 """
 Parser Class
@@ -53,10 +55,16 @@ class JSONParser ():
 				# print "F"
 				keys = line["id"] + "_src"
 				keyd = line["id"] + "_dest"
-			
-				ds = Data_Source(keys, line["source"], line["dest"], line["size"],line["start"])
-				# Dest and Src is swapped for sink
-				dd = Data_Sink(keyd, line["dest"], line["source"], line["size"],line["start"])	
+				
+				if TCP_RENO_ENABLE is True:										
+					ds = Data_Source_TCP_RENO(keys, line["source"], line["dest"], line["size"],line["start"])				
+					dd = Data_Sink_TCP_RENO(keyd, line["dest"], line["source"], line["size"],line["start"])	# Dest and Src is swapped for sink
+				elif TCP_FAST_ENABLE is True:					
+					raise ValueError("TCP FAST is not implemented.")
+				elif TCP_STATIC_ENABLE is True:					
+					ds = Data_Source(keys, line["source"], line["dest"], line["size"],line["start"])				
+					dd = Data_Sink(keyd, line["dest"], line["source"], line["size"],line["start"])	# Dest and Src is swapped for sink
+				
 				dd.set_flow_size(ds.get_flow_size()) # in packets
 
 				input_map[keys] = ds

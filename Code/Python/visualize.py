@@ -1,12 +1,16 @@
 '''
-This function runs the MainLoop and helps us visualize measurements output
-by this loop to the STDOUT.
+This function is run from the command line as either:
 
-It temporarily redirects STDOUT to results/measurements.txt
-then parses & plots the measurements it knows how to handle.
+python visualize.py clean
+	Clears the results directory
+python visualize.py simulate
+	Runs MainLoop on TestCase1 
+python visualize.py plot
+	Analyzes last simulation's data
+	Outputs time-vs-value plots for debugging (no units yet)
 
-Plots will, for now, overwrite the local results/temp.jpeg 
-
+Results (and raw measurements) are plotted to /Code/Python/results/
+This directory is cleared after each run 
 Currently, supported measurements include:
 - link rate (mpbs)
 - buffer occupancy (%)
@@ -14,20 +18,22 @@ Currently, supported measurements include:
 
 This script can and should be extended to handle parameter sweeps of MainLoop.
 
-Last Revised by Sushant Sundaresh on 14 Nov 2015
+Last Revised by Sushant Sundaresh on 15 Nov 2015
 
 References:
 	http://matplotlib.org/examples/pylab_examples/simple_plot.html
 	http://stackoverflow.com/questions/4675728/redirect-stdout-to-a-file-in-python
 	http://stackoverflow.com/questions/14245227/python-reset-stdout-to-normal-after-previously-redirecting-it-to-a-file
 '''
+import constants
 
-import sys
+testCase = constants.TESTCASE1
+
+import sys, os
 import json
 import matplotlib.pyplot as plt
 import numpy as np
 from main import MainLoop
-import constants
 
 def handle_linkrate (datamap, datalog):	
 	if datalog["measurement"] == "linkrate":			
@@ -40,6 +46,20 @@ def handle_linkrate (datamap, datalog):
 		datamap[datalog["linkid"]][datalog["measurement"]].append(\
 			[	float(datalog["ms_globaltime"]), \
 				float(datalog["mbits_propagated"])\
+				]\
+				)		
+
+def handle_flowrate (datamap, datalog):	
+	if datalog["measurement"] == "flowrate":			
+		if not (datalog["flowid"] in datamap.keys()):								
+			datamap[datalog["flowid"]] = {}					
+		
+		if not (datalog["measurement"] in datamap[datalog["flowid"]].keys()):			
+			datamap[datalog["flowid"]][datalog["measurement"]] = []		
+
+		datamap[datalog["flowid"]][datalog["measurement"]].append(\
+			[	float(datalog["ms_globaltime"]), \
+				float(datalog["mbits_received_at_sink"])\
 				]\
 				)		
 
@@ -75,6 +95,20 @@ def handle_buffer_occupancy (datamap, datalog):
 		datamap[datalog["linkid"]][datalog["measurement"]][datalog["direction"]].append(\
 			[	float(datalog["ms_globaltime"]), \
 				float(datalog["fractional_buffer_occupancy"])\
+				]\
+				)		
+
+def handle_flow_window (datamap, datalog):	
+	if datalog["measurement"] == "windowsize":			
+		if not (datalog["flowid"] in datamap.keys()):								
+			datamap[datalog["flowid"]] = {}					
+		
+		if not (datalog["measurement"] in datamap[datalog["flowid"]].keys()):			
+			datamap[datalog["flowid"]][datalog["measurement"]] = []
+
+		datamap[datalog["flowid"]][datalog["measurement"]].append(\
+			[	float(datalog["ms_globaltime"]), \
+				float(datalog["windowsize"])\
 				]\
 				)		
 
@@ -204,82 +238,144 @@ def test_windowed_time_average ():
 			passFlag = passFlag and (ta[k] == te[k]) and (va[k] == ve[k])	
 	return passFlag		
 
-def example_plots_testcase1 (datamap, resultFilename):
-	'''Time-Windowing, need window >> timescale of events (10x PROPDELAY for links...)'''
-	ms_window = 100 
-	
-	if "l1" in datamap.keys():		
-		# Sample Plot, Link 1 Link Rate		
-		plt.subplot(3, 1, 1)
-		ms_times = [val[0] for val in datamap["l1"]["linkrate"]]		
-		mbit_transfers = [val[1] for val in datamap["l1"]["linkrate"]]				
+'''For ms_window time-windowing, need window >> timescale of events (10x PROPDELAY for links...)'''
+def plot_linkrate (datamap, linkID, ms_window, axes):				
+	if linkID in datamap.keys():						
+		ms_times = [val[0] for val in datamap[linkID]["linkrate"]]		
+		mbit_transfers = [val[1] for val in datamap[linkID]["linkrate"]]	
 		t, mb = windowed_sum(ms_times, mbit_transfers, ms_window)		
-		t = np.array([val/1000 for val in t]) 				# s
-		mbps = np.array([1000*val / ms_window for val in mb])  # Mbps		
-		plt.plot(t, mbps,'kx-')
-		plt.xlabel('Seconds')
-		plt.ylabel('Link 1 Mbps')
-		plt.title('Test Case 1, Static Routing')
-		plt.grid(True)
+		t = np.array([val/1000 for val in t]) 					# s
+		mbps = np.array([1000*val / ms_window for val in mb])  	# Mbps		
+		axes.plot(t, mbps,'kx-')		
+		axes.set_ylabel("Link %s, Mbps" % linkID)		
+		axes.grid(True)
 
-		# Sample Plot, Link 1 Left Buffer Occupancy		
-		plt.subplot(3, 1, 2)
-		ms_times = [val[0] for val in datamap["l1"]["bufferoccupancy"][constants.LTR]]
-		frac_occupancy = [val[1] for val in datamap["l1"]["bufferoccupancy"][constants.LTR]]
+'''For ms_window time-windowing, need window >> timescale of events (10x PROPDELAY for links...)'''
+def plot_flowrate (datamap, flowID, ms_window, axes):				
+	if flowID in datamap.keys():						
+		ms_times = [val[0] for val in datamap[flowID]["flowrate"]]		
+		mbit_transfers = [val[1] for val in datamap[flowID]["flowrate"]]	
+		t, mb = windowed_sum(ms_times, mbit_transfers, ms_window)		
+		t = np.array([val/1000 for val in t]) 					# s
+		mbps = np.array([1000*val / ms_window for val in mb])  	# Mbps		
+		axes.plot(t, mbps,'kx-')		
+		axes.set_ylabel("Flow %s, Mbps" % flowID)		
+		axes.grid(True)
+
+# Direction of the form constants.RTL or LTR. 
+# Element ID must be link string ID
+# Will break if no data matches the specified element in your simulation logs
+def plot_bufferoccupancy(datamap, linkID, direction, ms_window, axes):		
+	if linkID in datamap.keys():						
+		ms_times = [val[0] for val in datamap[linkID]["bufferoccupancy"][direction]]
+		frac_occupancy = [val[1] for val in datamap[linkID]["bufferoccupancy"][direction]]
 		t, fo = windowed_time_average(ms_times, frac_occupancy, ms_window, 0.0) # buffers start empty
 		t = np.array([val/1000 for val in t]) 				# s
 		fo = np.array([100*val for val in fo])  			# %
-		plt.plot(t, fo,'kx-')		
-		plt.ylabel('Link 1 % Occupancy')		
-		plt.grid(True)		
+		axes.plot(t, fo,'kx-')		
+		axes.set_ylabel("Link %s, Percent Occupancy" % linkID)		
+		axes.grid(True)		
 
-	if "f1_src" in datamap.keys():
-		plt.subplot(3, 1, 3)
-		if "packetloss" in datamap["f1_src"].keys():
-			ms_times = [val[0] for val in datamap["f1_src"]["packetloss"]]
-			pack_lost = [val[1] for val in datamap["f1_src"]["packetloss"]]
+def plot_dynamic_flowwindowsize(datamap, flowID, ms_window, axes):		
+	if flowID in datamap.keys():						
+		ms_times = [val[0] for val in datamap[flowID]["windowsize"]]
+		packet_windowsize = [val[1] for val in datamap[flowID]["windowsize"]]
+		t, w = windowed_time_average(ms_times, packet_windowsize, ms_window, 1.0) # W=1 for dynamic TCP
+		t = np.array([val/1000 for val in t]) 				# s
+		w = np.array([val for val in w])  					# packets
+		axes.plot(t, w,'kx-')		
+		axes.set_ylabel("Flow %s, Window Size (packets)" % flowID)		
+		axes.grid(True)		
+
+def plot_packetloss (datamap, flowID, ms_window, axes):
+	if flowID in datamap.keys():		
+		if "packetloss" in datamap[flowID].keys():			
+			ms_times = [val[0] for val in datamap[flowID]["packetloss"]]
+			pack_lost = [val[1] for val in datamap[flowID]["packetloss"]]
 			t, plost = windowed_sum(ms_times, pack_lost, ms_window) 
 			t = np.array([val/1000 for val in t]) 				# s
 			plost = np.array(plost) 					 		# packets
-			plt.plot(t, plost,'kx-')
-			plt.xlabel('Seconds')
-			plt.ylabel('Flow 1 Packets Lost')
+			axes.plot(t, plost,'kx-')						
+			axes.set_ylabel("Flow %s Packets Lost" % flowID)
 			plt.grid(True)		
 
-	try:
-		plt.savefig(resultFilename)
-		# plt.show()
-	except:
-		pass
+if __name__ == "__main__":	
+	measurementFilename = "results/measurements.txt"	
 
-if __name__ == "__main__":
-	measurementFilename = "results/measurements.txt"
-	resultFilename = "results/temp.jpeg"
+	if sys.argv[1] == "clean":				
+		for f in os.listdir("results"):					
+			print "Removing %s" % os.path.join('results', f)
+			os.remove(os.path.join('results', f))
 
-	# Run Main Loop on Test Case 1, temporarily redirecting STDOUT
-	sys.stdout = open(measurementFilename, 'w')
-	MainLoop().simulate(constants.TESTCASE1)
-	sys.stdout = sys.__stdout__
-
-	# element id and measurement type to data map
-	# keyed as ['l1']['linkrate']
-	eimtod = {}
-
-	# Parse out measurements from measurements file
-	with open(measurementFilename) as m:   
-		for line in m:
-			try:
-	 	 	 	log = json.loads(line)
-	 	 	 	if log["logtype"] == "measurement":	 	 	 		
-	 	 	 		handle_linkrate(eimtod, log)	
-	 	 	 		handle_buffer_occupancy(eimtod, log)
-	 	 	 		handle_packet_loss(eimtod, log)
-	 	 	 		# ... others
-			except ValueError:							
-				pass
-			except KeyError:				
-				raise
+	if sys.argv[1] == "simulate":		
+		# Run Main Loop on Test Case 1, temporarily redirecting STDOUT
+		sys.stdout = open(measurementFilename, 'w')		
+		MainLoop().simulate(testCase)
+		sys.stdout = sys.__stdout__		
 	
-	example_plots_testcase1(eimtod, resultFilename)
+	if sys.argv[1] == "plot":
+		# element id and measurement type to data map
+		# keyed as ['l1']['linkrate']
+		eimtod = {}
+
+		# Parse out measurements from measurements file
+		with open(measurementFilename) as m:   
+			for line in m:
+				try:
+		 	 	 	log = json.loads(line)
+		 	 	 	if log["logtype"] == "measurement":	 	 	 		
+		 	 	 		handle_linkrate(eimtod, log)	
+		 	 	 		handle_buffer_occupancy(eimtod, log)
+		 	 	 		handle_packet_loss(eimtod, log)
+		 	 	 		handle_flowrate(eimtod, log)
+		 	 	 		handle_flow_window(eimtod, log)
+		 	 	 		# ... others
+				except ValueError:							
+					pass
+				except KeyError:				
+					raise
+
+		# Dump parsed measurements for visual debugging
+		for element in eimtod.keys():
+			for measurement in eimtod[element].keys():
+				if isinstance(eimtod[element][measurement],dict):
+					# more layers
+					for dataclass in eimtod[element][measurement].keys():
+						# actual data	
+						with open(os.path.join('results',\
+							"%s_%s_%s.txt"%(element,measurement,dataclass)),'w') as f:   					
+							f.write("time\t\tvalue\n")
+							for t,v in eimtod[element][measurement][dataclass]:
+								f.write("%0.6e\t\t%0.6e\n"%(t,v))
+				else:
+					# actual data
+					with open(os.path.join('results',\
+							"%s_%s.txt"%(element,measurement)),'w') as f:   					
+						f.write("time\t\tvalue\n")
+						for t,v in eimtod[element][measurement]:
+							f.write("%0.6e\t\t%0.6e\n"%(t,v))
+
+
+		ms_window = 100
+
+		link1_stats = plt.figure()
+		link1_linkrate_ax = link1_stats.add_subplot(211)
+		link1_leftbuffocc_ax = link1_stats.add_subplot(212)
+		plot_linkrate(eimtod, "l1", ms_window, link1_linkrate_ax)
+		plot_bufferoccupancy(eimtod, "l1", constants.LTR, ms_window, link1_leftbuffocc_ax)
+		link1_linkrate_ax.set_title("Link 1, Test Case 1 (Static Routing, TCP Reno)")
+		link1_leftbuffocc_ax.set_xlabel('Seconds')
+		link1_stats.savefig("results/temp_link1.jpeg")
+
+		flow1src_stats = plt.figure()
+		flow1src_packetloss_ax = flow1src_stats.add_subplot(311)
+		plot_packetloss(eimtod, "f1_src", ms_window, flow1src_packetloss_ax)
+		flow1src_packetloss_ax.set_title("Flow 1, Test Case 1 (Static Routing, TCP RENO)")
+		flow1src_flowrate_ax = flow1src_stats.add_subplot(312)
+		plot_flowrate(eimtod, "f1_dest", ms_window, flow1src_flowrate_ax)
+		flow1src_windowsize_ax = flow1src_stats.add_subplot(313)
+		plot_dynamic_flowwindowsize(eimtod, "f1_src", ms_window, flow1src_windowsize_ax)
+		flow1src_windowsize_ax.set_xlabel('Seconds')
+		flow1src_stats.savefig("results/temp_flow1.jpeg")
 
 	sys.exit(0)
