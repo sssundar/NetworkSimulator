@@ -9,7 +9,7 @@ DATA_PACKET_BITWIDTH = 8 # in kbits (so 1 kbyte packet)
 DATA_ACK_BITWIDTH = 0.064 # 8 bytes, 0.064 kbits
 
 # Data Flow Packet Timeout
-DATA_PACKET_TIMEOUT = 100.0 # ms
+DATA_PACKET_TIMEOUT = 500.0 # ms
 
 # Link Transmission Directions
 RTL = "right-to-left"
@@ -18,6 +18,11 @@ LTR = "left-to-right"
 # Test Case Filenames
 TESTCASE0 = "input_test0.json"
 TESTCASE1 = "input_test1.json"
+
+# Select TCP
+TCP_RENO_ENABLE = True
+TCP_FAST_ENABLE = False
+TCP_STATIC_ENABLE = False
 
 #############################################
 # Logging Measurement Functions & Constants #
@@ -71,3 +76,40 @@ PACKET_LOSS_MEASUREMENT_BASE = \
 MEASURE_PACKET_LOSS = \
 	lambda ((flow,packet_type,packet_id,ms_time)):\
 		PACKET_LOSS_MEASUREMENT_BASE % (flow.get_id(), packet_type, packet_id, ms_time)
+
+FLOWRATE_MEASUREMENT_BASE = \
+"\n{\"logtype\":\"measurement\",\"measurement\":\"flowrate\",\"flowid\":\"%s\",\
+\"mbits_received_at_sink\":\"%0.6e\",\"ms_globaltime\":\"%0.6e\"}\n"
+
+MEASURE_FLOWRATE = lambda ((flow,kbits_propagated,time)):\
+	FLOWRATE_MEASUREMENT_BASE % ((	flow.get_id(),\
+									float(kbits_propagated)/1000,\
+									time)\
+		)
+
+# flow window size in packets
+FLOW_WINDOW_SIZE_MEASUREMENT_BASE = \
+"\n{\"logtype\":\"measurement\",\"measurement\":\"windowsize\",\
+\"flowid\":\"%s\",\
+\"windowsize\":\"%0.6e\",\"ms_globaltime\":\"%0.6e\"}\n"
+
+MEASURE_FLOW_WINDOW_SIZE = \
+	lambda ((flow,windowsize,ms_time)):\
+		FLOW_WINDOW_SIZE_MEASUREMENT_BASE % ((	flow.get_id(),\
+											windowsize,\
+											ms_time)\
+			)
+
+
+# packet rtt in milliseconds
+PACKET_RTT_MEASUREMENT_BASE = \
+"\n{\"logtype\":\"measurement\",\"measurement\":\"packetrtt\",\
+\"flowid\":\"%s\",\
+\"packetrtt\":\"%0.6e\",\"ms_globaltime\":\"%0.6e\"}\n"
+
+MEASURE_PACKET_RTT = \
+	lambda ((flow,ms_packetrtt,ms_time)):\
+		PACKET_RTT_MEASUREMENT_BASE % ((	flow.get_id(),\
+											ms_packetrtt,\
+											ms_time)\
+			)

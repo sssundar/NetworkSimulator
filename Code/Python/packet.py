@@ -15,6 +15,7 @@ class Packet:
 	in_transit = 0  # Boolean
 	tx_time = -1    # ms
 	ack_time = -1 	# ms 	
+	timeout_disabled = False
 
 	# Call Node initialization code, with the Node ID (required unique)
 	# Initializes itself
@@ -25,6 +26,13 @@ class Packet:
 		self.typ = typ
 		self.ID = ID
 		self.kbits = kbits
+		self.timeout_disabled = False
+
+	def get_timeout_disabled (self):
+		return self.timeout_disabled
+		
+	def set_timeout_disabled (self,val):
+		self.timeout_disabled = val
 
 	def get_flow(self):
 		return self.flow

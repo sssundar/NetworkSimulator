@@ -25,13 +25,15 @@ References:
 	http://stackoverflow.com/questions/4675728/redirect-stdout-to-a-file-in-python
 	http://stackoverflow.com/questions/14245227/python-reset-stdout-to-normal-after-previously-redirecting-it-to-a-file
 '''
+import constants
+
+testCase = constants.TESTCASE1
 
 import sys, os
 import json
 import matplotlib.pyplot as plt
 import numpy as np
 from main import MainLoop
-import constants
 
 def handle_linkrate (datamap, datalog):	
 	if datalog["measurement"] == "linkrate":			
@@ -44,6 +46,20 @@ def handle_linkrate (datamap, datalog):
 		datamap[datalog["linkid"]][datalog["measurement"]].append(\
 			[	float(datalog["ms_globaltime"]), \
 				float(datalog["mbits_propagated"])\
+				]\
+				)		
+
+def handle_flowrate (datamap, datalog):	
+	if datalog["measurement"] == "flowrate":			
+		if not (datalog["flowid"] in datamap.keys()):								
+			datamap[datalog["flowid"]] = {}					
+		
+		if not (datalog["measurement"] in datamap[datalog["flowid"]].keys()):			
+			datamap[datalog["flowid"]][datalog["measurement"]] = []		
+
+		datamap[datalog["flowid"]][datalog["measurement"]].append(\
+			[	float(datalog["ms_globaltime"]), \
+				float(datalog["mbits_received_at_sink"])\
 				]\
 				)		
 
@@ -79,6 +95,20 @@ def handle_buffer_occupancy (datamap, datalog):
 		datamap[datalog["linkid"]][datalog["measurement"]][datalog["direction"]].append(\
 			[	float(datalog["ms_globaltime"]), \
 				float(datalog["fractional_buffer_occupancy"])\
+				]\
+				)		
+
+def handle_flow_window (datamap, datalog):	
+	if datalog["measurement"] == "windowsize":			
+		if not (datalog["flowid"] in datamap.keys()):								
+			datamap[datalog["flowid"]] = {}					
+		
+		if not (datalog["measurement"] in datamap[datalog["flowid"]].keys()):			
+			datamap[datalog["flowid"]][datalog["measurement"]] = []
+
+		datamap[datalog["flowid"]][datalog["measurement"]].append(\
+			[	float(datalog["ms_globaltime"]), \
+				float(datalog["windowsize"])\
 				]\
 				)		
 
@@ -220,6 +250,18 @@ def plot_linkrate (datamap, linkID, ms_window, axes):
 		axes.set_ylabel("Link %s, Mbps" % linkID)		
 		axes.grid(True)
 
+'''For ms_window time-windowing, need window >> timescale of events (10x PROPDELAY for links...)'''
+def plot_flowrate (datamap, flowID, ms_window, axes):				
+	if flowID in datamap.keys():						
+		ms_times = [val[0] for val in datamap[flowID]["flowrate"]]		
+		mbit_transfers = [val[1] for val in datamap[flowID]["flowrate"]]	
+		t, mb = windowed_sum(ms_times, mbit_transfers, ms_window)		
+		t = np.array([val/1000 for val in t]) 					# s
+		mbps = np.array([1000*val / ms_window for val in mb])  	# Mbps		
+		axes.plot(t, mbps,'kx-')		
+		axes.set_ylabel("Flow %s, Mbps" % flowID)		
+		axes.grid(True)
+
 # Direction of the form constants.RTL or LTR. 
 # Element ID must be link string ID
 # Will break if no data matches the specified element in your simulation logs
@@ -232,6 +274,17 @@ def plot_bufferoccupancy(datamap, linkID, direction, ms_window, axes):
 		fo = np.array([100*val for val in fo])  			# %
 		axes.plot(t, fo,'kx-')		
 		axes.set_ylabel("Link %s, Percent Occupancy" % linkID)		
+		axes.grid(True)		
+
+def plot_dynamic_flowwindowsize(datamap, flowID, ms_window, axes):		
+	if flowID in datamap.keys():						
+		ms_times = [val[0] for val in datamap[flowID]["windowsize"]]
+		packet_windowsize = [val[1] for val in datamap[flowID]["windowsize"]]
+		t, w = windowed_time_average(ms_times, packet_windowsize, ms_window, 1.0) # W=1 for dynamic TCP
+		t = np.array([val/1000 for val in t]) 				# s
+		w = np.array([val for val in w])  					# packets
+		axes.plot(t, w,'kx-')		
+		axes.set_ylabel("Flow %s, Window Size (packets)" % flowID)		
 		axes.grid(True)		
 
 def plot_packetloss (datamap, flowID, ms_window, axes):
@@ -248,6 +301,7 @@ def plot_packetloss (datamap, flowID, ms_window, axes):
 
 if __name__ == "__main__":	
 	measurementFilename = "results/measurements.txt"	
+
 	if sys.argv[1] == "clean":				
 		for f in os.listdir("results"):					
 			print "Removing %s" % os.path.join('results', f)
@@ -255,8 +309,8 @@ if __name__ == "__main__":
 
 	if sys.argv[1] == "simulate":		
 		# Run Main Loop on Test Case 1, temporarily redirecting STDOUT
-		sys.stdout = open(measurementFilename, 'w')
-		MainLoop().simulate(constants.TESTCASE1)
+		sys.stdout = open(measurementFilename, 'w')		
+		MainLoop().simulate(testCase)
 		sys.stdout = sys.__stdout__		
 	
 	if sys.argv[1] == "plot":
@@ -273,6 +327,8 @@ if __name__ == "__main__":
 		 	 	 		handle_linkrate(eimtod, log)	
 		 	 	 		handle_buffer_occupancy(eimtod, log)
 		 	 	 		handle_packet_loss(eimtod, log)
+		 	 	 		handle_flowrate(eimtod, log)
+		 	 	 		handle_flow_window(eimtod, log)
 		 	 	 		# ... others
 				except ValueError:							
 					pass
@@ -307,15 +363,19 @@ if __name__ == "__main__":
 		link1_leftbuffocc_ax = link1_stats.add_subplot(212)
 		plot_linkrate(eimtod, "l1", ms_window, link1_linkrate_ax)
 		plot_bufferoccupancy(eimtod, "l1", constants.LTR, ms_window, link1_leftbuffocc_ax)
-		link1_linkrate_ax.set_title("Link 1, Test Case 1 (Static Routing, TCP)")
+		link1_linkrate_ax.set_title("Link 1, Test Case 1 (Static Routing, TCP Reno)")
 		link1_leftbuffocc_ax.set_xlabel('Seconds')
 		link1_stats.savefig("results/temp_link1.jpeg")
 
 		flow1src_stats = plt.figure()
-		flow1src_packetloss_ax = flow1src_stats.add_subplot(111)
+		flow1src_packetloss_ax = flow1src_stats.add_subplot(311)
 		plot_packetloss(eimtod, "f1_src", ms_window, flow1src_packetloss_ax)
-		flow1src_packetloss_ax.set_title("Flow 1, Test Case 1 (Static Routing, TCP)")
-		flow1src_packetloss_ax.set_xlabel('Seconds')
+		flow1src_packetloss_ax.set_title("Flow 1, Test Case 1 (Static Routing, TCP RENO)")
+		flow1src_flowrate_ax = flow1src_stats.add_subplot(312)
+		plot_flowrate(eimtod, "f1_dest", ms_window, flow1src_flowrate_ax)
+		flow1src_windowsize_ax = flow1src_stats.add_subplot(313)
+		plot_dynamic_flowwindowsize(eimtod, "f1_src", ms_window, flow1src_windowsize_ax)
+		flow1src_windowsize_ax.set_xlabel('Seconds')
 		flow1src_stats.savefig("results/temp_flow1.jpeg")
 
 	sys.exit(0)
