@@ -142,7 +142,8 @@ class Link(Reporter):
 			raise ValueError ('Packet received by Link %s \
 				from unknown Node %s' % (self.ID, sender_id) )
 		
-		if (not notDroppedFlag):			
+		if (not notDroppedFlag):	
+			print "\nDEBUG: (in link) packets dropped : %s, packet %d\n" % (self.get_id(), packet.get_ID())
 			if constants.MEASUREMENT_ENABLE: 
 				print constants.MEASURE_PACKET_LOSS((packet.get_flow(),\
 											packet.get_type(),\

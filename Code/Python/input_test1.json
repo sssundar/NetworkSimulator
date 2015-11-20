@@ -11,5 +11,5 @@
 {"id":"r2","type":"router","links":["l1","l3"]},
 {"id":"r3","type":"router","links":["l2","l4"]},
 {"id":"r4","type":"router","links":["l3","l4","l5"]},
-{"id":"f1","type":"flow","source":"h1","dest":"h2","size":"0.5","start":"0.5"}
+{"id":"f1","type":"flow","source":"h1","dest":"h2","size":"0.2","start":"0.5"}
 ]

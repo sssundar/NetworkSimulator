@@ -20,9 +20,9 @@ TESTCASE0 = "input_test0.json"
 TESTCASE1 = "input_test1.json"
 
 # Select TCP
-TCP_RENO_ENABLE = True
+TCP_RENO_ENABLE = False
 TCP_FAST_ENABLE = False
-TCP_STATIC_ENABLE = False
+TCP_STATIC_ENABLE = True
 
 #############################################
 # Logging Measurement Functions & Constants #

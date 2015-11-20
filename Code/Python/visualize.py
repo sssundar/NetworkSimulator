@@ -27,7 +27,7 @@ References:
 '''
 import constants
 
-testCase = constants.TESTCASE1
+testCase = constants.TESTCASE0
 
 import sys, os
 import json
@@ -374,7 +374,7 @@ if __name__ == "__main__":
 		flow1src_flowrate_ax = flow1src_stats.add_subplot(312)
 		plot_flowrate(eimtod, "f1_dest", ms_window, flow1src_flowrate_ax)
 		flow1src_windowsize_ax = flow1src_stats.add_subplot(313)
-		plot_dynamic_flowwindowsize(eimtod, "f1_src", ms_window, flow1src_windowsize_ax)
+		#plot_dynamic_flowwindowsize(eimtod, "f1_src", ms_window, flow1src_windowsize_ax)
 		flow1src_windowsize_ax.set_xlabel('Seconds')
 		flow1src_stats.savefig("results/temp_flow1.jpeg")
 

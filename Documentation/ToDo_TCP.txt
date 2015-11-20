@@ -14,10 +14,24 @@ If receive packet acknowleding 9, then should ack 8 & set ack_time, remove in tr
 decrement outstanding packets if 8 is still outstanding. Might lose 8's ack,
 and then outstanding_packets would keep increasing slowly.
 
+
+Right now, we are duplicating outstanding-- (In receive and timeout)
+We are timing out because the time is too little and not because the link buffer is getting overflowed.
+
+Packet timeout should be a function.
+
+
 Should we also increasing W to match # packets effectively ack'd, rather than # acks received?
+- Done for fr/ft
+- Not happening for ss, ca
 
 Curerntly, logging for time-windowing on packet delay will see a bunch of 
 numbers at the same time and take the last one. This seems wrong.
+
+Ritvik says fr.ft just divide by two
+Can;t  send fr/ft immedaitely, need window size ok
+Can assume all after any packet loss detection are lost lost and resend from current packet (Frft?)
+In terminal.glue after 2nd slowstart/TO noticing 2-3 repeated triple acks. how?
 
 To Do
 -----

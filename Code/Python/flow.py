@@ -18,7 +18,7 @@ class Flow(Reporter):
 	sim = "" # should be set to an event_simulator object before any action
 	am_i_done = 0	# Boolean
 	
-	window = 15.0
+	window = 16.0
 					# float (window size) 
 					# TCP RENO (which handles its W=1 start condition) 
 

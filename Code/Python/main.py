@@ -26,15 +26,15 @@ class MainLoop ():
 	def simulate (self, networkjson):	
 		element_map = JSONParser(networkjson).parser()
 
-		''' Define Static Routing, Test Case 1, Ignoring Router 3 '''		
-		r1_table = {"h1":"l0", "h2":"l1"}
-		r2_table = {"h1":"l1", "h2":"l3"}
-		r3_table = {"h1":"l2", "h2":"l4"}
-		r4_table = {"h1":"l3", "h2":"l5"}
-		element_map['r1'].static_routing(r1_table)
-		element_map['r2'].static_routing(r2_table)
-		element_map['r3'].static_routing(r3_table)
-		element_map['r4'].static_routing(r4_table)
+		# ''' Define Static Routing, Test Case 1, Ignoring Router 3 '''		
+		# r1_table = {"h1":"l0", "h2":"l1"}
+		# r2_table = {"h1":"l1", "h2":"l3"}
+		# r3_table = {"h1":"l2", "h2":"l4"}
+		# r4_table = {"h1":"l3", "h2":"l5"}
+		# element_map['r1'].static_routing(r1_table)
+		# element_map['r2'].static_routing(r2_table)
+		# element_map['r3'].static_routing(r3_table)
+		# element_map['r4'].static_routing(r4_table)
 
 		sim = Event_Simulator(element_map)
 

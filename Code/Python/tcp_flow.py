@@ -101,13 +101,19 @@ class Data_Source_TCP_RENO(Data_Source):
 		This check is to avoid a circumstance in which num_p_outstanding < 0
 		'''				
 
-		if self.num_packets_outstanding - 1 >= 0:
-			self.num_packets_outstanding -= 1   # Decreased the number of packets there
+		# Check whether A packet should decrement outstanding packets
+		for i in xrange(0, min(p.get_ID()+1,len(self.tx_buffer))):
+			q = self.tx_buffer[i]
+			if (q.get_ack() == 0) and (q.get_in_transit() == 1):
+				print "\nDEBUG: (CAN decrement) packets outstanding : %d, packet %d\n" % (self.num_packets_outstanding, p.get_ID())
+						
+				if self.num_packets_outstanding - 1 >= 0:
+					self.num_packets_outstanding -= 1   # Decreased the number of packets there
 
 		self.last_three.append(p.get_ID())
 		self.last_three.pop(0)		
 
-		print "\nDEBUG: packets outstanding : %d\n" % self.num_packets_outstanding
+		print "\nDEBUG: (in receive) packets outstanding : %d, packet %d\n" % (self.num_packets_outstanding, p.get_ID())
 
 		# TODO: parser needs to be subclassed or have if statements
 		# so we can run TCP RENO, FAST, or STATIC, and static/dynamic routing
@@ -228,6 +234,8 @@ class Data_Source_TCP_RENO(Data_Source):
 			# Do not want a string of timeouts to drop us to 0 in threshold
 			pass
 
+		print "\nDEBUG: Time out : %d, packet %d\n"  % (self.timeout_count, p.get_ID())
+
 		q = Packet(self, self.source, self.dest, \
 				constants.DATA_PACKET_TYPE, p.get_ID(), \
 				constants.DATA_PACKET_BITWIDTH)
@@ -273,7 +281,8 @@ class Data_Source_TCP_RENO(Data_Source):
 		p.set_in_transit(1)
 		p.set_tx_time(self.sim.get_current_time())
 		self.sim.get_element(self.source).send(p)
-		self.num_packets_outstanding += 1		
+		self.num_packets_outstanding += 1
+		print "\nDEBUG: (in send) packets outstanding : %d, packet %d\n" % (self.num_packets_outstanding, p.get_ID())	
 		self.sim.request_event(\
 			Time_Out_Packet(p, \
 							self.sim.get_current_time() + constants.DATA_PACKET_TIMEOUT))
