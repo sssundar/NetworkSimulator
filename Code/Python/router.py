@@ -8,7 +8,7 @@
 #  Takes an array containing arbitrary number of strings,
 #		its connected links' id's
 #
-# Last Revised: 9 November 2015 by Ahmed Alshaia
+# Last Revised: 23 November 2015 by Ahmed Alshaia
 
 from node import Node
 import constants
@@ -65,18 +65,29 @@ class Router(Node):
 	# next hop)
 	'''
 	def initalize_routing_table(self,hosts_ids):
-		self.default_port = self.links[0].dest
 		# set the distance to be inf, the next hop to be the default_port
 		for host_id in hosts_ids:
-			cost = float('inf'),self.default_port
-			self.routing_table[host_id] = cost
+			value = float('inf'),self.links[0].dest
+			self.routing_table[host_id] = value
 			# If the host destination is a neighbor, set the distance to be 1, the next hop to be host destination
 		for link2 in self.links:
 			if #??
 			cost = 1, #??
 			self.routing_table[] = cost
+		self.send_router_packet()
+
+	def received_packet_type():
 
 	def update_routing_table(self):
+
+	def send_router_packet():
+
+	def send_ack_router_packet():
+
+	def map_route():
+
+	def routing_table_timeout():
+
 	'''
 
 	def set_event_simulator (self, sim):
