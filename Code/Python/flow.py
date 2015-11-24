@@ -18,7 +18,7 @@ class Flow(Reporter):
 	sim = "" # should be set to an event_simulator object before any action
 	am_i_done = 0	# Boolean
 	
-	window = 16.0
+	window = 64.0
 					# float (window size) 
 					# TCP RENO (which handles its W=1 start condition) 
 
@@ -109,11 +109,13 @@ class Data_Source(Flow):
 		self.tx_buffer[p.get_ID()].set_ack(1)
 		self.num_packets_outstanding -= 1	# Decreased the number of packets there
 		
+		print "\nDEBUG: (in receive) packets outstanding : %d, packet %d\n" % (self.num_packets_outstanding, p.get_ID())		
+
 		if not self.is_flow_done():			
 			# Search entire buffer for the lowest packet without an ACK
 			# Send it over and break from the loop
 			for i in range(0, len(self.tx_buffer)):
-				if (self.tx_buffer[i].get_ack() is 0) and (self.tx_buffer[i].get_in_transit() is 0):
+				if (self.tx_buffer[i].get_ack() is 0) and (self.tx_buffer[i].get_in_transit() is 0):					
 					self.send(self.tx_buffer[i])
 					break
 
@@ -123,6 +125,7 @@ class Data_Source(Flow):
 
 	# Timing out in the source
 	def time_out(self, p):
+		print"\nDEBUG: timeout occurred at source\n"
 		p.set_tx_time(-1)	# Set TX_Time as no longer valid
 		p.set_in_transit(0)	# Set in Transit as False
 		self.num_packets_outstanding -= 1	# Decreased the number of packets there

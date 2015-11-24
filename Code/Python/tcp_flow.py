@@ -18,10 +18,12 @@ class Data_Sink_TCP_RENO(Data_Sink):
 	def receive(self, packet):
 		if constants.MEASUREMENT_ENABLE: 
 			print constants.MEASURE_FLOWRATE((self,packet.get_kbits(),self.sim.get_current_time()))
-		self.rx_buffer[packet.get_ID()] = 1
+		self.rx_buffer[packet.get_ID()] = 1		
 
 		p = None
 		# Packets are indexed from 0, too.
+		print "\nDEBUG: (in sink) received packet %d\n" % packet.get_ID()
+		print "\nDEBUG: (in sink) rx_buffer length: %d\n" % len(self.rx_buffer)		
 		for i in range (0, len(self.rx_buffer)):
 			if not (self.rx_buffer[i]):
 				# Make new Packet
@@ -30,9 +32,11 @@ class Data_Sink_TCP_RENO(Data_Sink):
 					constants.DATA_ACK_BITWIDTH)
 				break		
 		if p is None:
+			print "\nDEBUG: (in sink) got to rx_NONE case\n"
 			p = Packet(self, self.source, self.dest, \
 					constants.DATA_PACKET_ACKNOWLEDGEMENT_TYPE, packet.get_ID(), \
 					constants.DATA_ACK_BITWIDTH)
+		print "\nDEBUG: (in sink) rx_buffer ackd: %d\n" % p.get_ID()
 		self.send(p)
 
 
