@@ -112,6 +112,39 @@ def handle_flow_window (datamap, datalog):
 				]\
 				)		
 
+def handle_flow_state (datamap, datalog):	
+	if datalog["measurement"] == "flowstate":			
+		if not (datalog["flowid"] in datamap.keys()):								
+			datamap[datalog["flowid"]] = {}					
+		
+		if not (datalog["measurement"] in datamap[datalog["flowid"]].keys()):			
+			datamap[datalog["flowid"]][datalog["measurement"]] = []
+
+		datamap[datalog["flowid"]][datalog["measurement"]].append(\
+			[	float(datalog["ms_globaltime"]), \
+				float(datalog["state"])\
+				]\
+				)		
+
+def handle_packets_outstanding (datamap, datalog):	
+	if datalog["measurement"] == "outstandingpackets":			
+		if not (datalog["flowid"] in datamap.keys()):								
+			datamap[datalog["flowid"]] = {}					
+		
+		if not (datalog["measurement"] in datamap[datalog["flowid"]].keys()):			
+			datamap[datalog["flowid"]][datalog["measurement"]] = []
+
+		datamap[datalog["flowid"]][datalog["measurement"]].append(\
+			[	float(datalog["ms_globaltime"]), \
+				float(datalog["packets_out"]), \
+				float(datalog["packets_left"]),\
+				float(datalog["packets_in_transit"]),\
+				float(datalog["packets_ackd"]),\
+				float(datalog["total_packets"]),\
+				]\
+				)		
+
+
 # Breaks time into ms_window chunks and sums values within bins
 def windowed_sum(times, values, ms_window):
 	windowed_time = []
@@ -329,6 +362,8 @@ if __name__ == "__main__":
 		 	 	 		handle_packet_loss(eimtod, log)
 		 	 	 		handle_flowrate(eimtod, log)
 		 	 	 		handle_flow_window(eimtod, log)
+		 	 	 		handle_flow_state(eimtod, log)
+		 	 	 		handle_packets_outstanding(eimtod, log)
 		 	 	 		# ... others
 				except ValueError:							
 					pass
@@ -347,13 +382,18 @@ if __name__ == "__main__":
 							f.write("time\t\tvalue\n")
 							for t,v in eimtod[element][measurement][dataclass]:
 								f.write("%0.6e\t\t%0.6e\n"%(t,v))
-				else:
+				else:					
 					# actual data
 					with open(os.path.join('results',\
 							"%s_%s.txt"%(element,measurement)),'w') as f:   					
-						f.write("time\t\tvalue\n")
-						for t,v in eimtod[element][measurement]:
-							f.write("%0.6e\t\t%0.6e\n"%(t,v))
+						if measurement == "outstandingpackets":
+							f.write("time\t\tout\t\tleft\t\tintransit\t\tackd\t\ttotal\n")
+							for t,v1,v2,v3,v4,v5 in eimtod[element][measurement]:
+								f.write("%0.6e\t\t%d\t\t%d\t\t%d\t\t%d\t\t%d\n"%(t,v1,v2,v3,v4,v5))
+						else:
+							f.write("time\t\tvalue\n")
+							for t,v in eimtod[element][measurement]:
+								f.write("%0.6e\t\t%0.6e\n"%(t,v))
 
 
 		ms_window = 100

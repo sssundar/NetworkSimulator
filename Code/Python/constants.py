@@ -11,7 +11,7 @@ DATA_PACKET_BITWIDTH = 8 # in kbits (so 1 kbyte packet)
 DATA_ACK_BITWIDTH = 0.064 # 8 bytes, 0.064 kbits
 
 # Data Flow Packet Timeout
-DATA_PACKET_TIMEOUT = 500.0 # ms
+DATA_PACKET_TIMEOUT = 500.0 # ms_globaltime
 
 # Link Transmission Directions
 RTL = "right-to-left"
@@ -113,5 +113,49 @@ MEASURE_PACKET_RTT = \
 	lambda ((flow,ms_packetrtt,ms_time)):\
 		PACKET_RTT_MEASUREMENT_BASE % ((	flow.get_id(),\
 											ms_packetrtt,\
+											ms_time)\
+			)
+
+# TCP State Measurement {SlowStart=1,Fr/FT=2,CA=3}
+FLOWSTATE_MEASUREMENT_BASE = \
+"\n{\"logtype\":\"measurement\",\"measurement\":\"flowstate\",\
+\"flowid\":\"%s\",\
+\"state\":\"%d\",\"ms_globaltime\":\"%0.6e\"}\n"
+
+SlowStartID = 1
+FrFtID = 2
+CongestionAvoidanceID = 3
+
+MEASURE_FLOW_STATE = \
+	lambda ((flow,state,ms_time)):\
+		FLOWSTATE_MEASUREMENT_BASE % ((	flow.get_id(),\
+											state,\
+											ms_time)\
+			)
+
+FLOW_OUTSTANDINGPACKETS_MEASUREMENT_BASE = \
+"\n{\"logtype\":\"measurement\",\"measurement\":\"outstandingpackets\",\
+\"flowid\":\"%s\",\
+\"packets_out\":\"%d\",\
+\"packets_left\":\"%d\",\
+\"packets_in_transit\":\"%d\",\
+\"packets_ackd\":\"%d\",\
+\"total_packets\":\"%d\",\
+\"ms_globaltime\":\"%0.6e\"}\n"
+
+MEASURE_FLOW_OUTSTANDING = \
+	lambda ((flow,\
+		packets_out,\
+		packets_left,\
+		packets_in_transit,\
+		packets_ackd,\
+		total_packets,\
+		ms_time)):\
+		FLOW_OUTSTANDINGPACKETS_MEASUREMENT_BASE % ((	flow.get_id(),\
+											packets_out,\
+											packets_left,\
+											packets_in_transit,\
+											packets_ackd,\
+											total_packets,\
 											ms_time)\
 			)

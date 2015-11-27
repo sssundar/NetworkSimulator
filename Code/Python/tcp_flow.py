@@ -114,6 +114,8 @@ class Data_Source_TCP_RENO(Data_Source):
 				if self.num_packets_outstanding - 1 >= 0:
 					self.num_packets_outstanding -= 1   # Decreased the number of packets there
 
+		self.flow_state_dump()
+
 		self.last_three.append(p.get_ID())
 		self.last_three.pop(0)		
 
@@ -123,6 +125,9 @@ class Data_Source_TCP_RENO(Data_Source):
 		# so we can run TCP RENO, FAST, or STATIC, and static/dynamic routing
 		# through constants.constants		
 		if (self.fast_recover is True):
+
+			if constants.MEASUREMENT_ENABLE:
+				print constants.MEASURE_FLOW_STATE((self,constants.FrFtID,self.sim.get_current_time()))
 
 			print "\nDEBUG: got to fast recover\n"
 			if (p.get_ID() is not self.last_three[1]):				
@@ -139,6 +144,10 @@ class Data_Source_TCP_RENO(Data_Source):
 				# Set window to value at start of fast recover													
 				self.update_window(self.fr_window)
 				self.fast_recover = False
+
+				if constants.MEASUREMENT_ENABLE:
+					print constants.MEASURE_FLOW_STATE((self,constants.CongestionAvoidanceID,self.sim.get_current_time()))
+
 			else:
 				# If by some horrible accident the ft/fr re-transmit 
 				# of the original dropped packet ALSO got dropped
@@ -154,6 +163,9 @@ class Data_Source_TCP_RENO(Data_Source):
 			self.fr_window = self.window
 			self.fast_recover = True 	# Need to recover from packet lost
 			self.slow_start = False 	# Done with slow start if lost packet
+
+			if constants.MEASUREMENT_ENABLE:
+				print constants.MEASURE_FLOW_STATE((self,constants.FrFtID,self.sim.get_current_time()))
 			
 			''' 
 			The packet triple-acked is assumed dropped
@@ -170,6 +182,9 @@ class Data_Source_TCP_RENO(Data_Source):
 			
 			if self.num_packets_outstanding - 1 >= 0:
 				self.num_packets_outstanding -= 1   # Decreased the number of packets there
+
+			self.flow_state_dump()
+
 			self.send(self.tx_buffer[q.get_ID()]) 	# Send the (assumed) missing packet again			
 
 			return 0		# Done with function
@@ -196,10 +211,22 @@ class Data_Source_TCP_RENO(Data_Source):
 
 			if (self.slow_start is True):			
 				self.update_window(self.window + 1)											
+
+				if constants.MEASUREMENT_ENABLE:
+					print constants.MEASURE_FLOW_STATE((self,constants.SlowStartID,self.sim.get_current_time()))
+
 				if (self.threshold >= 0) and (self.window >= self.threshold):
 					self.slow_start = False
+
+					if constants.MEASUREMENT_ENABLE:
+						print constants.MEASURE_FLOW_STATE((self,constants.CongestionAvoidanceID,self.sim.get_current_time()))
+
 			else:
 				self.update_window(self.window + float(1.0/self.window))							
+
+				if constants.MEASUREMENT_ENABLE:
+					print constants.MEASURE_FLOW_STATE((self,constants.CongestionAvoidanceID,self.sim.get_current_time()))
+
 
 		else:
 			print "\nDEBUG: got to wtf\n"
@@ -228,6 +255,7 @@ class Data_Source_TCP_RENO(Data_Source):
 	send new packets (outstanding < W=1)
 	'''
 	def time_out(self, p):
+
 		self.timeout_count = self.timeout_count + 1
 		if self.timeout_count == 1:
 			if self.fast_recover is True:
@@ -251,13 +279,31 @@ class Data_Source_TCP_RENO(Data_Source):
 		if self.num_packets_outstanding - 1 >= 0:
 			self.num_packets_outstanding -= 1   # Decreased the number of packets in network, probably
 		
+		self.flow_state_dump()
+
 		self.poke_tcp()                     	# Poke TCP
+
+	def flow_state_dump (self):
+		if constants.MEASUREMENT_ENABLE:
+			print constants.MEASURE_FLOW_OUTSTANDING((\
+					self,\
+					self.num_packets_outstanding,\
+					self.get_packets_left(),\
+					self.get_packets_in_transit(),\
+					self.get_packets_ackd(),\
+					len(self.tx_buffer),\
+					self.sim.get_current_time() ))
 
 	# We poke tcp on startup and on timeout. both enter slow start
 	def poke_tcp(self):
 		self.slow_start = True
 		self.fast_recover = False		
 		self.update_window(1.0)
+
+		if constants.MEASUREMENT_ENABLE:
+			print constants.MEASURE_FLOW_STATE((self,constants.SlowStartID,self.sim.get_current_time()))
+			self.flow_state_dump()
+
 		if (self.num_packets_outstanding < self.window):			
 			if (self.get_next_packet_to_transmit() is not None):
 				self.send(self.get_next_packet_to_transmit())
@@ -279,6 +325,28 @@ class Data_Source_TCP_RENO(Data_Source):
 				return 0
 		self.set_is_done(1)
 		return 1
+	
+	# number of packets unack'd and not in transit
+	def get_packets_left (self):
+		cnt = 0
+		for p in self.tx_buffer:
+			if (p.get_ack() == 0) and (p.get_in_transit() == 0):
+				cnt += 1
+		return cnt
+
+	def get_packets_in_transit (self):
+		cnt = 0
+		for p in self.tx_buffer:
+			if (p.get_in_transit() == 1):
+				cnt += 1
+		return cnt		
+
+	def get_packets_ackd (self):
+		cnt = 0
+		for p in self.tx_buffer:
+			if (p.get_ack() == 1):
+				cnt += 1
+		return cnt		
 
 	def send(self,p):
 		self.timeout_count = 0
@@ -286,6 +354,7 @@ class Data_Source_TCP_RENO(Data_Source):
 		p.set_tx_time(self.sim.get_current_time())
 		self.sim.get_element(self.source).send(p)
 		self.num_packets_outstanding += 1
+		self.flow_state_dump()		
 		print "\nDEBUG: (in send) packets outstanding : %d, packet %d\n" % (self.num_packets_outstanding, p.get_ID())	
 		self.sim.request_event(\
 			Time_Out_Packet(p, \
