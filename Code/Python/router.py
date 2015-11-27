@@ -47,7 +47,11 @@ class Router(Node):
 		care what the packet is (routing, data)
 	'''
 	def receive(self, packet):
-		self.send(packet)
+		p = packet.get_type()
+		if (p == DATA_PACKET_TYPE) or (p == DATA_PACKET_ACKNOWLEDGEMENT_TYPE):
+			self.send(packet)
+		elif (p == ROUTER_PACKET_TYPE):
+			
 
 	# Routing table is a String table with a String key
 	# The key is the final destination

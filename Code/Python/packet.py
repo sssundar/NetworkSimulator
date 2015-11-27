@@ -1,7 +1,6 @@
 # Packet Code
 # Sith Domrongkitchaiporn
 
-# The class Node extends the class Reporter
 class Packet:
 
 	flow = "" 		# associated flow source object
@@ -17,7 +16,6 @@ class Packet:
 	ack_time = -1 	# ms 	
 	timeout_disabled = False
 
-	# Call Node initialization code, with the Node ID (required unique)
 	# Initializes itself
 	def __init__(self,flow,src,sink,typ,ID,kbits):
 		self.flow = flow              
