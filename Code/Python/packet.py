@@ -89,3 +89,21 @@ class Packet:
 
 	def set_ack_time(self, time):
 		self.ack_time = time
+
+''' 
+Router_Packets extends Packets
+- used by routers to request and send routing table 
+- For Bellman-Ford
+''' 
+class Router_Packet(Packet):
+	routing_map = {}	# Storage for routing table
+
+	# Calls Flow class to init
+	def __init__(self,flow,src,sink,typ,ID,kbits):
+		routing_map = {}
+		Packet.__init__(self,flow,src,sink,typ,ID,kbits)
+		self.set_timeout_disabled(True)
+
+	def set_routing_map(self, table):
+		self.routing_map = table
+
