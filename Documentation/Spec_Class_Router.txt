@@ -9,14 +9,14 @@ class Router extends Node
 
 	def initalize_routing_table():
 		Initialize routing table by creating keys for all hosts in the test case.
-		The value of the table is a tuple (distance between current router and destination host, next hop link).
-		Initially, set the distance to be inf, the next hop to be link[0]
-		If the host destination is connected to the router, set the distance to 1 and next hop to the corresponding link.
+		The value of the table is a tuple (distance between current router and destination host, next hop).
+		Initially, set the distance to be inf, the next hop to host connected to link[0]
+		If the host destination is connected to the router, set the distance to 1 and next hop to the host.
 		Send first iteration of router packet
 
 	def received_packet_type():
 		Based on the type of the received packet, call the corresponding function:
-		If the received packet type is DATA or ACK_DATA, call
+		If the received packet type is DATA or ACK_DATA, call map_route()
 		If the received packet type is ROUTER, call send_ack_router_packet()
 		If the received packet type is ACK_ROUTER, call update_routing_table()
 
@@ -24,25 +24,24 @@ class Router extends Node
 		Implement Bellman-Ford algorithm. 
 		Compare router table from acknowledgement of router packet received from neighbor routers and the current router. 
 		Update router table if there is a shorter path.
-		Static routing: metirc based on hops (1 hop for each link)
+		Static routing: metric based on hops (1 hop for each link)
 		Dynamic routing: metric based on link delays (Update routing table based on the received router packets’ timestamps)
 
 	def send_router_packet():
-		send the routing table of this router to communicate with its neighbor
+		Send the routing table of this router to communicate with its neighbor
  		Send router packet to their neighbors
 		Router packet creates start timestamp
 
 	def send_ack_router_packet():
-		send an ACK_ROUTER type packet 
+		Send an ACK_ROUTER type packet 
 		Send acknowledgement back to original router after receiving router packet
 		Acknowledgement packet contains a copy of routing table and keeps start timestamp
 
 	def map_route():
-		Get the destination of packet, then look up current router table, find next hop and send the packet to next link.
+		Get the destination of packet, then look up current routing table, find next hop and send the packet to next link.
 
 	def routing_table_timeout():
 		Updates routing table periodically. Send ROUTER packets to all neighboring links
-		send_router_packet()
-
+		Send_router_packet()
 
 end class;
