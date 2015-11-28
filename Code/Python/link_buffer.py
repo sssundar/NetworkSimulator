@@ -41,13 +41,24 @@ class LinkBuffer:
 
 	def see_head_packet (self):
 		return self.queued[0][1]
-		
+	
+
+	'''
+	If Packet type is Routing related, it has priority and goes to the top of queue.
+	'''
 	def can_enqueue (self, packet):
-		if self.current_kbits_in_queue + packet.get_kbits() <= self.kbit_capacity:
+		p = packet.get_type()
+		if (p == DATA_PACKET_TYPE) or (p == DATA_PACKET_ACKNOWLEDGEMENT_TYPE):
+			if self.current_kbits_in_queue + packet.get_kbits() <= self.kbit_capacity:
+				self.queued.pop()
+			self.queued.insert(0, [self.sim.get_current_time(), packet])
+
+		elif self.current_kbits_in_queue + packet.get_kbits() <= self.kbit_capacity:
 			return True
 		return False 
 
 	def enqueue (self, packet):
+
 		if self.can_enqueue(packet):
 			self.queued.append([self.sim.get_current_time(), packet])
 			self.current_kbits_in_queue += packet.get_kbits()
