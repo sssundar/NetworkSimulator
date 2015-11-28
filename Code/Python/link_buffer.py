@@ -49,10 +49,10 @@ class LinkBuffer:
 	def can_enqueue (self, packet):
 		p = packet.get_type()
 		if (p == DATA_PACKET_TYPE) or (p == DATA_PACKET_ACKNOWLEDGEMENT_TYPE):
-			if self.current_kbits_in_queue + packet.get_kbits() <= self.kbit_capacity:
+			if self.current_kbits_in_queue + packet.get_kbits() > self.kbit_capacity:
 				self.queued.pop()
 			self.queued.insert(0, [self.sim.get_current_time(), packet])
-
+			return True
 		elif self.current_kbits_in_queue + packet.get_kbits() <= self.kbit_capacity:
 			return True
 		return False 
