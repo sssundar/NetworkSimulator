@@ -1,0 +1,2546 @@
+█ [ /Users/Sith/Documents/CS143/cs143/Code/Python/results ] █ [ /Users/Sith/Documents/CS143/cs143/Code/Python/results ] cat measurements.txt | grep -e "DEBUG"
+DEBUG: (in send) packets outstanding : 1, packet 0
+DEBUG: (CAN decrement) packets outstanding : 1, packet 0
+DEBUG: (in receive) packets outstanding : 0, packet 0
+DEBUG: got to nothing is wrong
+DEBUG: (in send) packets outstanding : 1, packet 1
+DEBUG: (in send) packets outstanding : 2, packet 2
+DEBUG: (CAN decrement) packets outstanding : 2, packet 1
+DEBUG: (in receive) packets outstanding : 1, packet 1
+DEBUG: got to nothing is wrong
+DEBUG: (in send) packets outstanding : 2, packet 3
+DEBUG: (in send) packets outstanding : 3, packet 4
+DEBUG: (CAN decrement) packets outstanding : 3, packet 2
+DEBUG: (in receive) packets outstanding : 2, packet 2
+DEBUG: got to nothing is wrong
+DEBUG: (in send) packets outstanding : 3, packet 5
+DEBUG: (in send) packets outstanding : 4, packet 6
+DEBUG: (CAN decrement) packets outstanding : 4, packet 3
+DEBUG: (in receive) packets outstanding : 3, packet 3
+DEBUG: got to nothing is wrong
+DEBUG: (in send) packets outstanding : 4, packet 7
+DEBUG: (in send) packets outstanding : 5, packet 8
+DEBUG: (CAN decrement) packets outstanding : 5, packet 4
+DEBUG: (in receive) packets outstanding : 4, packet 4
+DEBUG: got to nothing is wrong
+DEBUG: (in send) packets outstanding : 5, packet 9
+DEBUG: (in send) packets outstanding : 6, packet 10
+DEBUG: (CAN decrement) packets outstanding : 6, packet 5
+DEBUG: (in receive) packets outstanding : 5, packet 5
+DEBUG: got to nothing is wrong
+DEBUG: (in send) packets outstanding : 6, packet 11
+DEBUG: (in send) packets outstanding : 7, packet 12
+DEBUG: (CAN decrement) packets outstanding : 7, packet 6
+DEBUG: (in receive) packets outstanding : 6, packet 6
+DEBUG: got to nothing is wrong
+DEBUG: (in send) packets outstanding : 7, packet 13
+DEBUG: (in send) packets outstanding : 8, packet 14
+DEBUG: (CAN decrement) packets outstanding : 8, packet 7
+DEBUG: (in receive) packets outstanding : 7, packet 7
+DEBUG: got to nothing is wrong
+DEBUG: (in send) packets outstanding : 8, packet 15
+DEBUG: (in send) packets outstanding : 9, packet 16
+DEBUG: (CAN decrement) packets outstanding : 9, packet 8
+DEBUG: (in receive) packets outstanding : 8, packet 8
+DEBUG: got to nothing is wrong
+DEBUG: (in send) packets outstanding : 9, packet 17
+DEBUG: (in send) packets outstanding : 10, packet 18
+DEBUG: (CAN decrement) packets outstanding : 10, packet 9
+DEBUG: (in receive) packets outstanding : 9, packet 9
+DEBUG: got to nothing is wrong
+DEBUG: (in send) packets outstanding : 10, packet 19
+DEBUG: (in send) packets outstanding : 11, packet 20
+DEBUG: (CAN decrement) packets outstanding : 11, packet 10
+DEBUG: (in receive) packets outstanding : 10, packet 10
+DEBUG: got to nothing is wrong
+DEBUG: (in send) packets outstanding : 11, packet 21
+DEBUG: (in send) packets outstanding : 12, packet 22
+DEBUG: (CAN decrement) packets outstanding : 12, packet 11
+DEBUG: (in receive) packets outstanding : 11, packet 11
+DEBUG: got to nothing is wrong
+DEBUG: (in send) packets outstanding : 12, packet 23
+DEBUG: (in send) packets outstanding : 13, packet 24
+DEBUG: (CAN decrement) packets outstanding : 13, packet 12
+DEBUG: (in receive) packets outstanding : 12, packet 12
+DEBUG: got to nothing is wrong
+DEBUG: (in send) packets outstanding : 13, packet 25
+DEBUG: (in send) packets outstanding : 14, packet 26
+DEBUG: (CAN decrement) packets outstanding : 14, packet 13
+DEBUG: (in receive) packets outstanding : 13, packet 13
+DEBUG: got to nothing is wrong
+DEBUG: (in send) packets outstanding : 14, packet 27
+DEBUG: (in send) packets outstanding : 15, packet 28
+DEBUG: (CAN decrement) packets outstanding : 15, packet 14
+DEBUG: (in receive) packets outstanding : 14, packet 14
+DEBUG: got to nothing is wrong
+DEBUG: (in send) packets outstanding : 15, packet 29
+DEBUG: (in send) packets outstanding : 16, packet 30
+DEBUG: (CAN decrement) packets outstanding : 16, packet 15
+DEBUG: (in receive) packets outstanding : 15, packet 15
+DEBUG: got to nothing is wrong
+DEBUG: (in send) packets outstanding : 16, packet 31
+DEBUG: (in send) packets outstanding : 17, packet 32
+DEBUG: (CAN decrement) packets outstanding : 17, packet 16
+DEBUG: (in receive) packets outstanding : 16, packet 16
+DEBUG: got to nothing is wrong
+DEBUG: (in send) packets outstanding : 17, packet 33
+DEBUG: (in send) packets outstanding : 18, packet 34
+DEBUG: (CAN decrement) packets outstanding : 18, packet 17
+DEBUG: (in receive) packets outstanding : 17, packet 17
+DEBUG: got to nothing is wrong
+DEBUG: (in send) packets outstanding : 18, packet 35
+DEBUG: (in send) packets outstanding : 19, packet 36
+DEBUG: (CAN decrement) packets outstanding : 19, packet 18
+DEBUG: (in receive) packets outstanding : 18, packet 18
+DEBUG: got to nothing is wrong
+DEBUG: (in send) packets outstanding : 19, packet 37
+DEBUG: (in send) packets outstanding : 20, packet 38
+DEBUG: (CAN decrement) packets outstanding : 20, packet 19
+DEBUG: (in receive) packets outstanding : 19, packet 19
+DEBUG: got to nothing is wrong
+DEBUG: (in send) packets outstanding : 20, packet 39
+DEBUG: (in send) packets outstanding : 21, packet 40
+DEBUG: (CAN decrement) packets outstanding : 21, packet 20
+DEBUG: (in receive) packets outstanding : 20, packet 20
+DEBUG: got to nothing is wrong
+DEBUG: (in send) packets outstanding : 21, packet 41
+DEBUG: (in send) packets outstanding : 22, packet 42
+DEBUG: (CAN decrement) packets outstanding : 22, packet 21
+DEBUG: (in receive) packets outstanding : 21, packet 21
+DEBUG: got to nothing is wrong
+DEBUG: (in send) packets outstanding : 22, packet 43
+DEBUG: (in send) packets outstanding : 23, packet 44
+DEBUG: (CAN decrement) packets outstanding : 23, packet 22
+DEBUG: (in receive) packets outstanding : 22, packet 22
+DEBUG: got to nothing is wrong
+DEBUG: (in send) packets outstanding : 23, packet 45
+DEBUG: (in send) packets outstanding : 24, packet 46
+DEBUG: (CAN decrement) packets outstanding : 24, packet 23
+DEBUG: (in receive) packets outstanding : 23, packet 23
+DEBUG: got to nothing is wrong
+DEBUG: (in send) packets outstanding : 24, packet 47
+DEBUG: (in send) packets outstanding : 25, packet 48
+DEBUG: (CAN decrement) packets outstanding : 25, packet 24
+DEBUG: (in receive) packets outstanding : 24, packet 24
+DEBUG: got to nothing is wrong
+DEBUG: (in send) packets outstanding : 25, packet 49
+DEBUG: (in send) packets outstanding : 26, packet 50
+DEBUG: (CAN decrement) packets outstanding : 26, packet 25
+DEBUG: (in receive) packets outstanding : 25, packet 25
+DEBUG: got to nothing is wrong
+DEBUG: (in send) packets outstanding : 26, packet 51
+DEBUG: (in send) packets outstanding : 27, packet 52
+DEBUG: (CAN decrement) packets outstanding : 27, packet 26
+DEBUG: (in receive) packets outstanding : 26, packet 26
+DEBUG: got to nothing is wrong
+DEBUG: (in send) packets outstanding : 27, packet 53
+DEBUG: (in send) packets outstanding : 28, packet 54
+DEBUG: (CAN decrement) packets outstanding : 28, packet 27
+DEBUG: (in receive) packets outstanding : 27, packet 27
+DEBUG: got to nothing is wrong
+DEBUG: (in send) packets outstanding : 28, packet 55
+DEBUG: (in send) packets outstanding : 29, packet 56
+DEBUG: (CAN decrement) packets outstanding : 29, packet 28
+DEBUG: (in receive) packets outstanding : 28, packet 28
+DEBUG: got to nothing is wrong
+DEBUG: (in send) packets outstanding : 29, packet 57
+DEBUG: (in send) packets outstanding : 30, packet 58
+DEBUG: (CAN decrement) packets outstanding : 30, packet 29
+DEBUG: (in receive) packets outstanding : 29, packet 29
+DEBUG: got to nothing is wrong
+DEBUG: (in send) packets outstanding : 30, packet 59
+DEBUG: (in send) packets outstanding : 31, packet 60
+DEBUG: (CAN decrement) packets outstanding : 31, packet 30
+DEBUG: (in receive) packets outstanding : 30, packet 30
+DEBUG: got to nothing is wrong
+DEBUG: (in send) packets outstanding : 31, packet 61
+DEBUG: (in send) packets outstanding : 32, packet 62
+DEBUG: (CAN decrement) packets outstanding : 32, packet 31
+DEBUG: (in receive) packets outstanding : 31, packet 31
+DEBUG: got to nothing is wrong
+DEBUG: (in send) packets outstanding : 32, packet 63
+DEBUG: (in send) packets outstanding : 33, packet 64
+DEBUG: (CAN decrement) packets outstanding : 33, packet 32
+DEBUG: (in receive) packets outstanding : 32, packet 32
+DEBUG: got to nothing is wrong
+DEBUG: (in send) packets outstanding : 33, packet 65
+DEBUG: (in send) packets outstanding : 34, packet 66
+DEBUG: (CAN decrement) packets outstanding : 34, packet 33
+DEBUG: (in receive) packets outstanding : 33, packet 33
+DEBUG: got to nothing is wrong
+DEBUG: (in send) packets outstanding : 34, packet 67
+DEBUG: (in send) packets outstanding : 35, packet 68
+DEBUG: (CAN decrement) packets outstanding : 35, packet 34
+DEBUG: (in receive) packets outstanding : 34, packet 34
+DEBUG: got to nothing is wrong
+DEBUG: (in send) packets outstanding : 35, packet 69
+DEBUG: (in send) packets outstanding : 36, packet 70
+DEBUG: (CAN decrement) packets outstanding : 36, packet 35
+DEBUG: (in receive) packets outstanding : 35, packet 35
+DEBUG: got to nothing is wrong
+DEBUG: (in send) packets outstanding : 36, packet 71
+DEBUG: (in send) packets outstanding : 37, packet 72
+DEBUG: (CAN decrement) packets outstanding : 37, packet 36
+DEBUG: (in receive) packets outstanding : 36, packet 36
+DEBUG: got to nothing is wrong
+DEBUG: (in send) packets outstanding : 37, packet 73
+DEBUG: (in send) packets outstanding : 38, packet 74
+DEBUG: (CAN decrement) packets outstanding : 38, packet 37
+DEBUG: (in receive) packets outstanding : 37, packet 37
+DEBUG: got to nothing is wrong
+DEBUG: (in send) packets outstanding : 38, packet 75
+DEBUG: (in send) packets outstanding : 39, packet 76
+DEBUG: (CAN decrement) packets outstanding : 39, packet 38
+DEBUG: (in receive) packets outstanding : 38, packet 38
+DEBUG: got to nothing is wrong
+DEBUG: (in send) packets outstanding : 39, packet 77
+DEBUG: (in send) packets outstanding : 40, packet 78
+DEBUG: (CAN decrement) packets outstanding : 40, packet 39
+DEBUG: (in receive) packets outstanding : 39, packet 39
+DEBUG: got to nothing is wrong
+DEBUG: (in send) packets outstanding : 40, packet 79
+DEBUG: (in send) packets outstanding : 41, packet 80
+DEBUG: (CAN decrement) packets outstanding : 41, packet 40
+DEBUG: (in receive) packets outstanding : 40, packet 40
+DEBUG: got to nothing is wrong
+DEBUG: (in send) packets outstanding : 41, packet 81
+DEBUG: (in send) packets outstanding : 42, packet 82
+DEBUG: (CAN decrement) packets outstanding : 42, packet 41
+DEBUG: (in receive) packets outstanding : 41, packet 41
+DEBUG: got to nothing is wrong
+DEBUG: (in send) packets outstanding : 42, packet 83
+DEBUG: (in send) packets outstanding : 43, packet 84
+DEBUG: (CAN decrement) packets outstanding : 43, packet 42
+DEBUG: (in receive) packets outstanding : 42, packet 42
+DEBUG: got to nothing is wrong
+DEBUG: (in send) packets outstanding : 43, packet 85
+DEBUG: (in send) packets outstanding : 44, packet 86
+DEBUG: (CAN decrement) packets outstanding : 44, packet 43
+DEBUG: (in receive) packets outstanding : 43, packet 43
+DEBUG: got to nothing is wrong
+DEBUG: (in send) packets outstanding : 44, packet 87
+DEBUG: (in send) packets outstanding : 45, packet 88
+DEBUG: (CAN decrement) packets outstanding : 45, packet 44
+DEBUG: (in receive) packets outstanding : 44, packet 44
+DEBUG: got to nothing is wrong
+DEBUG: (in send) packets outstanding : 45, packet 89
+DEBUG: (in send) packets outstanding : 46, packet 90
+DEBUG: (CAN decrement) packets outstanding : 46, packet 45
+DEBUG: (in receive) packets outstanding : 45, packet 45
+DEBUG: got to nothing is wrong
+DEBUG: (in send) packets outstanding : 46, packet 91
+DEBUG: (in send) packets outstanding : 47, packet 92
+DEBUG: (CAN decrement) packets outstanding : 47, packet 46
+DEBUG: (in receive) packets outstanding : 46, packet 46
+DEBUG: got to nothing is wrong
+DEBUG: (in send) packets outstanding : 47, packet 93
+DEBUG: (in send) packets outstanding : 48, packet 94
+DEBUG: (CAN decrement) packets outstanding : 48, packet 47
+DEBUG: (in receive) packets outstanding : 47, packet 47
+DEBUG: got to nothing is wrong
+DEBUG: (in send) packets outstanding : 48, packet 95
+DEBUG: (in send) packets outstanding : 49, packet 96
+DEBUG: (CAN decrement) packets outstanding : 49, packet 48
+DEBUG: (in receive) packets outstanding : 48, packet 48
+DEBUG: got to nothing is wrong
+DEBUG: (in send) packets outstanding : 49, packet 97
+DEBUG: (in send) packets outstanding : 50, packet 98
+DEBUG: (CAN decrement) packets outstanding : 50, packet 49
+DEBUG: (in receive) packets outstanding : 49, packet 49
+DEBUG: got to nothing is wrong
+DEBUG: (in send) packets outstanding : 50, packet 99
+DEBUG: (in send) packets outstanding : 51, packet 100
+DEBUG: (CAN decrement) packets outstanding : 51, packet 50
+DEBUG: (in receive) packets outstanding : 50, packet 50
+DEBUG: got to nothing is wrong
+DEBUG: (in send) packets outstanding : 51, packet 101
+DEBUG: (in send) packets outstanding : 52, packet 102
+DEBUG: (CAN decrement) packets outstanding : 52, packet 51
+DEBUG: (in receive) packets outstanding : 51, packet 51
+DEBUG: got to nothing is wrong
+DEBUG: (in send) packets outstanding : 52, packet 103
+DEBUG: (in send) packets outstanding : 53, packet 104
+DEBUG: (CAN decrement) packets outstanding : 53, packet 52
+DEBUG: (in receive) packets outstanding : 52, packet 52
+DEBUG: got to nothing is wrong
+DEBUG: (in send) packets outstanding : 53, packet 105
+DEBUG: (in send) packets outstanding : 54, packet 106
+DEBUG: Time out : 1, packet 53
+DEBUG: Time out : 2, packet 54
+DEBUG: Time out : 3, packet 55
+DEBUG: Time out : 4, packet 56
+DEBUG: Time out : 5, packet 57
+DEBUG: Time out : 6, packet 58
+DEBUG: Time out : 7, packet 59
+DEBUG: Time out : 8, packet 60
+DEBUG: Time out : 9, packet 61
+DEBUG: Time out : 10, packet 62
+DEBUG: (in receive) packets outstanding : 44, packet 53
+DEBUG: got to nothing is wrong
+DEBUG: (in receive) packets outstanding : 44, packet 54
+DEBUG: got to nothing is wrong
+DEBUG: (in receive) packets outstanding : 44, packet 55
+DEBUG: got to nothing is wrong
+DEBUG: Time out : 11, packet 63
+DEBUG: Time out : 12, packet 64
+DEBUG: (in receive) packets outstanding : 42, packet 56
+DEBUG: got to nothing is wrong
+DEBUG: Time out : 13, packet 65
+DEBUG: Time out : 14, packet 66
+DEBUG: (in receive) packets outstanding : 40, packet 57
+DEBUG: got to nothing is wrong
+DEBUG: Time out : 15, packet 67
+DEBUG: Time out : 16, packet 68
+DEBUG: (in receive) packets outstanding : 38, packet 58
+DEBUG: got to nothing is wrong
+DEBUG: Time out : 17, packet 69
+DEBUG: Time out : 18, packet 70
+DEBUG: (in receive) packets outstanding : 36, packet 59
+DEBUG: got to nothing is wrong
+DEBUG: Time out : 19, packet 71
+DEBUG: Time out : 20, packet 72
+DEBUG: (in receive) packets outstanding : 34, packet 60
+DEBUG: got to nothing is wrong
+DEBUG: Time out : 21, packet 73
+DEBUG: Time out : 22, packet 74
+DEBUG: (in receive) packets outstanding : 32, packet 61
+DEBUG: got to nothing is wrong
+DEBUG: Time out : 23, packet 75
+DEBUG: Time out : 24, packet 76
+DEBUG: (in receive) packets outstanding : 30, packet 62
+DEBUG: got to nothing is wrong
+DEBUG: Time out : 25, packet 77
+DEBUG: Time out : 26, packet 78
+DEBUG: (in receive) packets outstanding : 28, packet 63
+DEBUG: got to nothing is wrong
+DEBUG: Time out : 27, packet 79
+DEBUG: Time out : 28, packet 80
+DEBUG: (in receive) packets outstanding : 26, packet 64
+DEBUG: got to nothing is wrong
+DEBUG: Time out : 29, packet 81
+DEBUG: Time out : 30, packet 82
+DEBUG: (in receive) packets outstanding : 24, packet 65
+DEBUG: got to nothing is wrong
+DEBUG: Time out : 31, packet 83
+DEBUG: Time out : 32, packet 84
+DEBUG: (in receive) packets outstanding : 22, packet 66
+DEBUG: got to nothing is wrong
+DEBUG: Time out : 33, packet 85
+DEBUG: Time out : 34, packet 86
+DEBUG: (in receive) packets outstanding : 20, packet 67
+DEBUG: got to nothing is wrong
+DEBUG: Time out : 35, packet 87
+DEBUG: Time out : 36, packet 88
+DEBUG: (in receive) packets outstanding : 18, packet 68
+DEBUG: got to nothing is wrong
+DEBUG: Time out : 37, packet 89
+DEBUG: Time out : 38, packet 90
+DEBUG: (in receive) packets outstanding : 16, packet 69
+DEBUG: got to nothing is wrong
+DEBUG: Time out : 39, packet 91
+DEBUG: Time out : 40, packet 92
+DEBUG: (in receive) packets outstanding : 14, packet 70
+DEBUG: got to nothing is wrong
+DEBUG: Time out : 41, packet 93
+DEBUG: Time out : 42, packet 94
+DEBUG: (in receive) packets outstanding : 12, packet 71
+DEBUG: got to nothing is wrong
+DEBUG: Time out : 43, packet 95
+DEBUG: Time out : 44, packet 96
+DEBUG: (in receive) packets outstanding : 10, packet 72
+DEBUG: got to nothing is wrong
+DEBUG: Time out : 45, packet 97
+DEBUG: Time out : 46, packet 98
+DEBUG: (in receive) packets outstanding : 8, packet 73
+DEBUG: got to nothing is wrong
+DEBUG: Time out : 47, packet 99
+DEBUG: Time out : 48, packet 100
+DEBUG: (in receive) packets outstanding : 6, packet 74
+DEBUG: got to nothing is wrong
+DEBUG: Time out : 49, packet 101
+DEBUG: Time out : 50, packet 102
+DEBUG: (in receive) packets outstanding : 4, packet 75
+DEBUG: got to nothing is wrong
+DEBUG: Time out : 51, packet 103
+DEBUG: Time out : 52, packet 104
+DEBUG: (in receive) packets outstanding : 2, packet 76
+DEBUG: got to nothing is wrong
+DEBUG: Time out : 53, packet 105
+DEBUG: Time out : 54, packet 106
+DEBUG: (in send) packets outstanding : 1, packet 77
+DEBUG: (CAN decrement) packets outstanding : 1, packet 77
+DEBUG: (in receive) packets outstanding : 0, packet 77
+DEBUG: got to nothing is wrong
+DEBUG: (in send) packets outstanding : 1, packet 78
+DEBUG: (in send) packets outstanding : 2, packet 79
+DEBUG: (CAN decrement) packets outstanding : 2, packet 78
+DEBUG: (in receive) packets outstanding : 1, packet 78
+DEBUG: got to nothing is wrong
+DEBUG: (in send) packets outstanding : 2, packet 80
+DEBUG: (in send) packets outstanding : 3, packet 81
+DEBUG: (CAN decrement) packets outstanding : 3, packet 79
+DEBUG: (in receive) packets outstanding : 2, packet 79
+DEBUG: got to nothing is wrong
+DEBUG: (in send) packets outstanding : 3, packet 82
+DEBUG: (in send) packets outstanding : 4, packet 83
+DEBUG: (CAN decrement) packets outstanding : 4, packet 80
+DEBUG: (in receive) packets outstanding : 3, packet 80
+DEBUG: got to nothing is wrong
+DEBUG: (in send) packets outstanding : 4, packet 84
+DEBUG: (in send) packets outstanding : 5, packet 85
+DEBUG: (CAN decrement) packets outstanding : 5, packet 81
+DEBUG: (in receive) packets outstanding : 4, packet 81
+DEBUG: got to nothing is wrong
+DEBUG: (in send) packets outstanding : 5, packet 86
+DEBUG: (in send) packets outstanding : 6, packet 87
+DEBUG: (CAN decrement) packets outstanding : 6, packet 82
+DEBUG: (in receive) packets outstanding : 5, packet 82
+DEBUG: got to nothing is wrong
+DEBUG: (in send) packets outstanding : 6, packet 88
+DEBUG: (in send) packets outstanding : 7, packet 89
+DEBUG: (CAN decrement) packets outstanding : 7, packet 83
+DEBUG: (in receive) packets outstanding : 6, packet 83
+DEBUG: got to nothing is wrong
+DEBUG: (in send) packets outstanding : 7, packet 90
+DEBUG: (in send) packets outstanding : 8, packet 91
+DEBUG: (CAN decrement) packets outstanding : 8, packet 84
+DEBUG: (in receive) packets outstanding : 7, packet 84
+DEBUG: got to nothing is wrong
+DEBUG: (in send) packets outstanding : 8, packet 92
+DEBUG: (in send) packets outstanding : 9, packet 93
+DEBUG: (CAN decrement) packets outstanding : 9, packet 85
+DEBUG: (in receive) packets outstanding : 8, packet 85
+DEBUG: got to nothing is wrong
+DEBUG: (in send) packets outstanding : 9, packet 94
+DEBUG: (in send) packets outstanding : 10, packet 95
+DEBUG: (CAN decrement) packets outstanding : 10, packet 86
+DEBUG: (in receive) packets outstanding : 9, packet 86
+DEBUG: got to nothing is wrong
+DEBUG: (in send) packets outstanding : 10, packet 96
+DEBUG: (in send) packets outstanding : 11, packet 97
+DEBUG: (CAN decrement) packets outstanding : 11, packet 87
+DEBUG: (in receive) packets outstanding : 10, packet 87
+DEBUG: got to nothing is wrong
+DEBUG: (in send) packets outstanding : 11, packet 98
+DEBUG: (in send) packets outstanding : 12, packet 99
+DEBUG: (CAN decrement) packets outstanding : 12, packet 88
+DEBUG: (in receive) packets outstanding : 11, packet 88
+DEBUG: got to nothing is wrong
+DEBUG: (in send) packets outstanding : 12, packet 100
+DEBUG: (in send) packets outstanding : 13, packet 101
+DEBUG: (CAN decrement) packets outstanding : 13, packet 89
+DEBUG: (in receive) packets outstanding : 12, packet 89
+DEBUG: got to nothing is wrong
+DEBUG: (in send) packets outstanding : 13, packet 102
+DEBUG: (in send) packets outstanding : 14, packet 103
+DEBUG: (CAN decrement) packets outstanding : 14, packet 90
+DEBUG: (in receive) packets outstanding : 13, packet 90
+DEBUG: got to nothing is wrong
+DEBUG: (in send) packets outstanding : 14, packet 104
+DEBUG: (in send) packets outstanding : 15, packet 105
+DEBUG: (CAN decrement) packets outstanding : 15, packet 91
+DEBUG: (in receive) packets outstanding : 14, packet 91
+DEBUG: got to nothing is wrong
+DEBUG: (in send) packets outstanding : 15, packet 106
+DEBUG: (in send) packets outstanding : 16, packet 107
+DEBUG: (CAN decrement) packets outstanding : 16, packet 92
+DEBUG: (in receive) packets outstanding : 15, packet 92
+DEBUG: got to nothing is wrong
+DEBUG: (in send) packets outstanding : 16, packet 108
+DEBUG: (in send) packets outstanding : 17, packet 109
+DEBUG: (CAN decrement) packets outstanding : 17, packet 93
+DEBUG: (in receive) packets outstanding : 16, packet 93
+DEBUG: got to nothing is wrong
+DEBUG: (in send) packets outstanding : 17, packet 110
+DEBUG: (in send) packets outstanding : 18, packet 111
+DEBUG: (CAN decrement) packets outstanding : 18, packet 94
+DEBUG: (in receive) packets outstanding : 17, packet 94
+DEBUG: got to nothing is wrong
+DEBUG: (in send) packets outstanding : 18, packet 112
+DEBUG: (in send) packets outstanding : 19, packet 113
+DEBUG: (CAN decrement) packets outstanding : 19, packet 95
+DEBUG: (in receive) packets outstanding : 18, packet 95
+DEBUG: got to nothing is wrong
+DEBUG: (in send) packets outstanding : 19, packet 114
+DEBUG: (in send) packets outstanding : 20, packet 115
+DEBUG: (CAN decrement) packets outstanding : 20, packet 96
+DEBUG: (in receive) packets outstanding : 19, packet 96
+DEBUG: got to nothing is wrong
+DEBUG: (in send) packets outstanding : 20, packet 116
+DEBUG: (in send) packets outstanding : 21, packet 117
+DEBUG: (CAN decrement) packets outstanding : 21, packet 97
+DEBUG: (in receive) packets outstanding : 20, packet 97
+DEBUG: got to nothing is wrong
+DEBUG: (in send) packets outstanding : 21, packet 118
+DEBUG: (in send) packets outstanding : 22, packet 119
+DEBUG: (CAN decrement) packets outstanding : 22, packet 98
+DEBUG: (in receive) packets outstanding : 21, packet 98
+DEBUG: got to nothing is wrong
+DEBUG: (in send) packets outstanding : 22, packet 120
+DEBUG: (in send) packets outstanding : 23, packet 121
+DEBUG: (CAN decrement) packets outstanding : 23, packet 99
+DEBUG: (in receive) packets outstanding : 22, packet 99
+DEBUG: got to nothing is wrong
+DEBUG: (in send) packets outstanding : 23, packet 122
+DEBUG: (in send) packets outstanding : 24, packet 123
+DEBUG: (CAN decrement) packets outstanding : 24, packet 100
+DEBUG: (in receive) packets outstanding : 23, packet 100
+DEBUG: got to nothing is wrong
+DEBUG: (in send) packets outstanding : 24, packet 124
+DEBUG: (in send) packets outstanding : 25, packet 125
+DEBUG: (CAN decrement) packets outstanding : 25, packet 101
+DEBUG: (in receive) packets outstanding : 24, packet 101
+DEBUG: got to nothing is wrong
+DEBUG: (in send) packets outstanding : 25, packet 126
+DEBUG: (in send) packets outstanding : 26, packet 127
+DEBUG: (CAN decrement) packets outstanding : 26, packet 102
+DEBUG: (in receive) packets outstanding : 25, packet 102
+DEBUG: got to nothing is wrong
+DEBUG: (in send) packets outstanding : 26, packet 128
+DEBUG: (in send) packets outstanding : 27, packet 129
+DEBUG: (CAN decrement) packets outstanding : 27, packet 103
+DEBUG: (in receive) packets outstanding : 26, packet 103
+DEBUG: got to nothing is wrong
+DEBUG: (in send) packets outstanding : 27, packet 130
+DEBUG: (in send) packets outstanding : 28, packet 131
+DEBUG: (CAN decrement) packets outstanding : 28, packet 104
+DEBUG: (in receive) packets outstanding : 27, packet 104
+DEBUG: got to nothing is wrong
+DEBUG: (in send) packets outstanding : 28, packet 132
+DEBUG: (CAN decrement) packets outstanding : 28, packet 105
+DEBUG: (in receive) packets outstanding : 27, packet 105
+DEBUG: got to nothing is wrong
+DEBUG: (in send) packets outstanding : 28, packet 133
+DEBUG: (CAN decrement) packets outstanding : 28, packet 106
+DEBUG: (in receive) packets outstanding : 27, packet 106
+DEBUG: got to nothing is wrong
+DEBUG: (in send) packets outstanding : 28, packet 134
+DEBUG: (in receive) packets outstanding : 28, packet 106
+DEBUG: got to about to packet loss
+DEBUG: (in receive) packets outstanding : 28, packet 106
+DEBUG: got to packet loss (triple ack)
+DEBUG: (in send) packets outstanding : 28, packet 106
+DEBUG: (CAN decrement) packets outstanding : 28, packet 106
+DEBUG: (in receive) packets outstanding : 27, packet 106
+DEBUG: got to fast recover
+DEBUG: (CAN decrement) packets outstanding : 27, packet 106
+DEBUG: (in receive) packets outstanding : 26, packet 106
+DEBUG: got to fast recover
+DEBUG: (CAN decrement) packets outstanding : 26, packet 106
+DEBUG: (in receive) packets outstanding : 25, packet 106
+DEBUG: got to fast recover
+DEBUG: (CAN decrement) packets outstanding : 25, packet 106
+DEBUG: (in receive) packets outstanding : 24, packet 106
+DEBUG: got to fast recover
+DEBUG: (CAN decrement) packets outstanding : 24, packet 106
+DEBUG: (in receive) packets outstanding : 23, packet 106
+DEBUG: got to fast recover
+DEBUG: (CAN decrement) packets outstanding : 23, packet 106
+DEBUG: (in receive) packets outstanding : 22, packet 106
+DEBUG: got to fast recover
+DEBUG: (CAN decrement) packets outstanding : 22, packet 106
+DEBUG: (in receive) packets outstanding : 21, packet 106
+DEBUG: got to fast recover
+DEBUG: Time out : 1, packet 107
+DEBUG: (CAN decrement) packets outstanding : 20, packet 106
+DEBUG: (in receive) packets outstanding : 19, packet 106
+DEBUG: got to packet loss (triple ack)
+DEBUG: (in send) packets outstanding : 19, packet 106
+DEBUG: Time out : 1, packet 108
+DEBUG: Time out : 2, packet 109
+DEBUG: (CAN decrement) packets outstanding : 17, packet 106
+DEBUG: (in receive) packets outstanding : 16, packet 106
+DEBUG: got to packet loss (triple ack)
+DEBUG: (in send) packets outstanding : 16, packet 106
+DEBUG: Time out : 1, packet 110
+DEBUG: Time out : 2, packet 111
+DEBUG: (CAN decrement) packets outstanding : 14, packet 106
+DEBUG: (in receive) packets outstanding : 13, packet 106
+DEBUG: got to packet loss (triple ack)
+DEBUG: (in send) packets outstanding : 13, packet 106
+DEBUG: Time out : 1, packet 112
+DEBUG: Time out : 2, packet 113
+DEBUG: (CAN decrement) packets outstanding : 11, packet 106
+DEBUG: (in receive) packets outstanding : 10, packet 106
+DEBUG: got to packet loss (triple ack)
+DEBUG: (in send) packets outstanding : 10, packet 106
+DEBUG: Time out : 1, packet 114
+DEBUG: Time out : 2, packet 115
+DEBUG: (CAN decrement) packets outstanding : 8, packet 106
+DEBUG: (in receive) packets outstanding : 7, packet 106
+DEBUG: got to packet loss (triple ack)
+DEBUG: (in send) packets outstanding : 7, packet 106
+DEBUG: Time out : 1, packet 116
+DEBUG: Time out : 2, packet 117
+DEBUG: (CAN decrement) packets outstanding : 5, packet 106
+DEBUG: (in receive) packets outstanding : 4, packet 106
+DEBUG: got to packet loss (triple ack)
+DEBUG: (in send) packets outstanding : 4, packet 106
+DEBUG: Time out : 1, packet 118
+DEBUG: Time out : 2, packet 119
+DEBUG: (CAN decrement) packets outstanding : 2, packet 106
+DEBUG: (in receive) packets outstanding : 1, packet 106
+DEBUG: got to packet loss (triple ack)
+DEBUG: (in send) packets outstanding : 1, packet 106
+DEBUG: Time out : 1, packet 120
+DEBUG: (in send) packets outstanding : 1, packet 107
+DEBUG: Time out : 1, packet 121
+DEBUG: (in send) packets outstanding : 1, packet 108
+DEBUG: (CAN decrement) packets outstanding : 1, packet 106
+DEBUG: (in receive) packets outstanding : 0, packet 106
+DEBUG: got to packet loss (triple ack)
+DEBUG: (in send) packets outstanding : 1, packet 106
+DEBUG: Time out : 1, packet 122
+DEBUG: (in send) packets outstanding : 1, packet 109
+DEBUG: Time out : 1, packet 123
+DEBUG: (in send) packets outstanding : 1, packet 110
+DEBUG: (CAN decrement) packets outstanding : 1, packet 106
+DEBUG: (in receive) packets outstanding : 0, packet 106
+DEBUG: got to packet loss (triple ack)
+DEBUG: (in send) packets outstanding : 1, packet 106
+DEBUG: Time out : 1, packet 124
+DEBUG: (in send) packets outstanding : 1, packet 111
+DEBUG: Time out : 1, packet 125
+DEBUG: (in send) packets outstanding : 1, packet 112
+DEBUG: (CAN decrement) packets outstanding : 1, packet 106
+DEBUG: (in receive) packets outstanding : 0, packet 106
+DEBUG: got to packet loss (triple ack)
+DEBUG: (in send) packets outstanding : 1, packet 106
+DEBUG: Time out : 1, packet 126
+DEBUG: (in send) packets outstanding : 1, packet 113
+DEBUG: Time out : 1, packet 127
+DEBUG: (in send) packets outstanding : 1, packet 114
+DEBUG: (CAN decrement) packets outstanding : 1, packet 106
+DEBUG: (in receive) packets outstanding : 0, packet 106
+DEBUG: got to packet loss (triple ack)
+DEBUG: (in send) packets outstanding : 1, packet 106
+DEBUG: Time out : 1, packet 128
+DEBUG: (in send) packets outstanding : 1, packet 115
+DEBUG: Time out : 1, packet 129
+DEBUG: (in send) packets outstanding : 1, packet 116
+DEBUG: (CAN decrement) packets outstanding : 1, packet 106
+DEBUG: (in receive) packets outstanding : 0, packet 106
+DEBUG: got to packet loss (triple ack)
+DEBUG: (in send) packets outstanding : 1, packet 106
+DEBUG: Time out : 1, packet 130
+DEBUG: (in send) packets outstanding : 1, packet 117
+DEBUG: Time out : 1, packet 131
+DEBUG: (in send) packets outstanding : 1, packet 118
+DEBUG: (CAN decrement) packets outstanding : 1, packet 106
+DEBUG: (in receive) packets outstanding : 0, packet 106
+DEBUG: got to packet loss (triple ack)
+DEBUG: (in send) packets outstanding : 1, packet 106
+DEBUG: Time out : 1, packet 132
+DEBUG: (in send) packets outstanding : 1, packet 119
+DEBUG: (CAN decrement) packets outstanding : 1, packet 106
+DEBUG: (in receive) packets outstanding : 0, packet 106
+DEBUG: got to packet loss (triple ack)
+DEBUG: (in send) packets outstanding : 1, packet 106
+DEBUG: Time out : 1, packet 133
+DEBUG: (in send) packets outstanding : 1, packet 120
+DEBUG: (CAN decrement) packets outstanding : 1, packet 106
+DEBUG: (in receive) packets outstanding : 0, packet 106
+DEBUG: got to packet loss (triple ack)
+DEBUG: (in send) packets outstanding : 1, packet 106
+DEBUG: Time out : 1, packet 134
+DEBUG: (in send) packets outstanding : 1, packet 121
+DEBUG: (CAN decrement) packets outstanding : 1, packet 106
+DEBUG: (in receive) packets outstanding : 0, packet 106
+DEBUG: got to packet loss (triple ack)
+DEBUG: (in send) packets outstanding : 1, packet 106
+DEBUG: (CAN decrement) packets outstanding : 1, packet 106
+DEBUG: (in receive) packets outstanding : 0, packet 106
+DEBUG: got to fast recover
+DEBUG: (in send) packets outstanding : 1, packet 122
+DEBUG: (in send) packets outstanding : 2, packet 123
+DEBUG: (CAN decrement) packets outstanding : 2, packet 106
+DEBUG: (in receive) packets outstanding : 1, packet 106
+DEBUG: got to fast recover
+DEBUG: (in send) packets outstanding : 2, packet 124
+DEBUG: (in send) packets outstanding : 3, packet 125
+DEBUG: (CAN decrement) packets outstanding : 3, packet 106
+DEBUG: (in receive) packets outstanding : 2, packet 106
+DEBUG: got to fast recover
+DEBUG: (in send) packets outstanding : 3, packet 126
+DEBUG: (in send) packets outstanding : 4, packet 127
+DEBUG: (CAN decrement) packets outstanding : 4, packet 106
+DEBUG: (in receive) packets outstanding : 3, packet 106
+DEBUG: got to fast recover
+DEBUG: (in send) packets outstanding : 4, packet 128
+DEBUG: (in send) packets outstanding : 5, packet 129
+DEBUG: (CAN decrement) packets outstanding : 5, packet 106
+DEBUG: (in receive) packets outstanding : 4, packet 106
+DEBUG: got to fast recover
+DEBUG: (in send) packets outstanding : 5, packet 130
+DEBUG: (in send) packets outstanding : 6, packet 131
+DEBUG: (CAN decrement) packets outstanding : 6, packet 107
+DEBUG: (CAN decrement) packets outstanding : 5, packet 107
+DEBUG: (in receive) packets outstanding : 4, packet 107
+DEBUG: got to fast recover
+DEBUG: (CAN decrement) packets outstanding : 4, packet 108
+DEBUG: (in receive) packets outstanding : 3, packet 108
+DEBUG: got to nothing is wrong
+DEBUG: (CAN decrement) packets outstanding : 3, packet 109
+DEBUG: (in receive) packets outstanding : 2, packet 109
+DEBUG: got to nothing is wrong
+DEBUG: (in send) packets outstanding : 3, packet 132
+DEBUG: (CAN decrement) packets outstanding : 3, packet 110
+DEBUG: (in receive) packets outstanding : 2, packet 110
+DEBUG: got to nothing is wrong
+DEBUG: (in send) packets outstanding : 3, packet 133
+DEBUG: (CAN decrement) packets outstanding : 3, packet 111
+DEBUG: (in receive) packets outstanding : 2, packet 111
+DEBUG: got to nothing is wrong
+DEBUG: (in send) packets outstanding : 3, packet 134
+DEBUG: (in send) packets outstanding : 4, packet 135
+DEBUG: (CAN decrement) packets outstanding : 4, packet 112
+DEBUG: (in receive) packets outstanding : 3, packet 112
+DEBUG: got to nothing is wrong
+DEBUG: (in send) packets outstanding : 4, packet 136
+DEBUG: (CAN decrement) packets outstanding : 4, packet 113
+DEBUG: (in receive) packets outstanding : 3, packet 113
+DEBUG: got to nothing is wrong
+DEBUG: (in send) packets outstanding : 4, packet 137
+DEBUG: (CAN decrement) packets outstanding : 4, packet 114
+DEBUG: (in receive) packets outstanding : 3, packet 114
+DEBUG: got to nothing is wrong
+DEBUG: (in send) packets outstanding : 4, packet 138
+DEBUG: (in send) packets outstanding : 5, packet 139
+DEBUG: (CAN decrement) packets outstanding : 5, packet 115
+DEBUG: (in receive) packets outstanding : 4, packet 115
+DEBUG: got to nothing is wrong
+DEBUG: (in send) packets outstanding : 5, packet 140
+DEBUG: (CAN decrement) packets outstanding : 5, packet 116
+DEBUG: (in receive) packets outstanding : 4, packet 116
+DEBUG: got to nothing is wrong
+DEBUG: (in send) packets outstanding : 5, packet 141
+DEBUG: (CAN decrement) packets outstanding : 5, packet 117
+DEBUG: (in receive) packets outstanding : 4, packet 117
+DEBUG: got to nothing is wrong
+DEBUG: (in send) packets outstanding : 5, packet 142
+DEBUG: (CAN decrement) packets outstanding : 5, packet 118
+DEBUG: (in receive) packets outstanding : 4, packet 118
+DEBUG: got to nothing is wrong
+DEBUG: (in send) packets outstanding : 5, packet 143
+DEBUG: (CAN decrement) packets outstanding : 5, packet 119
+DEBUG: (in receive) packets outstanding : 4, packet 119
+DEBUG: got to nothing is wrong
+DEBUG: (in send) packets outstanding : 5, packet 144
+DEBUG: (in send) packets outstanding : 6, packet 145
+DEBUG: (CAN decrement) packets outstanding : 6, packet 120
+DEBUG: (in receive) packets outstanding : 5, packet 120
+DEBUG: got to nothing is wrong
+DEBUG: (in send) packets outstanding : 6, packet 146
+DEBUG: (CAN decrement) packets outstanding : 6, packet 121
+DEBUG: (in receive) packets outstanding : 5, packet 121
+DEBUG: got to nothing is wrong
+DEBUG: (in send) packets outstanding : 6, packet 147
+DEBUG: (CAN decrement) packets outstanding : 6, packet 122
+DEBUG: (in receive) packets outstanding : 5, packet 122
+DEBUG: got to nothing is wrong
+DEBUG: (in send) packets outstanding : 6, packet 148
+DEBUG: (CAN decrement) packets outstanding : 6, packet 123
+DEBUG: (in receive) packets outstanding : 5, packet 123
+DEBUG: got to nothing is wrong
+DEBUG: (in send) packets outstanding : 6, packet 149
+DEBUG: (CAN decrement) packets outstanding : 6, packet 124
+DEBUG: (in receive) packets outstanding : 5, packet 124
+DEBUG: got to nothing is wrong
+DEBUG: (in send) packets outstanding : 6, packet 150
+DEBUG: (in send) packets outstanding : 7, packet 151
+DEBUG: (CAN decrement) packets outstanding : 7, packet 125
+DEBUG: (in receive) packets outstanding : 6, packet 125
+DEBUG: got to nothing is wrong
+DEBUG: (in send) packets outstanding : 7, packet 152
+DEBUG: (CAN decrement) packets outstanding : 7, packet 126
+DEBUG: (in receive) packets outstanding : 6, packet 126
+DEBUG: got to nothing is wrong
+DEBUG: (in send) packets outstanding : 7, packet 153
+DEBUG: (CAN decrement) packets outstanding : 7, packet 127
+DEBUG: (in receive) packets outstanding : 6, packet 127
+DEBUG: got to nothing is wrong
+DEBUG: (in send) packets outstanding : 7, packet 154
+DEBUG: (CAN decrement) packets outstanding : 7, packet 128
+DEBUG: (in receive) packets outstanding : 6, packet 128
+DEBUG: got to nothing is wrong
+DEBUG: (in send) packets outstanding : 7, packet 155
+DEBUG: (CAN decrement) packets outstanding : 7, packet 129
+DEBUG: (in receive) packets outstanding : 6, packet 129
+DEBUG: got to nothing is wrong
+DEBUG: (in send) packets outstanding : 7, packet 156
+DEBUG: (CAN decrement) packets outstanding : 7, packet 130
+DEBUG: (in receive) packets outstanding : 6, packet 130
+DEBUG: got to nothing is wrong
+DEBUG: (in send) packets outstanding : 7, packet 157
+DEBUG: (in send) packets outstanding : 8, packet 158
+DEBUG: Time out : 1, packet 131
+DEBUG: (in receive) packets outstanding : 7, packet 131
+DEBUG: got to nothing is wrong
+DEBUG: (CAN decrement) packets outstanding : 7, packet 132
+DEBUG: (in receive) packets outstanding : 6, packet 132
+DEBUG: got to nothing is wrong
+DEBUG: (CAN decrement) packets outstanding : 6, packet 133
+DEBUG: (in receive) packets outstanding : 5, packet 133
+DEBUG: got to nothing is wrong
+DEBUG: (CAN decrement) packets outstanding : 5, packet 134
+DEBUG: (in receive) packets outstanding : 4, packet 134
+DEBUG: got to nothing is wrong
+DEBUG: (in send) packets outstanding : 5, packet 159
+DEBUG: (in receive) packets outstanding : 5, packet 134
+DEBUG: got to about to packet loss
+DEBUG: Time out : 1, packet 135
+DEBUG: (in receive) packets outstanding : 4, packet 134
+DEBUG: got to packet loss (triple ack)
+DEBUG: (in send) packets outstanding : 4, packet 134
+DEBUG: Time out : 1, packet 136
+DEBUG: (CAN decrement) packets outstanding : 3, packet 134
+DEBUG: (in receive) packets outstanding : 2, packet 134
+DEBUG: got to packet loss (triple ack)
+DEBUG: (in send) packets outstanding : 2, packet 134
+DEBUG: Time out : 1, packet 137
+DEBUG: (CAN decrement) packets outstanding : 1, packet 134
+DEBUG: (in receive) packets outstanding : 0, packet 134
+DEBUG: got to packet loss (triple ack)
+DEBUG: (in send) packets outstanding : 1, packet 134
+DEBUG: Time out : 1, packet 138
+DEBUG: (in send) packets outstanding : 1, packet 135
+DEBUG: Time out : 1, packet 139
+DEBUG: (in send) packets outstanding : 1, packet 136
+DEBUG: (CAN decrement) packets outstanding : 1, packet 134
+DEBUG: (in receive) packets outstanding : 0, packet 134
+DEBUG: got to packet loss (triple ack)
+DEBUG: (in send) packets outstanding : 1, packet 134
+DEBUG: Time out : 1, packet 140
+DEBUG: (in send) packets outstanding : 1, packet 137
+DEBUG: (CAN decrement) packets outstanding : 1, packet 134
+DEBUG: (in receive) packets outstanding : 0, packet 134
+DEBUG: got to packet loss (triple ack)
+DEBUG: (in send) packets outstanding : 1, packet 134
+DEBUG: Time out : 1, packet 141
+DEBUG: (in send) packets outstanding : 1, packet 138
+DEBUG: (CAN decrement) packets outstanding : 1, packet 134
+DEBUG: (in receive) packets outstanding : 0, packet 134
+DEBUG: got to packet loss (triple ack)
+DEBUG: (in send) packets outstanding : 1, packet 134
+DEBUG: Time out : 1, packet 142
+DEBUG: (in send) packets outstanding : 1, packet 139
+DEBUG: (CAN decrement) packets outstanding : 1, packet 134
+DEBUG: (in receive) packets outstanding : 0, packet 134
+DEBUG: got to packet loss (triple ack)
+DEBUG: (in send) packets outstanding : 1, packet 134
+DEBUG: Time out : 1, packet 143
+DEBUG: (in send) packets outstanding : 1, packet 140
+DEBUG: (CAN decrement) packets outstanding : 1, packet 134
+DEBUG: (in receive) packets outstanding : 0, packet 134
+DEBUG: got to packet loss (triple ack)
+DEBUG: (in send) packets outstanding : 1, packet 134
+DEBUG: Time out : 1, packet 144
+DEBUG: (in send) packets outstanding : 1, packet 141
+DEBUG: Time out : 1, packet 145
+DEBUG: (in send) packets outstanding : 1, packet 142
+DEBUG: (CAN decrement) packets outstanding : 1, packet 134
+DEBUG: (in receive) packets outstanding : 0, packet 134
+DEBUG: got to packet loss (triple ack)
+DEBUG: (in send) packets outstanding : 1, packet 134
+DEBUG: Time out : 1, packet 146
+DEBUG: (in send) packets outstanding : 1, packet 143
+DEBUG: (CAN decrement) packets outstanding : 1, packet 134
+DEBUG: (in receive) packets outstanding : 0, packet 134
+DEBUG: got to packet loss (triple ack)
+DEBUG: (in send) packets outstanding : 1, packet 134
+DEBUG: Time out : 1, packet 147
+DEBUG: (in send) packets outstanding : 1, packet 144
+DEBUG: (CAN decrement) packets outstanding : 1, packet 134
+DEBUG: (in receive) packets outstanding : 0, packet 134
+DEBUG: got to packet loss (triple ack)
+DEBUG: (in send) packets outstanding : 1, packet 134
+DEBUG: Time out : 1, packet 148
+DEBUG: (in send) packets outstanding : 1, packet 145
+DEBUG: (CAN decrement) packets outstanding : 1, packet 134
+DEBUG: (in receive) packets outstanding : 0, packet 134
+DEBUG: got to packet loss (triple ack)
+DEBUG: (in send) packets outstanding : 1, packet 134
+DEBUG: Time out : 1, packet 149
+DEBUG: (in send) packets outstanding : 1, packet 146
+DEBUG: (CAN decrement) packets outstanding : 1, packet 134
+DEBUG: (in receive) packets outstanding : 0, packet 134
+DEBUG: got to packet loss (triple ack)
+DEBUG: (in send) packets outstanding : 1, packet 134
+DEBUG: Time out : 1, packet 150
+DEBUG: (in send) packets outstanding : 1, packet 147
+DEBUG: Time out : 1, packet 151
+DEBUG: (in send) packets outstanding : 1, packet 148
+DEBUG: (CAN decrement) packets outstanding : 1, packet 134
+DEBUG: (in receive) packets outstanding : 0, packet 134
+DEBUG: got to packet loss (triple ack)
+DEBUG: (in send) packets outstanding : 1, packet 134
+DEBUG: Time out : 1, packet 152
+DEBUG: (in send) packets outstanding : 1, packet 149
+DEBUG: (CAN decrement) packets outstanding : 1, packet 134
+DEBUG: (in receive) packets outstanding : 0, packet 134
+DEBUG: got to packet loss (triple ack)
+DEBUG: (in send) packets outstanding : 1, packet 134
+DEBUG: Time out : 1, packet 153
+DEBUG: (in send) packets outstanding : 1, packet 150
+DEBUG: (CAN decrement) packets outstanding : 1, packet 134
+DEBUG: (in receive) packets outstanding : 0, packet 134
+DEBUG: got to packet loss (triple ack)
+DEBUG: (in send) packets outstanding : 1, packet 134
+DEBUG: Time out : 1, packet 154
+DEBUG: (in send) packets outstanding : 1, packet 151
+DEBUG: (CAN decrement) packets outstanding : 1, packet 134
+DEBUG: (in receive) packets outstanding : 0, packet 134
+DEBUG: got to packet loss (triple ack)
+DEBUG: (in send) packets outstanding : 1, packet 134
+DEBUG: Time out : 1, packet 155
+DEBUG: (in send) packets outstanding : 1, packet 152
+DEBUG: (CAN decrement) packets outstanding : 1, packet 134
+DEBUG: (in receive) packets outstanding : 0, packet 134
+DEBUG: got to packet loss (triple ack)
+DEBUG: (in send) packets outstanding : 1, packet 134
+DEBUG: Time out : 1, packet 156
+DEBUG: (in send) packets outstanding : 1, packet 153
+DEBUG: (CAN decrement) packets outstanding : 1, packet 134
+DEBUG: (in receive) packets outstanding : 0, packet 134
+DEBUG: got to packet loss (triple ack)
+DEBUG: (in send) packets outstanding : 1, packet 134
+DEBUG: Time out : 1, packet 157
+DEBUG: (in send) packets outstanding : 1, packet 154
+DEBUG: Time out : 1, packet 158
+DEBUG: (in send) packets outstanding : 1, packet 155
+DEBUG: (CAN decrement) packets outstanding : 1, packet 134
+DEBUG: (in receive) packets outstanding : 0, packet 134
+DEBUG: got to packet loss (triple ack)
+DEBUG: (in send) packets outstanding : 1, packet 134
+DEBUG: (CAN decrement) packets outstanding : 1, packet 134
+DEBUG: (in receive) packets outstanding : 0, packet 134
+DEBUG: got to fast recover
+DEBUG: (in send) packets outstanding : 1, packet 156
+DEBUG: (in send) packets outstanding : 2, packet 157
+DEBUG: (CAN decrement) packets outstanding : 2, packet 134
+DEBUG: (in receive) packets outstanding : 1, packet 134
+DEBUG: got to fast recover
+DEBUG: (in send) packets outstanding : 2, packet 158
+DEBUG: (in send) packets outstanding : 3, packet 160
+DEBUG: (CAN decrement) packets outstanding : 3, packet 134
+DEBUG: (in receive) packets outstanding : 2, packet 134
+DEBUG: got to fast recover
+DEBUG: (in send) packets outstanding : 3, packet 161
+DEBUG: (in send) packets outstanding : 4, packet 162
+DEBUG: Time out : 1, packet 159
+DEBUG: (CAN decrement) packets outstanding : 3, packet 134
+DEBUG: (in receive) packets outstanding : 2, packet 134
+DEBUG: got to packet loss (triple ack)
+DEBUG: (in send) packets outstanding : 2, packet 134
+DEBUG: (CAN decrement) packets outstanding : 2, packet 134
+DEBUG: (in receive) packets outstanding : 1, packet 134
+DEBUG: got to fast recover
+DEBUG: (in send) packets outstanding : 2, packet 159
+DEBUG: (CAN decrement) packets outstanding : 2, packet 134
+DEBUG: (in receive) packets outstanding : 1, packet 134
+DEBUG: got to fast recover
+DEBUG: (in send) packets outstanding : 2, packet 163
+DEBUG: (in send) packets outstanding : 3, packet 164
+DEBUG: (CAN decrement) packets outstanding : 3, packet 134
+DEBUG: (in receive) packets outstanding : 2, packet 134
+DEBUG: got to fast recover
+DEBUG: (in send) packets outstanding : 3, packet 165
+DEBUG: (in send) packets outstanding : 4, packet 166
+DEBUG: Time out : 1, packet 135
+DEBUG: Time out : 2, packet 136
+DEBUG: (CAN decrement) packets outstanding : 2, packet 134
+DEBUG: (in receive) packets outstanding : 1, packet 134
+DEBUG: got to packet loss (triple ack)
+DEBUG: (in send) packets outstanding : 1, packet 134
+DEBUG: Time out : 1, packet 137
+DEBUG: (in send) packets outstanding : 1, packet 135
+DEBUG: (CAN decrement) packets outstanding : 1, packet 134
+DEBUG: (in receive) packets outstanding : 0, packet 134
+DEBUG: got to packet loss (triple ack)
+DEBUG: (in send) packets outstanding : 1, packet 134
+DEBUG: Time out : 1, packet 138
+DEBUG: (in send) packets outstanding : 1, packet 136
+DEBUG: (CAN decrement) packets outstanding : 1, packet 134
+DEBUG: (in receive) packets outstanding : 0, packet 134
+DEBUG: got to packet loss (triple ack)
+DEBUG: (in send) packets outstanding : 1, packet 134
+DEBUG: Time out : 1, packet 139
+DEBUG: (in send) packets outstanding : 1, packet 137
+DEBUG: (CAN decrement) packets outstanding : 1, packet 134
+DEBUG: (in receive) packets outstanding : 0, packet 134
+DEBUG: got to packet loss (triple ack)
+DEBUG: (in send) packets outstanding : 1, packet 134
+DEBUG: Time out : 1, packet 140
+DEBUG: (in send) packets outstanding : 1, packet 138
+DEBUG: (CAN decrement) packets outstanding : 1, packet 134
+DEBUG: (in receive) packets outstanding : 0, packet 134
+DEBUG: got to packet loss (triple ack)
+DEBUG: (in send) packets outstanding : 1, packet 134
+DEBUG: Time out : 1, packet 141
+DEBUG: (in send) packets outstanding : 1, packet 139
+DEBUG: Time out : 1, packet 142
+DEBUG: (in send) packets outstanding : 1, packet 140
+DEBUG: (CAN decrement) packets outstanding : 1, packet 134
+DEBUG: (in receive) packets outstanding : 0, packet 134
+DEBUG: got to packet loss (triple ack)
+DEBUG: (in send) packets outstanding : 1, packet 134
+DEBUG: Time out : 1, packet 143
+DEBUG: (in send) packets outstanding : 1, packet 141
+DEBUG: (CAN decrement) packets outstanding : 1, packet 134
+DEBUG: (in receive) packets outstanding : 0, packet 134
+DEBUG: got to packet loss (triple ack)
+DEBUG: (in send) packets outstanding : 1, packet 134
+DEBUG: Time out : 1, packet 144
+DEBUG: (in send) packets outstanding : 1, packet 142
+DEBUG: (CAN decrement) packets outstanding : 1, packet 134
+DEBUG: (in receive) packets outstanding : 0, packet 134
+DEBUG: got to packet loss (triple ack)
+DEBUG: (in send) packets outstanding : 1, packet 134
+DEBUG: Time out : 1, packet 145
+DEBUG: (in send) packets outstanding : 1, packet 143
+DEBUG: (CAN decrement) packets outstanding : 1, packet 134
+DEBUG: (in receive) packets outstanding : 0, packet 134
+DEBUG: got to packet loss (triple ack)
+DEBUG: (in send) packets outstanding : 1, packet 134
+DEBUG: Time out : 1, packet 146
+DEBUG: (in send) packets outstanding : 1, packet 144
+DEBUG: (CAN decrement) packets outstanding : 1, packet 134
+DEBUG: (in receive) packets outstanding : 0, packet 134
+DEBUG: got to packet loss (triple ack)
+DEBUG: (in send) packets outstanding : 1, packet 134
+DEBUG: Time out : 1, packet 147
+DEBUG: (in send) packets outstanding : 1, packet 145
+DEBUG: Time out : 1, packet 148
+DEBUG: (in send) packets outstanding : 1, packet 146
+DEBUG: (CAN decrement) packets outstanding : 1, packet 134
+DEBUG: (in receive) packets outstanding : 0, packet 134
+DEBUG: got to packet loss (triple ack)
+DEBUG: (in send) packets outstanding : 1, packet 134
+DEBUG: Time out : 1, packet 149
+DEBUG: (in send) packets outstanding : 1, packet 147
+DEBUG: (CAN decrement) packets outstanding : 1, packet 134
+DEBUG: (in receive) packets outstanding : 0, packet 134
+DEBUG: got to packet loss (triple ack)
+DEBUG: (in send) packets outstanding : 1, packet 134
+DEBUG: Time out : 1, packet 150
+DEBUG: (in send) packets outstanding : 1, packet 148
+DEBUG: (CAN decrement) packets outstanding : 1, packet 134
+DEBUG: (in receive) packets outstanding : 0, packet 134
+DEBUG: got to packet loss (triple ack)
+DEBUG: (in send) packets outstanding : 1, packet 134
+DEBUG: Time out : 1, packet 151
+DEBUG: (in send) packets outstanding : 1, packet 149
+DEBUG: (CAN decrement) packets outstanding : 1, packet 134
+DEBUG: (in receive) packets outstanding : 0, packet 134
+DEBUG: got to packet loss (triple ack)
+DEBUG: (in send) packets outstanding : 1, packet 134
+DEBUG: Time out : 1, packet 152
+DEBUG: (in send) packets outstanding : 1, packet 150
+DEBUG: (CAN decrement) packets outstanding : 1, packet 134
+DEBUG: (in receive) packets outstanding : 0, packet 134
+DEBUG: got to packet loss (triple ack)
+DEBUG: (in send) packets outstanding : 1, packet 134
+DEBUG: Time out : 1, packet 153
+DEBUG: (in send) packets outstanding : 1, packet 151
+DEBUG: (CAN decrement) packets outstanding : 1, packet 134
+DEBUG: (in receive) packets outstanding : 0, packet 134
+DEBUG: got to packet loss (triple ack)
+DEBUG: (in send) packets outstanding : 1, packet 134
+DEBUG: Time out : 1, packet 154
+DEBUG: (in send) packets outstanding : 1, packet 152
+DEBUG: Time out : 1, packet 155
+DEBUG: (in send) packets outstanding : 1, packet 153
+DEBUG: (CAN decrement) packets outstanding : 1, packet 134
+DEBUG: (in receive) packets outstanding : 0, packet 134
+DEBUG: got to packet loss (triple ack)
+DEBUG: (in send) packets outstanding : 1, packet 134
+DEBUG: (CAN decrement) packets outstanding : 1, packet 135
+DEBUG: (CAN decrement) packets outstanding : 0, packet 135
+DEBUG: (in receive) packets outstanding : 0, packet 135
+DEBUG: got to fast recover
+DEBUG: (in send) packets outstanding : 1, packet 154
+DEBUG: Time out : 1, packet 156
+DEBUG: (in send) packets outstanding : 1, packet 155
+DEBUG: Time out : 1, packet 157
+DEBUG: (in send) packets outstanding : 1, packet 156
+DEBUG: (CAN decrement) packets outstanding : 1, packet 136
+DEBUG: (in receive) packets outstanding : 0, packet 136
+DEBUG: got to nothing is wrong
+DEBUG: (in send) packets outstanding : 1, packet 157
+DEBUG: (in send) packets outstanding : 2, packet 167
+DEBUG: Time out : 1, packet 158
+DEBUG: Time out : 2, packet 160
+DEBUG: (in send) packets outstanding : 1, packet 158
+DEBUG: (CAN decrement) packets outstanding : 1, packet 137
+DEBUG: (in receive) packets outstanding : 0, packet 137
+DEBUG: got to nothing is wrong
+DEBUG: (in send) packets outstanding : 1, packet 160
+DEBUG: (in send) packets outstanding : 2, packet 168
+DEBUG: Time out : 1, packet 161
+DEBUG: Time out : 2, packet 162
+DEBUG: (in send) packets outstanding : 1, packet 161
+DEBUG: (CAN decrement) packets outstanding : 1, packet 138
+DEBUG: (in receive) packets outstanding : 0, packet 138
+DEBUG: got to nothing is wrong
+DEBUG: (in send) packets outstanding : 1, packet 162
+DEBUG: (in send) packets outstanding : 2, packet 169
+DEBUG: (CAN decrement) packets outstanding : 2, packet 139
+DEBUG: (in receive) packets outstanding : 1, packet 139
+DEBUG: got to nothing is wrong
+DEBUG: (in send) packets outstanding : 2, packet 170
+DEBUG: (in send) packets outstanding : 3, packet 171
+DEBUG: Time out : 1, packet 159
+DEBUG: (CAN decrement) packets outstanding : 2, packet 140
+DEBUG: (in receive) packets outstanding : 1, packet 140
+DEBUG: got to nothing is wrong
+DEBUG: (in send) packets outstanding : 2, packet 159
+DEBUG: Time out : 1, packet 163
+DEBUG: Time out : 2, packet 164
+DEBUG: (in send) packets outstanding : 1, packet 163
+DEBUG: (CAN decrement) packets outstanding : 1, packet 141
+DEBUG: (in receive) packets outstanding : 0, packet 141
+DEBUG: got to nothing is wrong
+DEBUG: (in send) packets outstanding : 1, packet 164
+DEBUG: (in send) packets outstanding : 2, packet 172
+DEBUG: Time out : 1, packet 165
+DEBUG: Time out : 2, packet 166
+DEBUG: (in send) packets outstanding : 1, packet 165
+DEBUG: (CAN decrement) packets outstanding : 1, packet 142
+DEBUG: (in receive) packets outstanding : 0, packet 142
+DEBUG: got to nothing is wrong
+DEBUG: (in send) packets outstanding : 1, packet 166
+DEBUG: (in send) packets outstanding : 2, packet 173
+DEBUG: (CAN decrement) packets outstanding : 2, packet 143
+DEBUG: (in receive) packets outstanding : 1, packet 143
+DEBUG: got to nothing is wrong
+DEBUG: (in send) packets outstanding : 2, packet 174
+DEBUG: (in send) packets outstanding : 3, packet 175
+DEBUG: (CAN decrement) packets outstanding : 3, packet 144
+DEBUG: (in receive) packets outstanding : 2, packet 144
+DEBUG: got to nothing is wrong
+DEBUG: (in send) packets outstanding : 3, packet 176
+DEBUG: (CAN decrement) packets outstanding : 3, packet 145
+DEBUG: (in receive) packets outstanding : 2, packet 145
+DEBUG: got to nothing is wrong
+DEBUG: (in send) packets outstanding : 3, packet 177
+DEBUG: (in send) packets outstanding : 4, packet 178
+DEBUG: (CAN decrement) packets outstanding : 4, packet 146
+DEBUG: (in receive) packets outstanding : 3, packet 146
+DEBUG: got to nothing is wrong
+DEBUG: (in send) packets outstanding : 4, packet 179
+DEBUG: (CAN decrement) packets outstanding : 4, packet 147
+DEBUG: (in receive) packets outstanding : 3, packet 147
+DEBUG: got to nothing is wrong
+DEBUG: (in send) packets outstanding : 4, packet 180
+DEBUG: (CAN decrement) packets outstanding : 4, packet 148
+DEBUG: (in receive) packets outstanding : 3, packet 148
+DEBUG: got to nothing is wrong
+DEBUG: (in send) packets outstanding : 4, packet 181
+DEBUG: (in send) packets outstanding : 5, packet 182
+DEBUG: (CAN decrement) packets outstanding : 5, packet 149
+DEBUG: (in receive) packets outstanding : 4, packet 149
+DEBUG: got to nothing is wrong
+DEBUG: (in send) packets outstanding : 5, packet 183
+DEBUG: (CAN decrement) packets outstanding : 5, packet 150
+DEBUG: (in receive) packets outstanding : 4, packet 150
+DEBUG: got to nothing is wrong
+DEBUG: (in send) packets outstanding : 5, packet 184
+DEBUG: (CAN decrement) packets outstanding : 5, packet 151
+DEBUG: (in receive) packets outstanding : 4, packet 151
+DEBUG: got to nothing is wrong
+DEBUG: (in send) packets outstanding : 5, packet 185
+DEBUG: (CAN decrement) packets outstanding : 5, packet 152
+DEBUG: (in receive) packets outstanding : 4, packet 152
+DEBUG: got to nothing is wrong
+DEBUG: (in send) packets outstanding : 5, packet 186
+DEBUG: (CAN decrement) packets outstanding : 5, packet 153
+DEBUG: (in receive) packets outstanding : 4, packet 153
+DEBUG: got to nothing is wrong
+DEBUG: (in send) packets outstanding : 5, packet 187
+DEBUG: (in send) packets outstanding : 6, packet 188
+DEBUG: (CAN decrement) packets outstanding : 6, packet 154
+DEBUG: (in receive) packets outstanding : 5, packet 154
+DEBUG: got to nothing is wrong
+DEBUG: (in send) packets outstanding : 6, packet 189
+DEBUG: (CAN decrement) packets outstanding : 6, packet 155
+DEBUG: (in receive) packets outstanding : 5, packet 155
+DEBUG: got to nothing is wrong
+DEBUG: (in send) packets outstanding : 6, packet 190
+DEBUG: (CAN decrement) packets outstanding : 6, packet 156
+DEBUG: (in receive) packets outstanding : 5, packet 156
+DEBUG: got to nothing is wrong
+DEBUG: (in send) packets outstanding : 6, packet 191
+DEBUG: (CAN decrement) packets outstanding : 6, packet 157
+DEBUG: (in receive) packets outstanding : 5, packet 157
+DEBUG: got to nothing is wrong
+DEBUG: (in send) packets outstanding : 6, packet 192
+DEBUG: (CAN decrement) packets outstanding : 6, packet 158
+DEBUG: (in receive) packets outstanding : 5, packet 158
+DEBUG: got to nothing is wrong
+DEBUG: (in send) packets outstanding : 6, packet 193
+DEBUG: (in send) packets outstanding : 7, packet 194
+DEBUG: (CAN decrement) packets outstanding : 7, packet 159
+DEBUG: (in receive) packets outstanding : 6, packet 159
+DEBUG: got to nothing is wrong
+DEBUG: (in send) packets outstanding : 7, packet 195
+DEBUG: (in receive) packets outstanding : 7, packet 159
+DEBUG: got to about to packet loss
+DEBUG: Time out : 1, packet 167
+DEBUG: (in receive) packets outstanding : 6, packet 159
+DEBUG: got to packet loss (triple ack)
+DEBUG: (in send) packets outstanding : 6, packet 159
+DEBUG: Time out : 1, packet 160
+DEBUG: Time out : 2, packet 168
+DEBUG: Time out : 3, packet 161
+DEBUG: (CAN decrement) packets outstanding : 3, packet 159
+DEBUG: (in receive) packets outstanding : 2, packet 159
+DEBUG: got to packet loss (triple ack)
+DEBUG: (in send) packets outstanding : 2, packet 159
+DEBUG: Time out : 1, packet 162
+DEBUG: Time out : 2, packet 169
+DEBUG: (in send) packets outstanding : 1, packet 160
+DEBUG: (CAN decrement) packets outstanding : 1, packet 159
+DEBUG: (in receive) packets outstanding : 0, packet 159
+DEBUG: got to packet loss (triple ack)
+DEBUG: (in send) packets outstanding : 1, packet 159
+DEBUG: Time out : 1, packet 170
+DEBUG: (in send) packets outstanding : 1, packet 161
+DEBUG: Time out : 1, packet 171
+DEBUG: (in send) packets outstanding : 1, packet 162
+DEBUG: (CAN decrement) packets outstanding : 1, packet 159
+DEBUG: (in receive) packets outstanding : 0, packet 159
+DEBUG: got to packet loss (triple ack)
+DEBUG: (in send) packets outstanding : 1, packet 159
+DEBUG: Time out : 1, packet 163
+DEBUG: (in send) packets outstanding : 1, packet 163
+DEBUG: (CAN decrement) packets outstanding : 1, packet 159
+DEBUG: (in receive) packets outstanding : 0, packet 159
+DEBUG: got to packet loss (triple ack)
+DEBUG: (in send) packets outstanding : 1, packet 159
+DEBUG: Time out : 1, packet 164
+DEBUG: (in send) packets outstanding : 1, packet 164
+DEBUG: Time out : 1, packet 172
+DEBUG: (in send) packets outstanding : 1, packet 167
+DEBUG: Time out : 1, packet 165
+DEBUG: (in link) packets dropped : l0, packet 165
+DEBUG: (in send) packets outstanding : 1, packet 165
+DEBUG: (CAN decrement) packets outstanding : 1, packet 159
+DEBUG: (in receive) packets outstanding : 0, packet 159
+DEBUG: got to packet loss (triple ack)
+DEBUG: (in send) packets outstanding : 1, packet 159
+DEBUG: Time out : 1, packet 166
+DEBUG: (in link) packets dropped : l0, packet 166
+DEBUG: (in send) packets outstanding : 1, packet 166
+DEBUG: Time out : 1, packet 173
+DEBUG: (in link) packets dropped : l0, packet 168
+DEBUG: (in send) packets outstanding : 1, packet 168
+DEBUG: (CAN decrement) packets outstanding : 1, packet 159
+DEBUG: (in receive) packets outstanding : 0, packet 159
+DEBUG: got to packet loss (triple ack)
+DEBUG: (in send) packets outstanding : 1, packet 159
+DEBUG: Time out : 1, packet 174
+DEBUG: (in link) packets dropped : l0, packet 169
+DEBUG: (in send) packets outstanding : 1, packet 169
+DEBUG: Time out : 1, packet 175
+DEBUG: (in link) packets dropped : l0, packet 170
+DEBUG: (in send) packets outstanding : 1, packet 170
+DEBUG: (CAN decrement) packets outstanding : 1, packet 159
+DEBUG: (in receive) packets outstanding : 0, packet 159
+DEBUG: got to packet loss (triple ack)
+DEBUG: (in send) packets outstanding : 1, packet 159
+DEBUG: Time out : 1, packet 176
+DEBUG: (in send) packets outstanding : 1, packet 171
+DEBUG: (CAN decrement) packets outstanding : 1, packet 159
+DEBUG: (in receive) packets outstanding : 0, packet 159
+DEBUG: got to packet loss (triple ack)
+DEBUG: (in send) packets outstanding : 1, packet 159
+DEBUG: Time out : 1, packet 177
+DEBUG: (in link) packets dropped : l0, packet 172
+DEBUG: (in send) packets outstanding : 1, packet 172
+DEBUG: Time out : 1, packet 178
+DEBUG: (in link) packets dropped : l0, packet 173
+DEBUG: (in send) packets outstanding : 1, packet 173
+DEBUG: (CAN decrement) packets outstanding : 1, packet 159
+DEBUG: (in receive) packets outstanding : 0, packet 159
+DEBUG: got to packet loss (triple ack)
+DEBUG: (in send) packets outstanding : 1, packet 159
+DEBUG: Time out : 1, packet 179
+DEBUG: (in link) packets dropped : l0, packet 174
+DEBUG: (in send) packets outstanding : 1, packet 174
+DEBUG: (CAN decrement) packets outstanding : 1, packet 159
+DEBUG: (in receive) packets outstanding : 0, packet 159
+DEBUG: got to packet loss (triple ack)
+DEBUG: (in send) packets outstanding : 1, packet 159
+DEBUG: Time out : 1, packet 180
+DEBUG: (in link) packets dropped : l0, packet 175
+DEBUG: (in send) packets outstanding : 1, packet 175
+DEBUG: (CAN decrement) packets outstanding : 1, packet 159
+DEBUG: (in receive) packets outstanding : 0, packet 159
+DEBUG: got to packet loss (triple ack)
+DEBUG: (in send) packets outstanding : 1, packet 159
+DEBUG: Time out : 1, packet 181
+DEBUG: (in send) packets outstanding : 1, packet 176
+DEBUG: Time out : 1, packet 182
+DEBUG: (in link) packets dropped : l0, packet 177
+DEBUG: (in send) packets outstanding : 1, packet 177
+DEBUG: (CAN decrement) packets outstanding : 1, packet 159
+DEBUG: (in receive) packets outstanding : 0, packet 159
+DEBUG: got to packet loss (triple ack)
+DEBUG: (in send) packets outstanding : 1, packet 159
+DEBUG: Time out : 1, packet 183
+DEBUG: (in link) packets dropped : l0, packet 178
+DEBUG: (in send) packets outstanding : 1, packet 178
+DEBUG: (CAN decrement) packets outstanding : 1, packet 159
+DEBUG: (in receive) packets outstanding : 0, packet 159
+DEBUG: got to packet loss (triple ack)
+DEBUG: (in send) packets outstanding : 1, packet 159
+DEBUG: Time out : 1, packet 184
+DEBUG: (in link) packets dropped : l0, packet 179
+DEBUG: (in send) packets outstanding : 1, packet 179
+DEBUG: (CAN decrement) packets outstanding : 1, packet 159
+DEBUG: (in receive) packets outstanding : 0, packet 159
+DEBUG: got to packet loss (triple ack)
+DEBUG: (in send) packets outstanding : 1, packet 159
+DEBUG: Time out : 1, packet 185
+DEBUG: (in send) packets outstanding : 1, packet 180
+DEBUG: (CAN decrement) packets outstanding : 1, packet 159
+DEBUG: (in receive) packets outstanding : 0, packet 159
+DEBUG: got to packet loss (triple ack)
+DEBUG: (in send) packets outstanding : 1, packet 159
+DEBUG: Time out : 1, packet 186
+DEBUG: (in link) packets dropped : l0, packet 181
+DEBUG: (in send) packets outstanding : 1, packet 181
+DEBUG: (CAN decrement) packets outstanding : 1, packet 159
+DEBUG: (in receive) packets outstanding : 0, packet 159
+DEBUG: got to packet loss (triple ack)
+DEBUG: (in send) packets outstanding : 1, packet 159
+DEBUG: Time out : 1, packet 187
+DEBUG: (in link) packets dropped : l0, packet 182
+DEBUG: (in send) packets outstanding : 1, packet 182
+DEBUG: Time out : 1, packet 188
+DEBUG: (in link) packets dropped : l0, packet 183
+DEBUG: (in send) packets outstanding : 1, packet 183
+DEBUG: (CAN decrement) packets outstanding : 1, packet 159
+DEBUG: (in receive) packets outstanding : 0, packet 159
+DEBUG: got to packet loss (triple ack)
+DEBUG: (in send) packets outstanding : 1, packet 159
+DEBUG: Time out : 1, packet 189
+DEBUG: (in link) packets dropped : l0, packet 184
+DEBUG: (in send) packets outstanding : 1, packet 184
+DEBUG: (CAN decrement) packets outstanding : 1, packet 159
+DEBUG: (in receive) packets outstanding : 0, packet 159
+DEBUG: got to packet loss (triple ack)
+DEBUG: (in send) packets outstanding : 1, packet 159
+DEBUG: Time out : 1, packet 190
+DEBUG: (in send) packets outstanding : 1, packet 185
+DEBUG: (CAN decrement) packets outstanding : 1, packet 159
+DEBUG: (in receive) packets outstanding : 0, packet 159
+DEBUG: got to packet loss (triple ack)
+DEBUG: (in send) packets outstanding : 1, packet 159
+DEBUG: Time out : 1, packet 191
+DEBUG: (in link) packets dropped : l0, packet 186
+DEBUG: (in send) packets outstanding : 1, packet 186
+DEBUG: (CAN decrement) packets outstanding : 1, packet 159
+DEBUG: (in receive) packets outstanding : 0, packet 159
+DEBUG: got to packet loss (triple ack)
+DEBUG: (in send) packets outstanding : 1, packet 159
+DEBUG: Time out : 1, packet 192
+DEBUG: (in link) packets dropped : l0, packet 187
+DEBUG: (in send) packets outstanding : 1, packet 187
+DEBUG: (CAN decrement) packets outstanding : 1, packet 159
+DEBUG: (in receive) packets outstanding : 0, packet 159
+DEBUG: got to packet loss (triple ack)
+DEBUG: (in send) packets outstanding : 1, packet 159
+DEBUG: Time out : 1, packet 193
+DEBUG: (in link) packets dropped : l0, packet 188
+DEBUG: (in send) packets outstanding : 1, packet 188
+DEBUG: Time out : 1, packet 194
+DEBUG: (in link) packets dropped : l0, packet 189
+DEBUG: (in send) packets outstanding : 1, packet 189
+DEBUG: (CAN decrement) packets outstanding : 1, packet 159
+DEBUG: (in receive) packets outstanding : 0, packet 159
+DEBUG: got to packet loss (triple ack)
+DEBUG: (in send) packets outstanding : 1, packet 159
+DEBUG: Time out : 1, packet 195
+DEBUG: (in send) packets outstanding : 1, packet 190
+DEBUG: (CAN decrement) packets outstanding : 1, packet 159
+DEBUG: (in receive) packets outstanding : 0, packet 159
+DEBUG: got to packet loss (triple ack)
+DEBUG: (in send) packets outstanding : 1, packet 159
+DEBUG: (CAN decrement) packets outstanding : 1, packet 159
+DEBUG: (in receive) packets outstanding : 0, packet 159
+DEBUG: got to fast recover
+DEBUG: (in send) packets outstanding : 1, packet 191
+DEBUG: (in link) packets dropped : l0, packet 192
+DEBUG: (in send) packets outstanding : 2, packet 192
+DEBUG: (CAN decrement) packets outstanding : 2, packet 159
+DEBUG: (in receive) packets outstanding : 1, packet 159
+DEBUG: got to fast recover
+DEBUG: (in send) packets outstanding : 2, packet 193
+DEBUG: (in link) packets dropped : l0, packet 194
+DEBUG: (in send) packets outstanding : 3, packet 194
+DEBUG: Time out : 1, packet 160
+DEBUG: (CAN decrement) packets outstanding : 2, packet 159
+DEBUG: (in receive) packets outstanding : 1, packet 159
+DEBUG: got to packet loss (triple ack)
+DEBUG: (in send) packets outstanding : 1, packet 159
+DEBUG: Time out : 1, packet 161
+DEBUG: (in send) packets outstanding : 1, packet 160
+DEBUG: Time out : 1, packet 162
+DEBUG: (in link) packets dropped : l0, packet 161
+DEBUG: (in send) packets outstanding : 1, packet 161
+DEBUG: (CAN decrement) packets outstanding : 1, packet 159
+DEBUG: (in receive) packets outstanding : 0, packet 159
+DEBUG: got to packet loss (triple ack)
+DEBUG: (in send) packets outstanding : 1, packet 159
+DEBUG: Time out : 1, packet 163
+DEBUG: (in link) packets dropped : l0, packet 162
+DEBUG: (in send) packets outstanding : 1, packet 162
+DEBUG: (CAN decrement) packets outstanding : 1, packet 159
+DEBUG: (in receive) packets outstanding : 0, packet 159
+DEBUG: got to packet loss (triple ack)
+DEBUG: (in send) packets outstanding : 1, packet 159
+DEBUG: Time out : 1, packet 164
+DEBUG: (in link) packets dropped : l0, packet 163
+DEBUG: (in send) packets outstanding : 1, packet 163
+DEBUG: Time out : 1, packet 167
+DEBUG: (in link) packets dropped : l0, packet 164
+DEBUG: (in send) packets outstanding : 1, packet 164
+DEBUG: Time out : 1, packet 165
+DEBUG: (in link) packets dropped : l0, packet 165
+DEBUG: (in send) packets outstanding : 1, packet 165
+DEBUG: (CAN decrement) packets outstanding : 1, packet 159
+DEBUG: (in receive) packets outstanding : 0, packet 159
+DEBUG: got to packet loss (triple ack)
+DEBUG: (in send) packets outstanding : 1, packet 159
+DEBUG: Time out : 1, packet 166
+DEBUG: (in link) packets dropped : l0, packet 166
+DEBUG: (in send) packets outstanding : 1, packet 166
+DEBUG: Time out : 1, packet 168
+DEBUG: (in link) packets dropped : l0, packet 167
+DEBUG: (in send) packets outstanding : 1, packet 167
+DEBUG: (CAN decrement) packets outstanding : 1, packet 159
+DEBUG: (in receive) packets outstanding : 0, packet 159
+DEBUG: got to packet loss (triple ack)
+DEBUG: (in send) packets outstanding : 1, packet 159
+DEBUG: Time out : 1, packet 169
+DEBUG: (in send) packets outstanding : 1, packet 168
+DEBUG: Time out : 1, packet 170
+DEBUG: (in link) packets dropped : l0, packet 169
+DEBUG: (in send) packets outstanding : 1, packet 169
+DEBUG: (CAN decrement) packets outstanding : 1, packet 159
+DEBUG: (in receive) packets outstanding : 0, packet 159
+DEBUG: got to packet loss (triple ack)
+DEBUG: (in send) packets outstanding : 1, packet 159
+DEBUG: Time out : 1, packet 171
+DEBUG: (in link) packets dropped : l0, packet 170
+DEBUG: (in send) packets outstanding : 1, packet 170
+DEBUG: (CAN decrement) packets outstanding : 1, packet 159
+DEBUG: (in receive) packets outstanding : 0, packet 159
+DEBUG: got to packet loss (triple ack)
+DEBUG: (in send) packets outstanding : 1, packet 159
+DEBUG: Time out : 1, packet 172
+DEBUG: (in link) packets dropped : l0, packet 171
+DEBUG: (in send) packets outstanding : 1, packet 171
+DEBUG: Time out : 1, packet 173
+DEBUG: (in link) packets dropped : l0, packet 172
+DEBUG: (in send) packets outstanding : 1, packet 172
+DEBUG: (CAN decrement) packets outstanding : 1, packet 159
+DEBUG: (in receive) packets outstanding : 0, packet 159
+DEBUG: got to packet loss (triple ack)
+DEBUG: (in send) packets outstanding : 1, packet 159
+DEBUG: Time out : 1, packet 174
+DEBUG: (in link) packets dropped : l0, packet 173
+DEBUG: (in send) packets outstanding : 1, packet 173
+DEBUG: (CAN decrement) packets outstanding : 1, packet 159
+DEBUG: (in receive) packets outstanding : 0, packet 159
+DEBUG: got to packet loss (triple ack)
+DEBUG: (in send) packets outstanding : 1, packet 159
+DEBUG: Time out : 1, packet 175
+DEBUG: (in send) packets outstanding : 1, packet 174
+DEBUG: (CAN decrement) packets outstanding : 1, packet 159
+DEBUG: (in receive) packets outstanding : 0, packet 159
+DEBUG: got to packet loss (triple ack)
+DEBUG: (in send) packets outstanding : 1, packet 159
+DEBUG: Time out : 1, packet 176
+DEBUG: (in link) packets dropped : l0, packet 175
+DEBUG: (in send) packets outstanding : 1, packet 175
+DEBUG: Time out : 1, packet 177
+DEBUG: (in link) packets dropped : l0, packet 176
+DEBUG: (in send) packets outstanding : 1, packet 176
+DEBUG: (CAN decrement) packets outstanding : 1, packet 159
+DEBUG: (in receive) packets outstanding : 0, packet 159
+DEBUG: got to packet loss (triple ack)
+DEBUG: (in send) packets outstanding : 1, packet 159
+DEBUG: Time out : 1, packet 178
+DEBUG: (in link) packets dropped : l0, packet 177
+DEBUG: (in send) packets outstanding : 1, packet 177
+DEBUG: (CAN decrement) packets outstanding : 1, packet 159
+DEBUG: (in receive) packets outstanding : 0, packet 159
+DEBUG: got to packet loss (triple ack)
+DEBUG: (in send) packets outstanding : 1, packet 159
+DEBUG: Time out : 1, packet 179
+DEBUG: (in link) packets dropped : l0, packet 178
+DEBUG: (in send) packets outstanding : 1, packet 178
+DEBUG: (CAN decrement) packets outstanding : 1, packet 159
+DEBUG: (in receive) packets outstanding : 0, packet 159
+DEBUG: got to packet loss (triple ack)
+DEBUG: (in send) packets outstanding : 1, packet 159
+DEBUG: Time out : 1, packet 180
+DEBUG: (in send) packets outstanding : 1, packet 179
+DEBUG: (CAN decrement) packets outstanding : 1, packet 159
+DEBUG: (in receive) packets outstanding : 0, packet 159
+DEBUG: got to packet loss (triple ack)
+DEBUG: (in send) packets outstanding : 1, packet 159
+DEBUG: Time out : 1, packet 181
+DEBUG: (in link) packets dropped : l0, packet 180
+DEBUG: (in send) packets outstanding : 1, packet 180
+DEBUG: (CAN decrement) packets outstanding : 1, packet 159
+DEBUG: (in receive) packets outstanding : 0, packet 159
+DEBUG: got to packet loss (triple ack)
+DEBUG: (in send) packets outstanding : 1, packet 159
+DEBUG: Time out : 1, packet 182
+DEBUG: (in link) packets dropped : l0, packet 181
+DEBUG: (in send) packets outstanding : 1, packet 181
+DEBUG: Time out : 1, packet 183
+DEBUG: (in link) packets dropped : l0, packet 182
+DEBUG: (in send) packets outstanding : 1, packet 182
+DEBUG: (CAN decrement) packets outstanding : 1, packet 159
+DEBUG: (in receive) packets outstanding : 0, packet 159
+DEBUG: got to packet loss (triple ack)
+DEBUG: (in send) packets outstanding : 1, packet 159
+DEBUG: Time out : 1, packet 184
+DEBUG: (in link) packets dropped : l0, packet 183
+DEBUG: (in send) packets outstanding : 1, packet 183
+DEBUG: (CAN decrement) packets outstanding : 1, packet 159
+DEBUG: (in receive) packets outstanding : 0, packet 159
+DEBUG: got to packet loss (triple ack)
+DEBUG: (in send) packets outstanding : 1, packet 159
+DEBUG: Time out : 1, packet 185
+DEBUG: (in send) packets outstanding : 1, packet 184
+DEBUG: (CAN decrement) packets outstanding : 1, packet 160
+DEBUG: (CAN decrement) packets outstanding : 0, packet 160
+DEBUG: (in receive) packets outstanding : 0, packet 160
+DEBUG: got to nothing is wrong
+DEBUG: (in send) packets outstanding : 1, packet 185
+DEBUG: (in link) packets dropped : l0, packet 195
+DEBUG: (in send) packets outstanding : 2, packet 195
+DEBUG: Time out : 1, packet 186
+DEBUG: (CAN decrement) packets outstanding : 1, packet 161
+DEBUG: (in receive) packets outstanding : 0, packet 161
+DEBUG: got to nothing is wrong
+DEBUG: (in send) packets outstanding : 1, packet 186
+DEBUG: (in link) packets dropped : l0, packet 196
+DEBUG: (in send) packets outstanding : 2, packet 196
+DEBUG: Time out : 1, packet 187
+DEBUG: (CAN decrement) packets outstanding : 1, packet 162
+DEBUG: (in receive) packets outstanding : 0, packet 162
+DEBUG: got to nothing is wrong
+DEBUG: (in send) packets outstanding : 1, packet 187
+DEBUG: (in link) packets dropped : l0, packet 197
+DEBUG: (in send) packets outstanding : 2, packet 197
+DEBUG: Time out : 1, packet 188
+DEBUG: Time out : 2, packet 189
+DEBUG: (in link) packets dropped : l0, packet 188
+DEBUG: (in send) packets outstanding : 1, packet 188
+DEBUG: (in receive) packets outstanding : 1, packet 162
+DEBUG: got to about to packet loss
+DEBUG: Time out : 1, packet 190
+DEBUG: (in send) packets outstanding : 1, packet 189
+DEBUG: (in receive) packets outstanding : 1, packet 162
+DEBUG: got to packet loss (triple ack)
+DEBUG: (in send) packets outstanding : 1, packet 162
+DEBUG: (CAN decrement) packets outstanding : 1, packet 163
+DEBUG: (CAN decrement) packets outstanding : 0, packet 163
+DEBUG: (in receive) packets outstanding : 0, packet 163
+DEBUG: got to fast recover
+DEBUG: (in send) packets outstanding : 1, packet 190
+DEBUG: Time out : 1, packet 191
+DEBUG: (in send) packets outstanding : 1, packet 191
+DEBUG: Time out : 1, packet 192
+DEBUG: (in link) packets dropped : l0, packet 192
+DEBUG: (in send) packets outstanding : 1, packet 192
+DEBUG: (CAN decrement) packets outstanding : 1, packet 164
+DEBUG: (in receive) packets outstanding : 0, packet 164
+DEBUG: got to nothing is wrong
+DEBUG: (in send) packets outstanding : 1, packet 198
+DEBUG: (in link) packets dropped : l0, packet 199
+DEBUG: (in send) packets outstanding : 2, packet 199
+DEBUG: Time out : 1, packet 193
+DEBUG: Time out : 2, packet 194
+DEBUG: (in link) packets dropped : l0, packet 193
+DEBUG: (in send) packets outstanding : 1, packet 193
+DEBUG: (CAN decrement) packets outstanding : 1, packet 165
+DEBUG: (in receive) packets outstanding : 0, packet 165
+DEBUG: got to nothing is wrong
+DEBUG: (in send) packets outstanding : 1, packet 194
+DEBUG: (CAN decrement) packets outstanding : 1, packet 166
+DEBUG: (in receive) packets outstanding : 0, packet 166
+DEBUG: got to nothing is wrong
+DEBUG: (in receive) packets outstanding : 0, packet 166
+DEBUG: got to about to packet loss
+DEBUG: (in receive) packets outstanding : 0, packet 166
+DEBUG: got to packet loss (triple ack)
+DEBUG: (in send) packets outstanding : 1, packet 166
+DEBUG: Time out : 1, packet 167
+DEBUG: (in send) packets outstanding : 1, packet 167
+DEBUG: (CAN decrement) packets outstanding : 1, packet 166
+DEBUG: (in receive) packets outstanding : 0, packet 166
+DEBUG: got to packet loss (triple ack)
+DEBUG: (in send) packets outstanding : 1, packet 166
+DEBUG: Time out : 1, packet 168
+DEBUG: (in send) packets outstanding : 1, packet 168
+DEBUG: Time out : 1, packet 169
+DEBUG: (in send) packets outstanding : 1, packet 169
+DEBUG: (in link) packets dropped : l1, packet 164
+DEBUG: (CAN decrement) packets outstanding : 1, packet 166
+DEBUG: (in receive) packets outstanding : 0, packet 166
+DEBUG: got to packet loss (triple ack)
+DEBUG: (in send) packets outstanding : 1, packet 166
+DEBUG: Time out : 1, packet 170
+DEBUG: (in send) packets outstanding : 1, packet 170
+DEBUG: (CAN decrement) packets outstanding : 1, packet 166
+DEBUG: (in receive) packets outstanding : 0, packet 166
+DEBUG: got to packet loss (triple ack)
+DEBUG: (in send) packets outstanding : 1, packet 166
+DEBUG: Time out : 1, packet 171
+DEBUG: (in link) packets dropped : l0, packet 171
+DEBUG: (in send) packets outstanding : 1, packet 171
+DEBUG: Time out : 1, packet 172
+DEBUG: (in link) packets dropped : l0, packet 172
+DEBUG: (in send) packets outstanding : 1, packet 172
+DEBUG: (CAN decrement) packets outstanding : 1, packet 166
+DEBUG: (in receive) packets outstanding : 0, packet 166
+DEBUG: got to packet loss (triple ack)
+DEBUG: (in send) packets outstanding : 1, packet 166
+DEBUG: Time out : 1, packet 173
+DEBUG: (in link) packets dropped : l0, packet 173
+DEBUG: (in send) packets outstanding : 1, packet 173
+DEBUG: (CAN decrement) packets outstanding : 1, packet 166
+DEBUG: (in receive) packets outstanding : 0, packet 166
+DEBUG: got to packet loss (triple ack)
+DEBUG: (in send) packets outstanding : 1, packet 166
+DEBUG: Time out : 1, packet 174
+DEBUG: (in send) packets outstanding : 1, packet 174
+DEBUG: (in link) packets dropped : l1, packet 171
+DEBUG: (CAN decrement) packets outstanding : 1, packet 166
+DEBUG: (in receive) packets outstanding : 0, packet 166
+DEBUG: got to packet loss (triple ack)
+DEBUG: (in send) packets outstanding : 1, packet 166
+DEBUG: Time out : 1, packet 175
+DEBUG: (in link) packets dropped : l0, packet 175
+DEBUG: (in send) packets outstanding : 1, packet 175
+DEBUG: Time out : 1, packet 176
+DEBUG: (in link) packets dropped : l0, packet 176
+DEBUG: (in send) packets outstanding : 1, packet 176
+DEBUG: (CAN decrement) packets outstanding : 1, packet 166
+DEBUG: (in receive) packets outstanding : 0, packet 166
+DEBUG: got to packet loss (triple ack)
+DEBUG: (in send) packets outstanding : 1, packet 166
+DEBUG: Time out : 1, packet 177
+DEBUG: (in link) packets dropped : l0, packet 177
+DEBUG: (in send) packets outstanding : 1, packet 177
+DEBUG: (CAN decrement) packets outstanding : 1, packet 166
+DEBUG: (in receive) packets outstanding : 0, packet 166
+DEBUG: got to packet loss (triple ack)
+DEBUG: (in send) packets outstanding : 1, packet 166
+DEBUG: Time out : 1, packet 178
+DEBUG: (in link) packets dropped : l0, packet 178
+DEBUG: (in send) packets outstanding : 1, packet 178
+DEBUG: (CAN decrement) packets outstanding : 1, packet 166
+DEBUG: (in receive) packets outstanding : 0, packet 166
+DEBUG: got to packet loss (triple ack)
+DEBUG: (in send) packets outstanding : 1, packet 166
+DEBUG: Time out : 1, packet 179
+DEBUG: (in send) packets outstanding : 1, packet 179
+DEBUG: (in link) packets dropped : l1, packet 176
+DEBUG: (CAN decrement) packets outstanding : 1, packet 166
+DEBUG: (in receive) packets outstanding : 0, packet 166
+DEBUG: got to packet loss (triple ack)
+DEBUG: (in send) packets outstanding : 1, packet 166
+DEBUG: Time out : 1, packet 180
+DEBUG: (in link) packets dropped : l0, packet 180
+DEBUG: (in send) packets outstanding : 1, packet 180
+DEBUG: (CAN decrement) packets outstanding : 1, packet 166
+DEBUG: (in receive) packets outstanding : 0, packet 166
+DEBUG: got to packet loss (triple ack)
+DEBUG: (in send) packets outstanding : 1, packet 166
+DEBUG: Time out : 1, packet 181
+DEBUG: (in link) packets dropped : l0, packet 181
+DEBUG: (in send) packets outstanding : 1, packet 181
+DEBUG: Time out : 1, packet 182
+DEBUG: (in link) packets dropped : l0, packet 182
+DEBUG: (in send) packets outstanding : 1, packet 182
+DEBUG: (CAN decrement) packets outstanding : 1, packet 166
+DEBUG: (in receive) packets outstanding : 0, packet 166
+DEBUG: got to packet loss (triple ack)
+DEBUG: (in send) packets outstanding : 1, packet 166
+DEBUG: Time out : 1, packet 183
+DEBUG: (in link) packets dropped : l0, packet 183
+DEBUG: (in send) packets outstanding : 1, packet 183
+DEBUG: (CAN decrement) packets outstanding : 1, packet 166
+DEBUG: (in receive) packets outstanding : 0, packet 166
+DEBUG: got to packet loss (triple ack)
+DEBUG: (in send) packets outstanding : 1, packet 166
+DEBUG: Time out : 1, packet 184
+DEBUG: (in send) packets outstanding : 1, packet 184
+DEBUG: (in link) packets dropped : l1, packet 159
+DEBUG: (CAN decrement) packets outstanding : 1, packet 166
+DEBUG: (in receive) packets outstanding : 0, packet 166
+DEBUG: got to packet loss (triple ack)
+DEBUG: (in send) packets outstanding : 1, packet 166
+DEBUG: Time out : 1, packet 185
+DEBUG: (in link) packets dropped : l0, packet 185
+DEBUG: (in send) packets outstanding : 1, packet 185
+DEBUG: Time out : 1, packet 195
+DEBUG: (in link) packets dropped : l0, packet 195
+DEBUG: (in send) packets outstanding : 1, packet 195
+DEBUG: (CAN decrement) packets outstanding : 1, packet 166
+DEBUG: (in receive) packets outstanding : 0, packet 166
+DEBUG: got to packet loss (triple ack)
+DEBUG: (in send) packets outstanding : 1, packet 166
+DEBUG: Time out : 1, packet 186
+DEBUG: (in link) packets dropped : l0, packet 186
+DEBUG: (in send) packets outstanding : 1, packet 186
+DEBUG: Time out : 1, packet 196
+DEBUG: (in link) packets dropped : l0, packet 196
+DEBUG: (in send) packets outstanding : 1, packet 196
+DEBUG: (CAN decrement) packets outstanding : 1, packet 166
+DEBUG: (in receive) packets outstanding : 0, packet 166
+DEBUG: got to packet loss (triple ack)
+DEBUG: (in send) packets outstanding : 1, packet 166
+DEBUG: Time out : 1, packet 187
+DEBUG: (in link) packets dropped : l0, packet 187
+DEBUG: (in send) packets outstanding : 1, packet 187
+DEBUG: Time out : 1, packet 197
+DEBUG: (in link) packets dropped : l0, packet 197
+DEBUG: (in send) packets outstanding : 1, packet 197
+DEBUG: Time out : 1, packet 188
+DEBUG: (in link) packets dropped : l0, packet 188
+DEBUG: (in send) packets outstanding : 1, packet 188
+DEBUG: (CAN decrement) packets outstanding : 1, packet 166
+DEBUG: (in receive) packets outstanding : 0, packet 166
+DEBUG: got to packet loss (triple ack)
+DEBUG: (in send) packets outstanding : 1, packet 166
+DEBUG: Time out : 1, packet 189
+DEBUG: (in send) packets outstanding : 1, packet 189
+DEBUG: (in link) packets dropped : l1, packet 159
+DEBUG: (CAN decrement) packets outstanding : 1, packet 166
+DEBUG: (in receive) packets outstanding : 0, packet 166
+DEBUG: got to packet loss (triple ack)
+DEBUG: (in send) packets outstanding : 1, packet 166
+DEBUG: (CAN decrement) packets outstanding : 1, packet 166
+DEBUG: (in receive) packets outstanding : 0, packet 166
+DEBUG: got to fast recover
+DEBUG: Time out : 1, packet 190
+DEBUG: (in send) packets outstanding : 1, packet 190
+DEBUG: Time out : 1, packet 191
+DEBUG: (in link) packets dropped : l0, packet 191
+DEBUG: (in send) packets outstanding : 1, packet 191
+DEBUG: Time out : 1, packet 192
+DEBUG: (in link) packets dropped : l0, packet 192
+DEBUG: (in send) packets outstanding : 1, packet 192
+DEBUG: (CAN decrement) packets outstanding : 1, packet 166
+DEBUG: (in receive) packets outstanding : 0, packet 166
+DEBUG: got to packet loss (triple ack)
+DEBUG: (in send) packets outstanding : 1, packet 166
+DEBUG: Time out : 1, packet 198
+DEBUG: (in link) packets dropped : l0, packet 198
+DEBUG: (in send) packets outstanding : 1, packet 198
+DEBUG: Time out : 1, packet 199
+DEBUG: (in link) packets dropped : l0, packet 199
+DEBUG: (in send) packets outstanding : 1, packet 199
+DEBUG: Time out : 1, packet 193
+DEBUG: (in link) packets dropped : l0, packet 193
+DEBUG: (in send) packets outstanding : 1, packet 193
+DEBUG: (CAN decrement) packets outstanding : 1, packet 166
+DEBUG: (in receive) packets outstanding : 0, packet 166
+DEBUG: got to packet loss (triple ack)
+DEBUG: (in send) packets outstanding : 1, packet 166
+DEBUG: Time out : 1, packet 194
+DEBUG: (in send) packets outstanding : 1, packet 194
+DEBUG: (in link) packets dropped : l1, packet 159
+DEBUG: (CAN decrement) packets outstanding : 1, packet 166
+DEBUG: (in receive) packets outstanding : 0, packet 166
+DEBUG: got to packet loss (triple ack)
+DEBUG: (in send) packets outstanding : 1, packet 166
+DEBUG: (CAN decrement) packets outstanding : 1, packet 166
+DEBUG: (in receive) packets outstanding : 0, packet 166
+DEBUG: got to fast recover
+DEBUG: (CAN decrement) packets outstanding : 0, packet 166
+DEBUG: (in receive) packets outstanding : 0, packet 166
+DEBUG: got to fast recover
+DEBUG: Time out : 1, packet 167
+DEBUG: (in send) packets outstanding : 1, packet 167
+DEBUG: (CAN decrement) packets outstanding : 1, packet 166
+DEBUG: (in receive) packets outstanding : 0, packet 166
+DEBUG: got to packet loss (triple ack)
+DEBUG: (in send) packets outstanding : 1, packet 166
+DEBUG: Time out : 1, packet 168
+DEBUG: (in send) packets outstanding : 1, packet 168
+DEBUG: Time out : 1, packet 169
+DEBUG: (in send) packets outstanding : 1, packet 169
+DEBUG: (in link) packets dropped : l1, packet 159
+DEBUG: (CAN decrement) packets outstanding : 1, packet 166
+DEBUG: (in receive) packets outstanding : 0, packet 166
+DEBUG: got to packet loss (triple ack)
+DEBUG: (in send) packets outstanding : 1, packet 166
+DEBUG: Time out : 1, packet 170
+DEBUG: (in link) packets dropped : l0, packet 170
+DEBUG: (in send) packets outstanding : 1, packet 170
+DEBUG: (CAN decrement) packets outstanding : 1, packet 166
+DEBUG: (in receive) packets outstanding : 0, packet 166
+DEBUG: got to packet loss (triple ack)
+DEBUG: (in send) packets outstanding : 1, packet 166
+DEBUG: Time out : 1, packet 171
+DEBUG: (in link) packets dropped : l0, packet 171
+DEBUG: (in send) packets outstanding : 1, packet 171
+DEBUG: Time out : 1, packet 172
+DEBUG: (in link) packets dropped : l0, packet 172
+DEBUG: (in send) packets outstanding : 1, packet 172
+DEBUG: (CAN decrement) packets outstanding : 1, packet 166
+DEBUG: (in receive) packets outstanding : 0, packet 166
+DEBUG: got to packet loss (triple ack)
+DEBUG: (in send) packets outstanding : 1, packet 166
+DEBUG: Time out : 1, packet 173
+DEBUG: (in link) packets dropped : l0, packet 173
+DEBUG: (in send) packets outstanding : 1, packet 173
+DEBUG: (CAN decrement) packets outstanding : 1, packet 166
+DEBUG: (in receive) packets outstanding : 0, packet 166
+DEBUG: got to packet loss (triple ack)
+DEBUG: (in send) packets outstanding : 1, packet 166
+DEBUG: Time out : 1, packet 174
+DEBUG: (in send) packets outstanding : 1, packet 174
+DEBUG: (in link) packets dropped : l1, packet 159
+DEBUG: (CAN decrement) packets outstanding : 1, packet 166
+DEBUG: (in receive) packets outstanding : 0, packet 166
+DEBUG: got to packet loss (triple ack)
+DEBUG: (in send) packets outstanding : 1, packet 166
+DEBUG: Time out : 1, packet 175
+DEBUG: (in link) packets dropped : l0, packet 175
+DEBUG: (in send) packets outstanding : 1, packet 175
+DEBUG: Time out : 1, packet 176
+DEBUG: (in link) packets dropped : l0, packet 176
+DEBUG: (in send) packets outstanding : 1, packet 176
+DEBUG: (CAN decrement) packets outstanding : 1, packet 166
+DEBUG: (in receive) packets outstanding : 0, packet 166
+DEBUG: got to packet loss (triple ack)
+DEBUG: (in send) packets outstanding : 1, packet 166
+DEBUG: Time out : 1, packet 177
+DEBUG: (in link) packets dropped : l0, packet 177
+DEBUG: (in send) packets outstanding : 1, packet 177
+DEBUG: (CAN decrement) packets outstanding : 1, packet 166
+DEBUG: (in receive) packets outstanding : 0, packet 166
+DEBUG: got to packet loss (triple ack)
+DEBUG: (in send) packets outstanding : 1, packet 166
+DEBUG: Time out : 1, packet 178
+DEBUG: (in link) packets dropped : l0, packet 178
+DEBUG: (in send) packets outstanding : 1, packet 178
+DEBUG: (CAN decrement) packets outstanding : 1, packet 166
+DEBUG: (in receive) packets outstanding : 0, packet 166
+DEBUG: got to packet loss (triple ack)
+DEBUG: (in send) packets outstanding : 1, packet 166
+DEBUG: Time out : 1, packet 179
+DEBUG: (in send) packets outstanding : 1, packet 179
+DEBUG: (in link) packets dropped : l1, packet 159
+DEBUG: (CAN decrement) packets outstanding : 1, packet 166
+DEBUG: (in receive) packets outstanding : 0, packet 166
+DEBUG: got to packet loss (triple ack)
+DEBUG: (in send) packets outstanding : 1, packet 166
+DEBUG: Time out : 1, packet 180
+DEBUG: (in link) packets dropped : l0, packet 180
+DEBUG: (in send) packets outstanding : 1, packet 180
+DEBUG: (CAN decrement) packets outstanding : 1, packet 166
+DEBUG: (in receive) packets outstanding : 0, packet 166
+DEBUG: got to packet loss (triple ack)
+DEBUG: (in send) packets outstanding : 1, packet 166
+DEBUG: Time out : 1, packet 181
+DEBUG: (in link) packets dropped : l0, packet 181
+DEBUG: (in send) packets outstanding : 1, packet 181
+DEBUG: Time out : 1, packet 182
+DEBUG: (in link) packets dropped : l0, packet 182
+DEBUG: (in send) packets outstanding : 1, packet 182
+DEBUG: (CAN decrement) packets outstanding : 1, packet 166
+DEBUG: (in receive) packets outstanding : 0, packet 166
+DEBUG: got to packet loss (triple ack)
+DEBUG: (in send) packets outstanding : 1, packet 166
+DEBUG: Time out : 1, packet 183
+DEBUG: (in link) packets dropped : l0, packet 183
+DEBUG: (in send) packets outstanding : 1, packet 183
+DEBUG: (CAN decrement) packets outstanding : 1, packet 166
+DEBUG: (in receive) packets outstanding : 0, packet 166
+DEBUG: got to packet loss (triple ack)
+DEBUG: (in send) packets outstanding : 1, packet 166
+DEBUG: Time out : 1, packet 184
+DEBUG: (in send) packets outstanding : 1, packet 184
+DEBUG: (in link) packets dropped : l1, packet 159
+DEBUG: (CAN decrement) packets outstanding : 1, packet 166
+DEBUG: (in receive) packets outstanding : 0, packet 166
+DEBUG: got to packet loss (triple ack)
+DEBUG: (in send) packets outstanding : 1, packet 166
+DEBUG: Time out : 1, packet 185
+DEBUG: (in link) packets dropped : l0, packet 185
+DEBUG: (in send) packets outstanding : 1, packet 185
+DEBUG: Time out : 1, packet 195
+DEBUG: (in link) packets dropped : l0, packet 195
+DEBUG: (in send) packets outstanding : 1, packet 195
+DEBUG: (CAN decrement) packets outstanding : 1, packet 167
+DEBUG: (CAN decrement) packets outstanding : 0, packet 167
+DEBUG: (in receive) packets outstanding : 0, packet 167
+DEBUG: got to nothing is wrong
+DEBUG: Time out : 1, packet 186
+DEBUG: (in send) packets outstanding : 1, packet 186
+DEBUG: Time out : 1, packet 196
+DEBUG: (in link) packets dropped : l0, packet 196
+DEBUG: (in send) packets outstanding : 1, packet 196
+DEBUG: (in receive) packets outstanding : 1, packet 167
+DEBUG: got to about to packet loss
+DEBUG: Time out : 1, packet 187
+DEBUG: (in send) packets outstanding : 1, packet 187
+DEBUG: Time out : 1, packet 197
+DEBUG: (in link) packets dropped : l0, packet 197
+DEBUG: (in send) packets outstanding : 1, packet 197
+DEBUG: Time out : 1, packet 188
+DEBUG: (in link) packets dropped : l0, packet 188
+DEBUG: (in send) packets outstanding : 1, packet 188
+DEBUG: (in receive) packets outstanding : 1, packet 167
+DEBUG: got to packet loss (triple ack)
+DEBUG: (in send) packets outstanding : 1, packet 167
+DEBUG: Time out : 1, packet 189
+DEBUG: (in send) packets outstanding : 1, packet 189
+DEBUG: (in link) packets dropped : l1, packet 185
+DEBUG: (CAN decrement) packets outstanding : 1, packet 168
+DEBUG: (CAN decrement) packets outstanding : 0, packet 168
+DEBUG: (in receive) packets outstanding : 0, packet 168
+DEBUG: got to nothing is wrong
+DEBUG: (in receive) packets outstanding : 0, packet 168
+DEBUG: got to about to packet loss
+DEBUG: Time out : 1, packet 190
+DEBUG: (in send) packets outstanding : 1, packet 190
+DEBUG: Time out : 1, packet 191
+DEBUG: (in send) packets outstanding : 1, packet 191
+DEBUG: Time out : 1, packet 192
+DEBUG: (in link) packets dropped : l0, packet 192
+DEBUG: (in send) packets outstanding : 1, packet 192
+DEBUG: (in receive) packets outstanding : 1, packet 168
+DEBUG: got to packet loss (triple ack)
+DEBUG: (in send) packets outstanding : 1, packet 168
+DEBUG: Time out : 1, packet 198
+DEBUG: (in link) packets dropped : l0, packet 198
+DEBUG: (in send) packets outstanding : 1, packet 198
+DEBUG: Time out : 1, packet 199
+DEBUG: (in link) packets dropped : l0, packet 199
+DEBUG: (in send) packets outstanding : 1, packet 199
+DEBUG: Time out : 1, packet 193
+DEBUG: (in link) packets dropped : l0, packet 193
+DEBUG: (in send) packets outstanding : 1, packet 193
+DEBUG: (CAN decrement) packets outstanding : 1, packet 169
+DEBUG: (CAN decrement) packets outstanding : 0, packet 169
+DEBUG: (in receive) packets outstanding : 0, packet 169
+DEBUG: got to nothing is wrong
+DEBUG: Time out : 1, packet 194
+DEBUG: (in send) packets outstanding : 1, packet 194
+DEBUG: (in link) packets dropped : l1, packet 190
+DEBUG: (CAN decrement) packets outstanding : 1, packet 170
+DEBUG: (in receive) packets outstanding : 0, packet 170
+DEBUG: got to nothing is wrong
+DEBUG: (CAN decrement) packets outstanding : 0, packet 171
+DEBUG: (in receive) packets outstanding : 0, packet 171
+DEBUG: got to nothing is wrong
+DEBUG: (in receive) packets outstanding : 0, packet 171
+DEBUG: got to about to packet loss
+DEBUG: (in receive) packets outstanding : 0, packet 171
+DEBUG: got to packet loss (triple ack)
+DEBUG: (in send) packets outstanding : 1, packet 171
+DEBUG: (in link) packets dropped : l1, packet 167
+DEBUG: (CAN decrement) packets outstanding : 1, packet 171
+DEBUG: (in receive) packets outstanding : 0, packet 171
+DEBUG: got to fast recover
+DEBUG: (CAN decrement) packets outstanding : 0, packet 172
+DEBUG: (CAN decrement) packets outstanding : 0, packet 172
+DEBUG: (in receive) packets outstanding : 0, packet 172
+DEBUG: got to fast recover
+DEBUG: (in receive) packets outstanding : 0, packet 172
+DEBUG: got to about to packet loss
+DEBUG: Time out : 1, packet 173
+DEBUG: (in send) packets outstanding : 1, packet 173
+DEBUG: (in receive) packets outstanding : 1, packet 172
+DEBUG: got to packet loss (triple ack)
+DEBUG: (in send) packets outstanding : 1, packet 172
+DEBUG: Time out : 1, packet 174
+DEBUG: (in send) packets outstanding : 1, packet 174
+DEBUG: (in link) packets dropped : l1, packet 170
+DEBUG: (CAN decrement) packets outstanding : 1, packet 173
+DEBUG: (CAN decrement) packets outstanding : 0, packet 173
+DEBUG: (in receive) packets outstanding : 0, packet 173
+DEBUG: got to nothing is wrong
+DEBUG: Time out : 1, packet 175
+DEBUG: (in send) packets outstanding : 1, packet 175
+DEBUG: Time out : 1, packet 176
+DEBUG: (in send) packets outstanding : 1, packet 176
+DEBUG: (CAN decrement) packets outstanding : 1, packet 174
+DEBUG: (in receive) packets outstanding : 0, packet 174
+DEBUG: got to nothing is wrong
+DEBUG: Time out : 1, packet 177
+DEBUG: (in send) packets outstanding : 1, packet 177
+DEBUG: (CAN decrement) packets outstanding : 1, packet 175
+DEBUG: (in receive) packets outstanding : 0, packet 175
+DEBUG: got to nothing is wrong
+DEBUG: Time out : 1, packet 178
+DEBUG: (in send) packets outstanding : 1, packet 178
+DEBUG: (CAN decrement) packets outstanding : 1, packet 176
+DEBUG: (in receive) packets outstanding : 0, packet 176
+DEBUG: got to nothing is wrong
+DEBUG: Time out : 1, packet 179
+DEBUG: (in send) packets outstanding : 1, packet 179
+DEBUG: (in link) packets dropped : l1, packet 166
+DEBUG: (CAN decrement) packets outstanding : 1, packet 177
+DEBUG: (in receive) packets outstanding : 0, packet 177
+DEBUG: got to nothing is wrong
+DEBUG: Time out : 1, packet 180
+DEBUG: (in send) packets outstanding : 1, packet 180
+DEBUG: (CAN decrement) packets outstanding : 1, packet 178
+DEBUG: (in receive) packets outstanding : 0, packet 178
+DEBUG: got to nothing is wrong
+DEBUG: Time out : 1, packet 181
+DEBUG: (in send) packets outstanding : 1, packet 181
+DEBUG: Time out : 1, packet 182
+DEBUG: (in send) packets outstanding : 1, packet 182
+DEBUG: (CAN decrement) packets outstanding : 1, packet 179
+DEBUG: (in receive) packets outstanding : 0, packet 179
+DEBUG: got to nothing is wrong
+DEBUG: Time out : 1, packet 183
+DEBUG: (in send) packets outstanding : 1, packet 183
+DEBUG: (CAN decrement) packets outstanding : 1, packet 180
+DEBUG: (in receive) packets outstanding : 0, packet 180
+DEBUG: got to nothing is wrong
+DEBUG: Time out : 1, packet 184
+DEBUG: (in send) packets outstanding : 1, packet 184
+DEBUG: (in link) packets dropped : l1, packet 166
+DEBUG: (CAN decrement) packets outstanding : 1, packet 181
+DEBUG: (in receive) packets outstanding : 0, packet 181
+DEBUG: got to nothing is wrong
+DEBUG: Time out : 1, packet 185
+DEBUG: (in send) packets outstanding : 1, packet 185
+DEBUG: Time out : 1, packet 195
+DEBUG: (in send) packets outstanding : 1, packet 195
+DEBUG: (CAN decrement) packets outstanding : 1, packet 182
+DEBUG: (in receive) packets outstanding : 0, packet 182
+DEBUG: got to nothing is wrong
+DEBUG: Time out : 1, packet 186
+DEBUG: (in send) packets outstanding : 1, packet 186
+DEBUG: Time out : 1, packet 196
+DEBUG: (in send) packets outstanding : 1, packet 196
+DEBUG: (CAN decrement) packets outstanding : 1, packet 183
+DEBUG: (in receive) packets outstanding : 0, packet 183
+DEBUG: got to nothing is wrong
+DEBUG: Time out : 1, packet 187
+DEBUG: (in send) packets outstanding : 1, packet 187
+DEBUG: Time out : 1, packet 197
+DEBUG: (in send) packets outstanding : 1, packet 197
+DEBUG: Time out : 1, packet 188
+DEBUG: (in send) packets outstanding : 1, packet 188
+DEBUG: (CAN decrement) packets outstanding : 1, packet 184
+DEBUG: (in receive) packets outstanding : 0, packet 184
+DEBUG: got to nothing is wrong
+DEBUG: Time out : 1, packet 189
+DEBUG: (in send) packets outstanding : 1, packet 189
+DEBUG: (in link) packets dropped : l1, packet 166
+DEBUG: (CAN decrement) packets outstanding : 1, packet 185
+DEBUG: (in receive) packets outstanding : 0, packet 185
+DEBUG: got to nothing is wrong
+DEBUG: (CAN decrement) packets outstanding : 0, packet 186
+DEBUG: (in receive) packets outstanding : 0, packet 186
+DEBUG: got to nothing is wrong
+DEBUG: Time out : 1, packet 190
+DEBUG: (in send) packets outstanding : 1, packet 190
+DEBUG: Time out : 1, packet 191
+DEBUG: (in send) packets outstanding : 1, packet 191
+DEBUG: Time out : 1, packet 192
+DEBUG: (in send) packets outstanding : 1, packet 192
+DEBUG: (CAN decrement) packets outstanding : 1, packet 187
+DEBUG: (in receive) packets outstanding : 0, packet 187
+DEBUG: got to nothing is wrong
+DEBUG: Time out : 1, packet 198
+DEBUG: (in send) packets outstanding : 1, packet 198
+DEBUG: Time out : 1, packet 199
+DEBUG: (in send) packets outstanding : 1, packet 199
+DEBUG: Time out : 1, packet 193
+DEBUG: (in send) packets outstanding : 1, packet 193
+DEBUG: (CAN decrement) packets outstanding : 1, packet 188
+DEBUG: (in receive) packets outstanding : 0, packet 188
+DEBUG: got to nothing is wrong
+DEBUG: Time out : 1, packet 194
+DEBUG: (in send) packets outstanding : 1, packet 194
+DEBUG: (in link) packets dropped : l1, packet 166
+DEBUG: (CAN decrement) packets outstanding : 1, packet 189
+DEBUG: (in receive) packets outstanding : 0, packet 189
+DEBUG: got to nothing is wrong
+DEBUG: (CAN decrement) packets outstanding : 0, packet 190
+DEBUG: (in receive) packets outstanding : 0, packet 190
+DEBUG: got to nothing is wrong
+DEBUG: (CAN decrement) packets outstanding : 0, packet 191
+DEBUG: (in receive) packets outstanding : 0, packet 191
+DEBUG: got to nothing is wrong
+DEBUG: (CAN decrement) packets outstanding : 0, packet 192
+DEBUG: (in receive) packets outstanding : 0, packet 192
+DEBUG: got to nothing is wrong
+DEBUG: (in link) packets dropped : l1, packet 166
+DEBUG: (CAN decrement) packets outstanding : 0, packet 193
+DEBUG: (in receive) packets outstanding : 0, packet 193
+DEBUG: got to nothing is wrong
+DEBUG: (CAN decrement) packets outstanding : 0, packet 194
+DEBUG: (in receive) packets outstanding : 0, packet 194
+DEBUG: got to nothing is wrong
+DEBUG: (CAN decrement) packets outstanding : 0, packet 195
+DEBUG: (in receive) packets outstanding : 0, packet 195
+DEBUG: got to nothing is wrong
+DEBUG: (in receive) packets outstanding : 0, packet 195
+DEBUG: got to about to packet loss
+DEBUG: (in link) packets dropped : l1, packet 166
+DEBUG: (in receive) packets outstanding : 0, packet 195
+DEBUG: got to packet loss (triple ack)
+DEBUG: (in send) packets outstanding : 1, packet 195
+DEBUG: (CAN decrement) packets outstanding : 1, packet 195
+DEBUG: (in receive) packets outstanding : 0, packet 195
+DEBUG: got to fast recover
+DEBUG: (CAN decrement) packets outstanding : 0, packet 195
+DEBUG: (in receive) packets outstanding : 0, packet 195
+DEBUG: got to fast recover
+DEBUG: (CAN decrement) packets outstanding : 0, packet 195
+DEBUG: (in receive) packets outstanding : 0, packet 195
+DEBUG: got to fast recover
+DEBUG: (in link) packets dropped : l1, packet 166
+DEBUG: (CAN decrement) packets outstanding : 0, packet 195
+DEBUG: (in receive) packets outstanding : 0, packet 195
+DEBUG: got to fast recover
+DEBUG: (CAN decrement) packets outstanding : 0, packet 195
+DEBUG: (in receive) packets outstanding : 0, packet 195
+DEBUG: got to fast recover
+DEBUG: (CAN decrement) packets outstanding : 0, packet 195
+DEBUG: (in receive) packets outstanding : 0, packet 195
+DEBUG: got to fast recover
+DEBUG: (in link) packets dropped : l1, packet 179
+DEBUG: (CAN decrement) packets outstanding : 0, packet 195
+DEBUG: (in receive) packets outstanding : 0, packet 195
+DEBUG: got to fast recover
+DEBUG: (CAN decrement) packets outstanding : 0, packet 195
+DEBUG: (in receive) packets outstanding : 0, packet 195
+DEBUG: got to fast recover
+DEBUG: (CAN decrement) packets outstanding : 0, packet 195
+DEBUG: (in receive) packets outstanding : 0, packet 195
+DEBUG: got to fast recover
+DEBUG: Time out : 1, packet 196
+DEBUG: (in send) packets outstanding : 1, packet 196
+DEBUG: (CAN decrement) packets outstanding : 1, packet 195
+DEBUG: (in receive) packets outstanding : 0, packet 195
+DEBUG: got to packet loss (triple ack)
+DEBUG: (in send) packets outstanding : 1, packet 195
+DEBUG: Time out : 1, packet 197
+DEBUG: (in send) packets outstanding : 1, packet 197
+DEBUG: (in link) packets dropped : l1, packet 184
+DEBUG: (CAN decrement) packets outstanding : 1, packet 195
+DEBUG: (in receive) packets outstanding : 0, packet 195
+DEBUG: got to packet loss (triple ack)
+DEBUG: (in send) packets outstanding : 1, packet 195
+DEBUG: (CAN decrement) packets outstanding : 1, packet 195
+DEBUG: (in receive) packets outstanding : 0, packet 195
+DEBUG: got to fast recover
+DEBUG: (CAN decrement) packets outstanding : 0, packet 195
+DEBUG: (in receive) packets outstanding : 0, packet 195
+DEBUG: got to fast recover
+DEBUG: (CAN decrement) packets outstanding : 0, packet 195
+DEBUG: (in receive) packets outstanding : 0, packet 195
+DEBUG: got to fast recover
+DEBUG: Time out : 1, packet 198
+DEBUG: (in send) packets outstanding : 1, packet 198
+DEBUG: Time out : 1, packet 199
+DEBUG: (in send) packets outstanding : 1, packet 199
+DEBUG: (in link) packets dropped : l1, packet 189
+DEBUG: (CAN decrement) packets outstanding : 1, packet 195
+DEBUG: (in receive) packets outstanding : 0, packet 195
+DEBUG: got to packet loss (triple ack)
+DEBUG: (in send) packets outstanding : 1, packet 195
+DEBUG: (CAN decrement) packets outstanding : 1, packet 195
+DEBUG: (in receive) packets outstanding : 0, packet 195
+DEBUG: got to fast recover
+DEBUG: (CAN decrement) packets outstanding : 0, packet 195
+DEBUG: (in receive) packets outstanding : 0, packet 195
+DEBUG: got to fast recover
+DEBUG: (CAN decrement) packets outstanding : 0, packet 195
+DEBUG: (in receive) packets outstanding : 0, packet 195
+DEBUG: got to fast recover
+DEBUG: (in link) packets dropped : l1, packet 171
+DEBUG: (CAN decrement) packets outstanding : 0, packet 195
+DEBUG: (in receive) packets outstanding : 0, packet 195
+DEBUG: got to fast recover
+DEBUG: (CAN decrement) packets outstanding : 0, packet 195
+DEBUG: (in receive) packets outstanding : 0, packet 195
+DEBUG: got to fast recover
+DEBUG: (CAN decrement) packets outstanding : 0, packet 195
+DEBUG: (in receive) packets outstanding : 0, packet 195
+DEBUG: got to fast recover
+DEBUG: (CAN decrement) packets outstanding : 0, packet 195
+DEBUG: (in receive) packets outstanding : 0, packet 195
+DEBUG: got to fast recover
+DEBUG: (in link) packets dropped : l1, packet 176
+DEBUG: (CAN decrement) packets outstanding : 0, packet 195
+DEBUG: (in receive) packets outstanding : 0, packet 195
+DEBUG: got to fast recover
+DEBUG: (CAN decrement) packets outstanding : 0, packet 195
+DEBUG: (in receive) packets outstanding : 0, packet 195
+DEBUG: got to fast recover
+DEBUG: (CAN decrement) packets outstanding : 0, packet 195
+DEBUG: (in receive) packets outstanding : 0, packet 195
+DEBUG: got to fast recover
+DEBUG: (CAN decrement) packets outstanding : 0, packet 195
+DEBUG: (in receive) packets outstanding : 0, packet 195
+DEBUG: got to fast recover
+DEBUG: (in link) packets dropped : l1, packet 181
+DEBUG: (CAN decrement) packets outstanding : 0, packet 195
+DEBUG: (in receive) packets outstanding : 0, packet 195
+DEBUG: got to fast recover
+DEBUG: (CAN decrement) packets outstanding : 0, packet 195
+DEBUG: (in receive) packets outstanding : 0, packet 195
+DEBUG: got to fast recover
+DEBUG: (CAN decrement) packets outstanding : 0, packet 195
+DEBUG: (in receive) packets outstanding : 0, packet 195
+DEBUG: got to fast recover
+DEBUG: (CAN decrement) packets outstanding : 0, packet 195
+DEBUG: (in receive) packets outstanding : 0, packet 195
+DEBUG: got to fast recover
+DEBUG: (in link) packets dropped : l1, packet 195
+DEBUG: (CAN decrement) packets outstanding : 0, packet 195
+DEBUG: (in receive) packets outstanding : 0, packet 195
+DEBUG: got to fast recover
+DEBUG: (CAN decrement) packets outstanding : 0, packet 195
+DEBUG: (in receive) packets outstanding : 0, packet 195
+DEBUG: got to fast recover
+DEBUG: (CAN decrement) packets outstanding : 0, packet 195
+DEBUG: (in receive) packets outstanding : 0, packet 195
+DEBUG: got to fast recover
+DEBUG: Time out : 1, packet 196
+DEBUG: (in send) packets outstanding : 1, packet 196
+DEBUG: (CAN decrement) packets outstanding : 1, packet 195
+DEBUG: (in receive) packets outstanding : 0, packet 195
+DEBUG: got to packet loss (triple ack)
+DEBUG: (in send) packets outstanding : 1, packet 195
+DEBUG: Time out : 1, packet 197
+DEBUG: (in send) packets outstanding : 1, packet 197
+DEBUG: (in link) packets dropped : l1, packet 188
+DEBUG: (CAN decrement) packets outstanding : 1, packet 195
+DEBUG: (in receive) packets outstanding : 0, packet 195
+DEBUG: got to packet loss (triple ack)
+DEBUG: (in send) packets outstanding : 1, packet 195
+DEBUG: (CAN decrement) packets outstanding : 1, packet 195
+DEBUG: (in receive) packets outstanding : 0, packet 195
+DEBUG: got to fast recover
+DEBUG: (CAN decrement) packets outstanding : 0, packet 195
+DEBUG: (in receive) packets outstanding : 0, packet 195
+DEBUG: got to fast recover
+DEBUG: (CAN decrement) packets outstanding : 0, packet 195
+DEBUG: (in receive) packets outstanding : 0, packet 195
+DEBUG: got to fast recover
+DEBUG: Time out : 1, packet 198
+DEBUG: (in send) packets outstanding : 1, packet 198
+DEBUG: Time out : 1, packet 199
+DEBUG: (in send) packets outstanding : 1, packet 199
+DEBUG: (in link) packets dropped : l1, packet 198
+DEBUG: (CAN decrement) packets outstanding : 1, packet 195
+DEBUG: (in receive) packets outstanding : 0, packet 195
+DEBUG: got to packet loss (triple ack)
+DEBUG: (in send) packets outstanding : 1, packet 195
+DEBUG: (CAN decrement) packets outstanding : 1, packet 195
+DEBUG: (in receive) packets outstanding : 0, packet 195
+DEBUG: got to fast recover
+DEBUG: (CAN decrement) packets outstanding : 0, packet 195
+DEBUG: (in receive) packets outstanding : 0, packet 195
+DEBUG: got to fast recover
+DEBUG: (CAN decrement) packets outstanding : 0, packet 195
+DEBUG: (in receive) packets outstanding : 0, packet 195
+DEBUG: got to fast recover
+DEBUG: (in link) packets dropped : l1, packet 196
+DEBUG: (CAN decrement) packets outstanding : 0, packet 195
+DEBUG: (in receive) packets outstanding : 0, packet 195
+DEBUG: got to fast recover
+DEBUG: (CAN decrement) packets outstanding : 0, packet 195
+DEBUG: (in receive) packets outstanding : 0, packet 195
+DEBUG: got to fast recover
+DEBUG: (CAN decrement) packets outstanding : 0, packet 195
+DEBUG: (in receive) packets outstanding : 0, packet 195
+DEBUG: got to fast recover
+DEBUG: (CAN decrement) packets outstanding : 0, packet 195
+DEBUG: (in receive) packets outstanding : 0, packet 195
+DEBUG: got to fast recover
+DEBUG: (in link) packets dropped : l1, packet 199
+DEBUG: (CAN decrement) packets outstanding : 0, packet 195
+DEBUG: (in receive) packets outstanding : 0, packet 195
+DEBUG: got to fast recover
+DEBUG: (CAN decrement) packets outstanding : 0, packet 195
+DEBUG: (in receive) packets outstanding : 0, packet 195
+DEBUG: got to fast recover
+DEBUG: (CAN decrement) packets outstanding : 0, packet 195
+DEBUG: (in receive) packets outstanding : 0, packet 195
+DEBUG: got to fast recover
+DEBUG: (CAN decrement) packets outstanding : 0, packet 195
+DEBUG: (in receive) packets outstanding : 0, packet 195
+DEBUG: got to fast recover
+DEBUG: (in link) packets dropped : l1, packet 195
+DEBUG: (CAN decrement) packets outstanding : 0, packet 195
+DEBUG: (in receive) packets outstanding : 0, packet 195
+DEBUG: got to fast recover
+DEBUG: (CAN decrement) packets outstanding : 0, packet 195
+DEBUG: (in receive) packets outstanding : 0, packet 195
+DEBUG: got to fast recover
+DEBUG: (CAN decrement) packets outstanding : 0, packet 195
+DEBUG: (in receive) packets outstanding : 0, packet 195
+DEBUG: got to fast recover
+DEBUG: (CAN decrement) packets outstanding : 0, packet 195
+DEBUG: (in receive) packets outstanding : 0, packet 195
+DEBUG: got to fast recover
+DEBUG: (CAN decrement) packets outstanding : 0, packet 195
+DEBUG: (in receive) packets outstanding : 0, packet 195
+DEBUG: got to fast recover
+DEBUG: (CAN decrement) packets outstanding : 0, packet 195
+DEBUG: (in receive) packets outstanding : 0, packet 195
+DEBUG: got to fast recover
+DEBUG: (CAN decrement) packets outstanding : 0, packet 195
+DEBUG: (in receive) packets outstanding : 0, packet 195
+DEBUG: got to fast recover
+DEBUG: Time out : 1, packet 196
+DEBUG: (in send) packets outstanding : 1, packet 196
+DEBUG: (CAN decrement) packets outstanding : 1, packet 195
+DEBUG: (in receive) packets outstanding : 0, packet 195
+DEBUG: got to packet loss (triple ack)
+DEBUG: (in send) packets outstanding : 1, packet 195
+DEBUG: Time out : 1, packet 197
+DEBUG: (in send) packets outstanding : 1, packet 197
+DEBUG: (CAN decrement) packets outstanding : 1, packet 195
+DEBUG: (in receive) packets outstanding : 0, packet 195
+DEBUG: got to packet loss (triple ack)
+DEBUG: (in send) packets outstanding : 1, packet 195
+DEBUG: (CAN decrement) packets outstanding : 1, packet 195
+DEBUG: (in receive) packets outstanding : 0, packet 195
+DEBUG: got to fast recover
+DEBUG: (CAN decrement) packets outstanding : 0, packet 195
+DEBUG: (in receive) packets outstanding : 0, packet 195
+DEBUG: got to fast recover
+DEBUG: (CAN decrement) packets outstanding : 0, packet 195
+DEBUG: (in receive) packets outstanding : 0, packet 195
+DEBUG: got to fast recover
+DEBUG: Time out : 1, packet 198
+DEBUG: (in send) packets outstanding : 1, packet 198
+DEBUG: Time out : 1, packet 199
+DEBUG: (in send) packets outstanding : 1, packet 199
+DEBUG: (CAN decrement) packets outstanding : 1, packet 195
+DEBUG: (in receive) packets outstanding : 0, packet 195
+DEBUG: got to packet loss (triple ack)
+DEBUG: (in send) packets outstanding : 1, packet 195
+DEBUG: (CAN decrement) packets outstanding : 1, packet 195
+DEBUG: (in receive) packets outstanding : 0, packet 195
+DEBUG: got to fast recover
+DEBUG: (CAN decrement) packets outstanding : 0, packet 195
+DEBUG: (in receive) packets outstanding : 0, packet 195
+DEBUG: got to fast recover
+DEBUG: (CAN decrement) packets outstanding : 0, packet 195
+DEBUG: (in receive) packets outstanding : 0, packet 195
+DEBUG: got to fast recover
+DEBUG: (CAN decrement) packets outstanding : 0, packet 195
+DEBUG: (in receive) packets outstanding : 0, packet 195
+DEBUG: got to fast recover
+DEBUG: (CAN decrement) packets outstanding : 0, packet 195
+DEBUG: (in receive) packets outstanding : 0, packet 195
+DEBUG: got to fast recover
+DEBUG: (CAN decrement) packets outstanding : 0, packet 195
+DEBUG: (in receive) packets outstanding : 0, packet 195
+DEBUG: got to fast recover
+DEBUG: (CAN decrement) packets outstanding : 0, packet 195
+DEBUG: (in receive) packets outstanding : 0, packet 195
+DEBUG: got to fast recover
+DEBUG: (CAN decrement) packets outstanding : 0, packet 195
+DEBUG: (in receive) packets outstanding : 0, packet 195
+DEBUG: got to fast recover
+DEBUG: (CAN decrement) packets outstanding : 0, packet 195
+DEBUG: (in receive) packets outstanding : 0, packet 195
+DEBUG: got to fast recover
+DEBUG: (CAN decrement) packets outstanding : 0, packet 195
+DEBUG: (in receive) packets outstanding : 0, packet 195
+DEBUG: got to fast recover
+DEBUG: (CAN decrement) packets outstanding : 0, packet 195
+DEBUG: (in receive) packets outstanding : 0, packet 195
+DEBUG: got to fast recover
+DEBUG: (CAN decrement) packets outstanding : 0, packet 195
+DEBUG: (in receive) packets outstanding : 0, packet 195
+DEBUG: got to fast recover
+DEBUG: (CAN decrement) packets outstanding : 0, packet 195
+DEBUG: (in receive) packets outstanding : 0, packet 195
+DEBUG: got to fast recover
+DEBUG: (CAN decrement) packets outstanding : 0, packet 195
+DEBUG: (in receive) packets outstanding : 0, packet 195
+DEBUG: got to fast recover
+DEBUG: (CAN decrement) packets outstanding : 0, packet 195
+DEBUG: (in receive) packets outstanding : 0, packet 195
+DEBUG: got to fast recover
+DEBUG: (CAN decrement) packets outstanding : 0, packet 195
+DEBUG: (in receive) packets outstanding : 0, packet 195
+DEBUG: got to fast recover
+DEBUG: (CAN decrement) packets outstanding : 0, packet 195
+DEBUG: (in receive) packets outstanding : 0, packet 195
+DEBUG: got to fast recover
+DEBUG: (CAN decrement) packets outstanding : 0, packet 195
+DEBUG: (in receive) packets outstanding : 0, packet 195
+DEBUG: got to fast recover
+DEBUG: Time out : 1, packet 196
+DEBUG: (in send) packets outstanding : 1, packet 196
+DEBUG: (CAN decrement) packets outstanding : 1, packet 195
+DEBUG: (in receive) packets outstanding : 0, packet 195
+DEBUG: got to packet loss (triple ack)
+DEBUG: (in send) packets outstanding : 1, packet 195
+DEBUG: Time out : 1, packet 197
+DEBUG: (in send) packets outstanding : 1, packet 197
+DEBUG: (CAN decrement) packets outstanding : 1, packet 195
+DEBUG: (in receive) packets outstanding : 0, packet 195
+DEBUG: got to packet loss (triple ack)
+DEBUG: (in send) packets outstanding : 1, packet 195
+DEBUG: (CAN decrement) packets outstanding : 1, packet 195
+DEBUG: (in receive) packets outstanding : 0, packet 195
+DEBUG: got to fast recover
+DEBUG: (CAN decrement) packets outstanding : 0, packet 195
+DEBUG: (in receive) packets outstanding : 0, packet 195
+DEBUG: got to fast recover
+DEBUG: (CAN decrement) packets outstanding : 0, packet 195
+DEBUG: (in receive) packets outstanding : 0, packet 195
+DEBUG: got to fast recover
+DEBUG: Time out : 1, packet 198
+DEBUG: (in send) packets outstanding : 1, packet 198
+DEBUG: Time out : 1, packet 199
+DEBUG: (in send) packets outstanding : 1, packet 199
+DEBUG: (CAN decrement) packets outstanding : 1, packet 195
+DEBUG: (in receive) packets outstanding : 0, packet 195
+DEBUG: got to packet loss (triple ack)
+DEBUG: (in send) packets outstanding : 1, packet 195
+DEBUG: (CAN decrement) packets outstanding : 1, packet 195
+DEBUG: (in receive) packets outstanding : 0, packet 195
+DEBUG: got to fast recover
+DEBUG: (CAN decrement) packets outstanding : 0, packet 195
+DEBUG: (in receive) packets outstanding : 0, packet 195
+DEBUG: got to fast recover
+DEBUG: (CAN decrement) packets outstanding : 0, packet 195
+DEBUG: (in receive) packets outstanding : 0, packet 195
+DEBUG: got to fast recover
+DEBUG: (CAN decrement) packets outstanding : 0, packet 195
+DEBUG: (in receive) packets outstanding : 0, packet 195
+DEBUG: got to fast recover
+DEBUG: (CAN decrement) packets outstanding : 0, packet 195
+DEBUG: (in receive) packets outstanding : 0, packet 195
+DEBUG: got to fast recover
+DEBUG: (CAN decrement) packets outstanding : 0, packet 195
+DEBUG: (in receive) packets outstanding : 0, packet 195
+DEBUG: got to fast recover
+DEBUG: (CAN decrement) packets outstanding : 0, packet 195
+DEBUG: (in receive) packets outstanding : 0, packet 195
+DEBUG: got to fast recover
+DEBUG: (CAN decrement) packets outstanding : 0, packet 195
+DEBUG: (in receive) packets outstanding : 0, packet 195
+DEBUG: got to fast recover
+DEBUG: (CAN decrement) packets outstanding : 0, packet 195
+DEBUG: (in receive) packets outstanding : 0, packet 195
+DEBUG: got to fast recover
+DEBUG: (CAN decrement) packets outstanding : 0, packet 195
+DEBUG: (in receive) packets outstanding : 0, packet 195
+DEBUG: got to fast recover
+DEBUG: (CAN decrement) packets outstanding : 0, packet 195
+DEBUG: (in receive) packets outstanding : 0, packet 195
+DEBUG: got to fast recover
+DEBUG: (CAN decrement) packets outstanding : 0, packet 195
+DEBUG: (in receive) packets outstanding : 0, packet 195
+DEBUG: got to fast recover
+DEBUG: (CAN decrement) packets outstanding : 0, packet 195
+DEBUG: (in receive) packets outstanding : 0, packet 195
+DEBUG: got to fast recover
+DEBUG: (CAN decrement) packets outstanding : 0, packet 195
+DEBUG: (in receive) packets outstanding : 0, packet 195
+DEBUG: got to fast recover
+DEBUG: (CAN decrement) packets outstanding : 0, packet 195
+DEBUG: (in receive) packets outstanding : 0, packet 195
+DEBUG: got to fast recover
+DEBUG: (CAN decrement) packets outstanding : 0, packet 195
+DEBUG: (in receive) packets outstanding : 0, packet 195
+DEBUG: got to fast recover
+DEBUG: (CAN decrement) packets outstanding : 0, packet 195
+DEBUG: (in receive) packets outstanding : 0, packet 195
+DEBUG: got to fast recover
+DEBUG: (CAN decrement) packets outstanding : 0, packet 195
+DEBUG: (in receive) packets outstanding : 0, packet 195
+DEBUG: got to fast recover
+DEBUG: Time out : 1, packet 196
+DEBUG: (in send) packets outstanding : 1, packet 196
+DEBUG: (CAN decrement) packets outstanding : 1, packet 195
+DEBUG: (in receive) packets outstanding : 0, packet 195
+DEBUG: got to packet loss (triple ack)
+DEBUG: (in send) packets outstanding : 1, packet 195
+DEBUG: Time out : 1, packet 197
+DEBUG: (in send) packets outstanding : 1, packet 197
+DEBUG: (CAN decrement) packets outstanding : 1, packet 195
+DEBUG: (in receive) packets outstanding : 0, packet 195
+DEBUG: got to packet loss (triple ack)
+DEBUG: (in send) packets outstanding : 1, packet 195
+DEBUG: (CAN decrement) packets outstanding : 1, packet 195
+DEBUG: (in receive) packets outstanding : 0, packet 195
+DEBUG: got to fast recover
+DEBUG: (CAN decrement) packets outstanding : 0, packet 195
+DEBUG: (in receive) packets outstanding : 0, packet 195
+DEBUG: got to fast recover
+DEBUG: (CAN decrement) packets outstanding : 0, packet 195
+DEBUG: (in receive) packets outstanding : 0, packet 195
+DEBUG: got to fast recover
+DEBUG: Time out : 1, packet 198
+DEBUG: (in send) packets outstanding : 1, packet 198
+DEBUG: Time out : 1, packet 199
+DEBUG: (in send) packets outstanding : 1, packet 199
+DEBUG: (CAN decrement) packets outstanding : 1, packet 195
+DEBUG: (in receive) packets outstanding : 0, packet 195
+DEBUG: got to packet loss (triple ack)
+DEBUG: (in send) packets outstanding : 1, packet 195
+DEBUG: (CAN decrement) packets outstanding : 1, packet 195
+DEBUG: (in receive) packets outstanding : 0, packet 195
+DEBUG: got to fast recover
+DEBUG: (CAN decrement) packets outstanding : 0, packet 195
+DEBUG: (in receive) packets outstanding : 0, packet 195
+DEBUG: got to fast recover
+DEBUG: (CAN decrement) packets outstanding : 0, packet 195
+DEBUG: (in receive) packets outstanding : 0, packet 195
+DEBUG: got to fast recover
+DEBUG: (CAN decrement) packets outstanding : 0, packet 195
+DEBUG: (in receive) packets outstanding : 0, packet 195
+DEBUG: got to fast recover
+DEBUG: (CAN decrement) packets outstanding : 0, packet 196
+DEBUG: (CAN decrement) packets outstanding : 0, packet 196
+DEBUG: (in receive) packets outstanding : 0, packet 196
+DEBUG: got to fast recover
+DEBUG: (in receive) packets outstanding : 0, packet 196
+DEBUG: got to about to packet loss
+DEBUG: (CAN decrement) packets outstanding : 0, packet 198
+DEBUG: (CAN decrement) packets outstanding : 0, packet 198
+DEBUG: (in receive) packets outstanding : 0, packet 198
+DEBUG: got to nothing is wrong
+DEBUG: (in receive) packets outstanding : 0, packet 198
+DEBUG: got to about to packet loss
+DEBUG: (in receive) packets outstanding : 0, packet 198
+DEBUG: got to packet loss (triple ack)
+DEBUG: (in send) packets outstanding : 1, packet 198
+DEBUG: (CAN decrement) packets outstanding : 1, packet 198
+DEBUG: (in receive) packets outstanding : 0, packet 198
+DEBUG: got to fast recover
+DEBUG: (CAN decrement) packets outstanding : 0, packet 198
+DEBUG: (in receive) packets outstanding : 0, packet 198
+DEBUG: got to fast recover
+DEBUG: (CAN decrement) packets outstanding : 0, packet 199
+DEBUG: (CAN decrement) packets outstanding : 0, packet 199
+DEBUG: (in receive) packets outstanding : 0, packet 199
+DEBUG: got to fast recover
+
+cat measurements.txt | grept -e "DEBUG"
+/bin/sh: grept: command not found
+
+ 
