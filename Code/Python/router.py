@@ -78,7 +78,7 @@ class Router(Node):
 		elif (p == ROUTER_PACKET_ACKNOWLEDGEMENT_TYPE):
 			# Create a cost for traveling through the link
 			link = self.sim.get_element(packet.get_link())
-			packet.set_cost(link.get_delay() + (link.get_rate()*link.get_occupancy())
+			packet.set_cost(link.get_delay() + (link.get_rate()*link.get_occupancy()))
 			link.send(packet, self.get_id())
 
 
