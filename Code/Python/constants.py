@@ -8,6 +8,13 @@ ROUTER_PACKET_TYPE = "ROUTER"
 
 ROUTER_FLOW = "0"
 
+# Routing Protocol for link cost
+STATIC_ROUTING = True
+DYNAMIC_ROUTING = False
+
+# Interval to wait before sending new ROUTER packets to update the table
+ROUTING_TABLE_UPDATE_PERIOD = 1000.0 # ms
+
 # Packet Sizes
 DATA_PACKET_BITWIDTH = 8 # in kbits (so 1 kbyte packet)
 DATA_ACK_BITWIDTH = 0.064 # 8 bytes, 0.064 kbits
