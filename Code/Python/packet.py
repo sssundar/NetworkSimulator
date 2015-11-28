@@ -117,5 +117,8 @@ class Router_Packet(Packet):
 	def set_cost(self, value):
 		self.cost = value
 
+	def get_cost(self):
+		return self.cost
+
 	def get_link(self):
 		return self.using_link
