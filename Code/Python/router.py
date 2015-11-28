@@ -44,26 +44,38 @@ class Router(Node):
 		self.current = table
 
 	'''
-		the moment we have dynamic routing
-		care what the packet is (routing, data)
+	Receive takes care of Packet Types
+	- Data/Ack: Forward packets along
+	- Router: Create Router_Ack + new_table
+	- Ack: Update table using the newly received table
 	'''
 	def receive(self, packet):
 		p = packet.get_type()
 		if (p == DATA_PACKET_TYPE) or (p == DATA_PACKET_ACKNOWLEDGEMENT_TYPE):
 			self.send(packet)
-		elif (p == ROUTER_PACKET_TYPE):
-			q = Packet()
-			self.send()
+		elif (p == ROUTER_PACKET_TYPE):		# Create an ACK packet and send back routing info
+			link = packet.get_link()
+			q = Router_Packet(ROUTER_FLOW, self.get_id(), packet.get_source(), ROUTER_PACKET_ACKNOWLEDGEMENT_TYPE, ROUTER_FLOW, DATA_ROUTER_ACK_BITWIDTH, link)
+			q.set_routing_map(self.new)
+			self.send(q)
+		elif (p == ROUTER_PACKET_ACKNOWLEDGEMENT_TYPE):
+			self.update_routing_table(q)
 
 	# Routing table is a String table with a String key
 	# The key is the final destination
 	# The value is the link
 	def send(self, packet):
-		# Current is a dict.  We are trying to get the packet destination which is the dict key
-		# next_dest is a String of the link that should be sent to		
-		next_dest = self.current[packet.get_dest()] # a link
-		self.sim.get_element(next_dest).send(packet, self.get_id())	
-		# self.log("Sent packet id %d of type %s to %s" % (packet.get_ID(), packet.get_type(), next_dest))
+		p = packet.get_type()
+		if (p == DATA_PACKET_TYPE) or (p == DATA_PACKET_ACKNOWLEDGEMENT_TYPE): 
+			# Current is a dict.  We are trying to get the packet destination which is the dict key
+			# next_dest is a String of the link that should be sent to		
+			next_dest = self.current[packet.get_dest()] # a link
+			self.sim.get_element(next_dest).send(packet, self.get_id())	
+			# self.log("Sent packet id %d of type %s to %s" % (packet.get_ID(), packet.get_type(), next_dest))
+		elif (p == ROUTER_PACKET_ACKNOWLEDGEMENT_TYPE):
+			# Create a cost for traveling through the link
+			link = self.sim.get_element(packet.get_link())
+			packet.set_cost(link.get_delay() + (link.get_rate()*link.get_occupancy())
 
 	# dict routing_table: routing table
 	# key: destination host id

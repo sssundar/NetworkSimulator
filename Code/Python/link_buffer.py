@@ -25,6 +25,9 @@ class LinkBuffer:
 	def get_fractional_occupancy (self):
 		return self.current_kbits_in_queue / self.kbit_capacity
 
+	def get_num_queued(self):
+		return len(queued)
+
 	# link object pointer & buffer direction, for consolidated logging in 
 	# buffers themselves
 	def set_my_link (self, link):

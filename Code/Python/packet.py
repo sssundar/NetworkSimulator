@@ -97,13 +97,25 @@ Router_Packets extends Packets
 ''' 
 class Router_Packet(Packet):
 	routing_map = {}	# Storage for routing table
+	cost = 0
+	using_link = ""		# String (which link was used to communicate)
 
 	# Calls Flow class to init
-	def __init__(self,flow,src,sink,typ,ID,kbits):
+	def __init__(self,flow,src,sink,typ,ID,kbits,link):
 		routing_map = {}
 		Packet.__init__(self,flow,src,sink,typ,ID,kbits)
 		self.set_timeout_disabled(True)
+		cost = 0
+		using_link = link
 
 	def set_routing_map(self, table):
 		self.routing_map = table
 
+	def get_routing_map(self):
+		return self.routing_map
+
+	def set_cost(self, value):
+		self.cost = value
+
+	def get_link(self):
+		return self.using_link
