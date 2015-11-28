@@ -76,6 +76,8 @@ class Router(Node):
 			# Create a cost for traveling through the link
 			link = self.sim.get_element(packet.get_link())
 			packet.set_cost(link.get_delay() + (link.get_rate()*link.get_occupancy())
+			link.send(packet, self.get_id())
+
 
 	# dict routing_table: routing table
 	# key: destination host id
