@@ -81,6 +81,53 @@ class Router(Node):
 			packet.set_cost(link.get_delay() + (link.get_rate()*link.get_occupancy()))
 			link.send(packet, self.get_id())
 
+	# Initialize routing table by creating keys for all hosts in the test case
+	# The value of the table is a tuple (distance between current router and destination host, next hop)
+	# Initially, set the distance to be inf, the next hop to host connected to link[0]
+	# host_ids is an array contains all host ids
+	def initalize_routing_table(self,hosts_ids):
+		for host_id in hosts_ids:
+			if self.link[0].right == self.:
+				value = float('inf'),self.links[0].left # node at the other end of the linke
+				self.current[host_id] = value
+			else:
+				value = float('inf'),self.links[0].right # node at the other end of the linke
+				self.current[host_id] = value
+
+		# If the host destination is directly connected to the router (neighbor), set the distance to 1 and next hop to the host
+		for link2 in self.link:
+			if # host is a neighbor (host=link2.left or right)
+				value = 1, # this host
+				self.current[host] = value
+		# Send first iteration of router packet
+		self.send(packet)
+
+	# Implement Bellman-Ford algorithm
+	# Compare router table from acknowledgement of router packet received from neighbor routers and the current router. 
+	# Update router table if there is a shorter path.
+	# Static routing: metric based on hops (1 hop for each link)
+	# Dynamic routing: metric based on link delays (Update routing table based on the received router packets’ timestamps)
+	def update_routing_table(self, router_packet):
+		for (d,v) in router_packet.routing_map: # every item in routing table
+			if STATIC_ROUTING:
+				metric = 1
+				if d in self.current:
+					if v[0] + metric < self.current [d][0]:
+						new_v = v[0] + metric , #host source of router packet
+						self.current[d] = new_v
+				else:
+					new_v = v[0] + metric , #host source of router packet
+					self.current[d] = new_v
+			else: #dynamic routing
+				meric = #link delay (timestamp now - start timestamp when router packet sent)
+				if d in self.current:
+					if v[0] + metric < self.current [d][0]:
+						new_v = v[0] + metric , #host source of router packet
+						self.current[d] = new_v
+				else:
+					new_v = v[0] + metric , #host source of router packet
+					self.current[d] = new_v				
+
 
 	# dict routing_table: routing table
 	# key: destination host id
@@ -147,7 +194,7 @@ class Router(Node):
 	def map_route():
 		# Get the destination of packet, then look up current routing table, find next hop and send the packet to next link
 
-	def routing_table_timeout():
+	def routing_table_periodic_update():
 		# Updates routing table periodically. Send ROUTER packets to all neighboring links
 		# Send_router_packet()
 
