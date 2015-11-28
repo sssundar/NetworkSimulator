@@ -72,6 +72,9 @@ class Router(Node):
 			next_dest = self.current[packet.get_dest()] # a link
 			self.sim.get_element(next_dest).send(packet, self.get_id())	
 			# self.log("Sent packet id %d of type %s to %s" % (packet.get_ID(), packet.get_type(), next_dest))
+		elif (p == ROUTER_PACKET_TYPE):
+			node = packet.get_link()
+			self.sim.get_element(node).send(packet, self.get_id())
 		elif (p == ROUTER_PACKET_ACKNOWLEDGEMENT_TYPE):
 			# Create a cost for traveling through the link
 			link = self.sim.get_element(packet.get_link())
