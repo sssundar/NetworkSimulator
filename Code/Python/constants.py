@@ -13,7 +13,7 @@ STATIC_ROUTING = True
 DYNAMIC_ROUTING = False
 
 # Interval to wait before sending new ROUTER packets to update the table
-ROUTING_TABLE_UPDATE_PERIOD = 1000.0 # ms
+ROUTING_TABLE_UPDATE_PERIOD = 5000.0 # ms
 
 # Packet Sizes
 DATA_PACKET_BITWIDTH = 8 # in kbits (so 1 kbyte packet)
