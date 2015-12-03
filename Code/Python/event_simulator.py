@@ -24,7 +24,7 @@ Reference: https://docs.python.org/2/library/heapq.html
 
 '''
 
-import constants, itertools, flow
+import constants, itertools, flow, host, router
 from heapq import *
 from events import *
 
@@ -47,6 +47,18 @@ class Event_Simulator():
 		self.network_elements = network_elements
 		# set global time to 0
 		self.global_time = 0.0            
+
+		# create host_array 
+		host_array = []
+		for el in self.network_elements.keys():
+			if isinstance(self.network_elements[el], host.Host):
+				host_array.append(el.get_id())
+		for el in self.network_elements.keys():
+			if isinstance(self.network_elements[el], router.Router):
+				el.initalize_routing_table()
+		# create timeout callback for routing.
+		self.request_event(Start_Next_Routing_Cycle(constants.ROUTING_TABLE_UPDATE_PERIOD))
+
 		# keep track of which flows are active sources - and start them
 		# let each network element know we are the simulator
 		for el in self.network_elements.keys():

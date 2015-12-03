@@ -22,16 +22,9 @@ Nodes can be flow, link, router or host. Check input.json for the format.
 class JSONParser ():
 
 	myfile = ""
-	total_links = 0
-	host_array = []
 
 	def __init__(self,JSONFile):
 		self.myfile = JSONFile
-		self.total_links = 0
-		self.host_array = []
-
-	def get_total_links(self.JSONFile):
-		return self.total_links
 
 	def parser(self):
 		
@@ -44,13 +37,11 @@ class JSONParser ():
 			line["type"]
 
 			if line["type"] == "host":
-				host_array.append(line["id"])
 				# print "H"
 				h = Host(line["id"], line["links"])
 				input_map[line["id"]] = h            
 
 			elif line["type"] == "link":
-				self.total_links = self.total_links + 1	# Counting how many links
 				# print "L"
 				l = Link(line["id"], line["left"], line["right"], line["rate"], line["delay"], line["buffer"])
 				input_map[line["id"]] = l

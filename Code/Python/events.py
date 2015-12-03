@@ -11,7 +11,7 @@ Last Revised:
 '''
 
 from event import Event
-import constants
+import constants, router
 
 class Handle_Packet_Propagation (Event):
 	p = "" 	# Packet Propagating to a Node (Router/Host)
@@ -67,3 +67,15 @@ class Flow_Start (Event):
 
 	def event_action (self, sim):
 		sim.get_element(self.f).start()
+
+class Start_Next_Routing_Cycle (Event):
+	
+	def __init__ (self, completion_time):
+		self.set_completion_time(completion_time)
+	
+	def event_action (self, sim):
+		for el in sim.network_elements.keys():
+			if isinstance(sim.network_elements[el], router.Router):
+				sim.network_elements[el].routing_table_periodic_update()
+		self.set_completion_time(self.get_completion_time()+constants.ROUTING_TABLE_UPDATE_PERIOD)
+		sim.request_event(self)

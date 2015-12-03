@@ -91,7 +91,7 @@ class Router(Node):
 	# host_ids is an array contains all host ids
 	def initalize_routing_table(self):
 		
-		for host_id in jsonparser.get_host_array()
+		for host_id in self.sim.host_array:
 			value = float('inf'),self.links[0] # a default link
 			self.new[host_id] = value
 		# If the host destination is directly connected to the router (neighbor), set the distance to 0 and next hop to corresponiding link
@@ -127,13 +127,16 @@ class Router(Node):
 
 		# Send next iteration of router packet
 		if (self.itr <= total_links):			
+			'''
 			for link2 in self.link:
 				if self.sim.get_element(link2).get_left() == self.get_id():
 					sink = self.sim.get_element(link2).get_right()
 				else:
 					sink = self.sim.get_element(link2).get_left()
-				packet = Router_Packet(ROUTER_FLOW,self.get_id(),sink,ROUTER_PACKET_TYPE,ROUTER_FLOW,DATA_ROUTER_BITWIDTH,link2)
-				self.send(packet)
+			'''
+			sink = router_packet.get_source()
+			packet = Router_Packet(ROUTER_FLOW,self.get_id(),sink,ROUTER_PACKET_TYPE,ROUTER_FLOW,DATA_ROUTER_BITWIDTH,link2)
+			self.send(packet)
 		else:
 			self.current = self.new
 			self.itr = 0
