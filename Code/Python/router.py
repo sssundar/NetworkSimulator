@@ -69,7 +69,7 @@ class Router(Node):
 		if (p == DATA_PACKET_TYPE) or (p == DATA_PACKET_ACKNOWLEDGEMENT_TYPE): 
 			# Current is a dict.  We are trying to get the packet destination which is the dict key
 			# next_dest is a String of the link that should be sent to		
-			next_dest = self.current[packet.get_dest()] # a link
+			next_dest = self.current[packet.get_dest()][1] # a link
 			self.sim.get_element(next_dest).send(packet, self.get_id())	
 			# self.log("Sent packet id %d of type %s to %s" % (packet.get_ID(), packet.get_type(), next_dest))
 		elif (p == ROUTER_PACKET_TYPE):
@@ -104,10 +104,10 @@ class Router(Node):
 					self.current[key] = value
 		# Send first iteration of router packet
 		for link2 in self.link:
-			if self.sim.get_element(link2).get_left() == self.get_id():
+			if self.sim.get_element(link2).get_left() == self.get_id():  # If the router is on the left, sink is on the right
 				sink = self.sim.get_element(link2).get_right()
 			else:
-				sink = self.sim.get_element(link2).get_left()
+				sink = self.sim.get_element(link2).get_left()			 # If the router is on the right, sink is on the left
 			packet = Router_Packet(ROUTER_FLOW,self.get_id(),sink,ROUTER_PACKET_TYPE,ROUTER_FLOW,DATA_ROUTER_BITWIDTH,link2)
 			self.send(packet)
 
