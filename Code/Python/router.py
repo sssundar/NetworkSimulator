@@ -30,8 +30,8 @@ class Router(Node):
 	current = {}
 	new = {}
 
-	itr = 0 # number of iterations of b-f
 	host_array = []
+	no_change = 0
 
 	# Call Node initialization code, with the Node ID (required unique)
 	# Initializes itself
@@ -42,6 +42,7 @@ class Router(Node):
 		self.new = {}		# Routing table under construction	
 		self.itr = 0
 		self.host_array = []
+		self.no_change = 0
 
 	''' table
 		key: destination (string ID)
@@ -126,10 +127,11 @@ class Router(Node):
 				if v[0] + metric < self.new [d][0]:
 						new_v = v[0] + metric , self.new[d][1] 
 						self.new[d] = new_v
-		self.itr = self.itr + 1
+				else:
+					self.no_change = self.no_change + 1
 
 		# Send next iteration of router packet
-		if (self.itr <= total_links):			
+		if (self.no_change <= len(self.link) + len(self.new)):			
 			'''
 			for link2 in self.link:
 				if self.sim.get_element(link2).get_left() == self.get_id():
@@ -142,7 +144,7 @@ class Router(Node):
 			self.send(packet)
 		else:
 			self.current = self.new
-			self.itr = 0
+			self.no_change = 0
 	
 	def routing_table_periodic_update():
 		self.initalize_routing_table()
