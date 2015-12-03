@@ -1,5 +1,7 @@
 # File: router.py
 #
+# Assisted by Sith
+#
 # Description: a router, with associated links and flow
 # route packets to destination host
 # 
@@ -8,7 +10,7 @@
 #  Takes an array containing arbitrary number of strings,
 #		its connected links' id's
 #
-# Last Revised: 23 November 2015 by Ahmed Alshaia
+# Last Revised: 3 December 2015 by Sith Domrongkitchaiporn
 
 from node import Node
 import constants
@@ -117,7 +119,7 @@ class Router(Node):
 	def update_routing_table(self, router_packet,total_links):
 		for (d,v) in router_packet.get_routing_map().items(): # every item in routing table
 			if STATIC_ROUTING:
-
+				pass
 			else: #dynamic routing
 				metric = router_packet.get_cost() #link cost
 				if v[0] + metric < self.new [d][0]:
