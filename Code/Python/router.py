@@ -13,6 +13,7 @@
 from node import Node
 import constants
 from packet import *
+from jsonparser import *
 
 # The class Node extends the class Reporter
 class Router(Node):
@@ -62,7 +63,7 @@ class Router(Node):
 			q.set_routing_map(self.new)
 			self.send(q)
 		elif (p == ROUTER_PACKET_ACKNOWLEDGEMENT_TYPE):
-			self.update_routing_table(packet)	# check argument q
+			self.update_routing_table(packet,jsonparser.get_total_links())	# check argument q
 
 	# Routing table is a String table with a String key
 	# The key is the final destination
@@ -88,9 +89,9 @@ class Router(Node):
 	# The value of the table is a tuple (distance between current router and destination host, next hop(link))
 	# Initially, set the distance to be inf, the next hop to link[0]
 	# host_ids is an array contains all host ids
-	def initalize_routing_table(self,hosts_ids):
+	def initalize_routing_table(self):
 		
-		for host_id in hosts_ids:
+		for host_id in jsonparser.get_host_array()
 			value = float('inf'),self.links[0] # a default link
 			self.new[host_id] = value
 		# If the host destination is directly connected to the router (neighbor), set the distance to 0 and next hop to corresponiding link
