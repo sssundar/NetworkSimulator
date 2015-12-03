@@ -27,6 +27,8 @@ class Router(Node):
 	current = {}
 	new = {}
 
+	itr = 0 # number of iterations of b-f
+
 	# Call Node initialization code, with the Node ID (required unique)
 	# Initializes itself
 	def __init__(self, identity, links):
@@ -34,6 +36,7 @@ class Router(Node):
 		self.link = links
 		self.current = {}	# Current Routing table
 		self.new = {}		# Routing table under construction	
+		self.itr = 0
 
 
 	''' table
@@ -59,7 +62,7 @@ class Router(Node):
 			q.set_routing_map(self.new)
 			self.send(q)
 		elif (p == ROUTER_PACKET_ACKNOWLEDGEMENT_TYPE):
-			self.update_routing_table(q)	# check argument q
+			self.update_routing_table(packet)	# check argument q
 
 	# Routing table is a String table with a String key
 	# The key is the final destination
@@ -89,13 +92,13 @@ class Router(Node):
 		
 		for host_id in hosts_ids:
 			value = float('inf'),self.links[0] # a default link
-			self.current[host_id] = value
+			self.new[host_id] = value
 		# If the host destination is directly connected to the router (neighbor), set the distance to 0 and next hop to corresponiding link
 		for link2 in self.link:
-			for key in self.current:
+			for key in self.new:
 				if (key == self.sim.get_element(link2).get_left()) or (key == self.sim.get_element(link2).get_right()):
 					value = 0, link2 # this link
-					self.current[key] = value
+					self.new[key] = value
 		# Send first iteration of router packet
 		for link2 in self.link:
 			if self.sim.get_element(link2).get_left() == self.get_id():  # If the router is on the left, sink is on the right
@@ -110,26 +113,30 @@ class Router(Node):
 	# Update router table if there is a shorter path.
 	# Static routing: metric based on hops (1 hop for each link)
 	# Dynamic routing: metric based on link cost
-	def update_routing_table(self, router_packet):
+	def update_routing_table(self, router_packet,total_links):
 		for (d,v) in router_packet.get_routing_map().items(): # every item in routing table
 			if STATIC_ROUTING:
 
 			else: #dynamic routing
 				metric = router_packet.get_cost() #link cost
-				if v[0] + metric < self.current [d][0]:
-						new_v = v[0] + metric , self.current[d][1] 
-						self.current[d] = new_v
-		# send router packets to all links
-		# if #routing table not converged:
-		# 	for link2 in self.link:
-		# 		if self.sim.get_element(link2).get_left() == self.get_id():
-		# 			sink = self.sim.get_element(link2).get_right()
-		# 		else:
-		# 			sink = self.sim.get_element(link2).get_left()
-		# 		packet = Router_Packet(ROUTER_FLOW,self.get_id(),sink,ROUTER_PACKET_TYPE,ROUTER_FLOW,DATA_ROUTER_BITWIDTH,link2)
-		# 		self.send(packet)				
+				if v[0] + metric < self.new [d][0]:
+						new_v = v[0] + metric , self.new[d][1] 
+						self.new[d] = new_v
+		self.itr = self.itr + 1
 
-
+		# Send next iteration of router packet
+		if (self.itr <= total_links):			
+			for link2 in self.link:
+				if self.sim.get_element(link2).get_left() == self.get_id():
+					sink = self.sim.get_element(link2).get_right()
+				else:
+					sink = self.sim.get_element(link2).get_left()
+				packet = Router_Packet(ROUTER_FLOW,self.get_id(),sink,ROUTER_PACKET_TYPE,ROUTER_FLOW,DATA_ROUTER_BITWIDTH,link2)
+				self.send(packet)
+		else:
+			self.current = self.new
+			self.itr = 0
+	
 	'''
 	def routing_table_periodic_update():
 		# Updates outdated routing table periodically.
