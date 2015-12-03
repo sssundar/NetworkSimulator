@@ -141,11 +141,9 @@ class Router(Node):
 			self.current = self.new
 			self.itr = 0
 	
-	'''
+	
 	def routing_table_periodic_update():
-		# Updates outdated routing table periodically.
-		# ROUTING_TABLE_UPDATE_PERIOD
-	'''
+		self.initalize_routing_table()
 
 	def set_event_simulator (self, sim):
 		self.sim = sim
