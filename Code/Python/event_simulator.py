@@ -52,10 +52,11 @@ class Event_Simulator():
 		host_array = []
 		for el in self.network_elements.keys():
 			if isinstance(self.network_elements[el], host.Host):
-				host_array.append(el.get_id())
+				host_array.append(self.network_elements[el].get_id())
 		for el in self.network_elements.keys():
 			if isinstance(self.network_elements[el], router.Router):
-				el.initalize_routing_table()
+				self.network_elements[el].set_host_array(host_array)
+				self.network_elements[el].initalize_routing_table()
 		# create timeout callback for routing.
 		self.request_event(Start_Next_Routing_Cycle(constants.ROUTING_TABLE_UPDATE_PERIOD))
 

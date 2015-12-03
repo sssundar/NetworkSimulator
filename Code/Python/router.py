@@ -31,6 +31,7 @@ class Router(Node):
 	new = {}
 
 	itr = 0 # number of iterations of b-f
+	host_array = []
 
 	# Call Node initialization code, with the Node ID (required unique)
 	# Initializes itself
@@ -40,7 +41,7 @@ class Router(Node):
 		self.current = {}	# Current Routing table
 		self.new = {}		# Routing table under construction	
 		self.itr = 0
-
+		self.host_array = []
 
 	''' table
 		key: destination (string ID)
@@ -93,7 +94,7 @@ class Router(Node):
 	# host_ids is an array contains all host ids
 	def initalize_routing_table(self):
 		
-		for host_id in self.sim.host_array:
+		for host_id in self.host_array:
 			value = float('inf'),self.links[0] # a default link
 			self.new[host_id] = value
 		# If the host destination is directly connected to the router (neighbor), set the distance to 0 and next hop to corresponiding link
@@ -143,9 +144,11 @@ class Router(Node):
 			self.current = self.new
 			self.itr = 0
 	
-	
 	def routing_table_periodic_update():
 		self.initalize_routing_table()
+
+	def set_host_array(self, array):
+		self.host_array = array
 
 	def set_event_simulator (self, sim):
 		self.sim = sim
