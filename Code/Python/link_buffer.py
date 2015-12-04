@@ -3,7 +3,8 @@
 	contents, and use that to determine whether new arrivals are dropped.
 '''
 
-import constants
+from constants import *
+import sys
 
 class LinkBuffer:
 
@@ -26,7 +27,7 @@ class LinkBuffer:
 		return self.current_kbits_in_queue / self.kbit_capacity
 
 	def get_num_queued(self):
-		return len(queued)
+		return len(self.queued)
 
 	# link object pointer & buffer direction, for consolidated logging in 
 	# buffers themselves
@@ -48,10 +49,11 @@ class LinkBuffer:
 	'''
 	def can_enqueue (self, packet):
 		p = packet.get_type()
-		if (p == DATA_PACKET_TYPE) or (p == DATA_PACKET_ACKNOWLEDGEMENT_TYPE):
-			if self.current_kbits_in_queue + packet.get_kbits() > self.kbit_capacity:
-				self.queued.pop()
-			self.queued.insert(0, [self.sim.get_current_time(), packet])
+
+		if (p == ROUTER_PACKET_TYPE) or (p == ROUTER_PACKET_ACKNOWLEDGEMENT_TYPE):
+			while self.current_kbits_in_queue + packet.get_kbits() > self.kbit_capacity:
+				unjustlyDroppedBySith = self.queued.pop()
+				self.current_kbits_in_queue -= unjustlyDroppedBySith[1].get_kbits()	
 			return True
 		elif self.current_kbits_in_queue + packet.get_kbits() <= self.kbit_capacity:
 			return True
@@ -60,11 +62,18 @@ class LinkBuffer:
 	def enqueue (self, packet):
 
 		if self.can_enqueue(packet):
-			self.queued.append([self.sim.get_current_time(), packet])
+			p = packet.get_type()
+			if (p == ROUTER_PACKET_TYPE) or (p == ROUTER_PACKET_ACKNOWLEDGEMENT_TYPE):
+				self.queued.insert(0, [self.sim.get_current_time(), packet])
+			else:
+				self.queued.append([self.sim.get_current_time(), packet])
+			
 			self.current_kbits_in_queue += packet.get_kbits()
 
-			if constants.MEASUREMENT_ENABLE: 
-				print constants.MEASURE_BUFFER_OCCUPANCY(\
+			if MEASUREMENT_ENABLE: 
+				sys.stderr.write("SITH: %s,%s,%s,%s,%s, %s\n"%(self.mylink.get_id(),p,packet.get_source(),packet.get_dest(),packet.get_curr_dest(), packet.get_ID()))
+
+				print MEASURE_BUFFER_OCCUPANCY(\
 					(self.mylink,\
 					self.mydirection,\
 					self.get_fractional_occupancy(),\
@@ -85,8 +94,8 @@ class LinkBuffer:
 			time_queued, p = self.queued.pop(0)
 			self.current_kbits_in_queue -= p.get_kbits()
 
-			if constants.MEASUREMENT_ENABLE: 
-				print constants.MEASURE_BUFFER_OCCUPANCY(\
+			if MEASUREMENT_ENABLE: 
+				print MEASURE_BUFFER_OCCUPANCY(\
 					(self.mylink,\
 					self.mydirection,\
 					self.get_fractional_occupancy(),\

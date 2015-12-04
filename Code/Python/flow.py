@@ -8,6 +8,7 @@ from reporter import Reporter
 from packet import *
 import math, constants
 from events import *
+import sys
 
 # This class only extends Reporter Class
 class Flow(Reporter):
@@ -109,6 +110,8 @@ class Data_Source(Flow):
 		self.tx_buffer[p.get_ID()].set_ack(1)
 		self.num_packets_outstanding -= 1	# Decreased the number of packets there
 		
+		sys.stderr.write("Received in flow: %s from %s\n"%(p.get_ID(),p.get_source()))
+
 		print "\nDEBUG: (in receive) packets outstanding : %d, packet %d\n" % (self.num_packets_outstanding, p.get_ID())		
 
 		if not self.is_flow_done():			
@@ -195,4 +198,5 @@ class Data_Sink(Flow):
 		p = Packet(self, self.source, self.dest, \
 			constants.DATA_PACKET_ACKNOWLEDGEMENT_TYPE, packet.get_ID(), \
 			constants.DATA_ACK_BITWIDTH)
+		sys.stderr.write("SITH SEND DATA ACK: %s,%s,%s\n"%(p.get_source(),p.get_dest(),p.get_type()))
 		self.send(p)

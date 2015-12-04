@@ -27,7 +27,7 @@ References:
 '''
 import constants
 
-testCase = constants.TESTCASE0
+testCase = constants.TESTCASE1
 
 import sys, os
 import json
@@ -358,24 +358,24 @@ if __name__ == "__main__":
 
 		ms_window = 100
 
-		link1_stats = plt.figure()
-		link1_linkrate_ax = link1_stats.add_subplot(211)
-		link1_leftbuffocc_ax = link1_stats.add_subplot(212)
-		plot_linkrate(eimtod, "l1", ms_window, link1_linkrate_ax)
-		plot_bufferoccupancy(eimtod, "l1", constants.LTR, ms_window, link1_leftbuffocc_ax)
-		link1_linkrate_ax.set_title("Link 1, Test Case 1 (Static Routing, TCP Reno)")
-		link1_leftbuffocc_ax.set_xlabel('Seconds')
-		link1_stats.savefig("results/temp_link1.jpeg")
+		# link1_stats = plt.figure()
+		# link1_linkrate_ax = link1_stats.add_subplot(211)
+		# link1_leftbuffocc_ax = link1_stats.add_subplot(212)
+		# plot_linkrate(eimtod, "l1", ms_window, link1_linkrate_ax)
+		# plot_bufferoccupancy(eimtod, "l1", constants.LTR, ms_window, link1_leftbuffocc_ax)
+		# link1_linkrate_ax.set_title("Link 1, Test Case 1 (Static Routing, TCP Reno)")
+		# link1_leftbuffocc_ax.set_xlabel('Seconds')
+		# link1_stats.savefig("results/temp_link1.jpeg")
 
-		flow1src_stats = plt.figure()
-		flow1src_packetloss_ax = flow1src_stats.add_subplot(311)
-		plot_packetloss(eimtod, "f1_src", ms_window, flow1src_packetloss_ax)
-		flow1src_packetloss_ax.set_title("Flow 1, Test Case 1 (Static Routing, TCP RENO)")
-		flow1src_flowrate_ax = flow1src_stats.add_subplot(312)
-		plot_flowrate(eimtod, "f1_dest", ms_window, flow1src_flowrate_ax)
-		flow1src_windowsize_ax = flow1src_stats.add_subplot(313)
-		plot_dynamic_flowwindowsize(eimtod, "f1_src", ms_window, flow1src_windowsize_ax)
-		flow1src_windowsize_ax.set_xlabel('Seconds')
-		flow1src_stats.savefig("results/temp_flow1.jpeg")
+		# flow1src_stats = plt.figure()
+		# flow1src_packetloss_ax = flow1src_stats.add_subplot(311)
+		# plot_packetloss(eimtod, "f1_src", ms_window, flow1src_packetloss_ax)
+		# flow1src_packetloss_ax.set_title("Flow 1, Test Case 1 (Static Routing, TCP RENO)")
+		# flow1src_flowrate_ax = flow1src_stats.add_subplot(312)
+		# plot_flowrate(eimtod, "f1_dest", ms_window, flow1src_flowrate_ax)
+		# flow1src_windowsize_ax = flow1src_stats.add_subplot(313)
+		# plot_dynamic_flowwindowsize(eimtod, "f1_src", ms_window, flow1src_windowsize_ax)
+		# flow1src_windowsize_ax.set_xlabel('Seconds')
+		# flow1src_stats.savefig("results/temp_flow1.jpeg")
 
 	sys.exit(0)

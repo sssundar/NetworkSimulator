@@ -102,11 +102,11 @@ class Router_Packet(Packet):
 
 	# Calls Flow class to init
 	def __init__(self,flow,src,sink,typ,ID,kbits,link):
-		routing_map = {}
+		self.routing_map = {}
 		Packet.__init__(self,flow,src,sink,typ,ID,kbits)
 		self.set_timeout_disabled(True)
-		cost = 0
-		using_link = link
+		self.cost = 0
+		self.using_link = link
 
 	def set_routing_map(self, table):
 		self.routing_map = table

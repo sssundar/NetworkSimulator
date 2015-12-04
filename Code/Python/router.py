@@ -13,9 +13,10 @@
 # Last Revised: 3 December 2015 by Sith Domrongkitchaiporn
 
 from node import Node
-import constants
+from constants import *
 from packet import *
 from jsonparser import *
+import sys
 
 # The class Node extends the class Reporter
 class Router(Node):
@@ -58,6 +59,13 @@ class Router(Node):
 	- Ack: Update table using the newly received table
 	'''
 	def receive(self, packet):
+		'''
+		sys.stderr.write("\nDEBUG ROUTER RECEIVE NEW TABLE\n")
+		sys.stderr.write("%s: %s\n"%(self.get_id(), packet.get_type()))
+
+		for (d, v) in packet.get_routing_map().items():
+			sys.stderr.write("%s: %s, %0.3e, %s\n"%(self.get_id(), d,v[0],v[1]))
+		'''
 		p = packet.get_type()
 		if (p == DATA_PACKET_TYPE) or (p == DATA_PACKET_ACKNOWLEDGEMENT_TYPE):
 			self.send(packet)
@@ -67,12 +75,17 @@ class Router(Node):
 			q.set_routing_map(self.new)
 			self.send(q)
 		elif (p == ROUTER_PACKET_ACKNOWLEDGEMENT_TYPE):
-			self.update_routing_table(packet,jsonparser.get_total_links())	# check argument q
+			self.update_routing_table(packet)	# check argument q
 
 	# Routing table is a String table with a String key
 	# The key is the final destination
 	# The value is the link
 	def send(self, packet):
+		'''
+		sys.stderr.write("\nDEBUG ROUTER SEND NEW TABLE\n")
+		for (d, v) in self.new.items():
+			sys.stderr.write("%s: %s, %0.3e, %s\n"%(self.get_id(), d,v[0],v[1]))
+		'''
 		p = packet.get_type()
 		if (p == DATA_PACKET_TYPE) or (p == DATA_PACKET_ACKNOWLEDGEMENT_TYPE): 
 			# Current is a dict.  We are trying to get the packet destination which is the dict key
@@ -86,7 +99,7 @@ class Router(Node):
 		elif (p == ROUTER_PACKET_ACKNOWLEDGEMENT_TYPE):
 			# Create a cost for traveling through the link
 			link = self.sim.get_element(packet.get_link())
-			packet.set_cost(link.get_delay() + (link.get_rate()*link.get_occupancy()))
+			packet.set_cost(link.get_delay() + (link.get_occupancy()/link.get_rate()))
 			link.send(packet, self.get_id())
 
 	# Initialize routing table by creating keys for all hosts in the test case
@@ -94,9 +107,8 @@ class Router(Node):
 	# Initially, set the distance to be inf, the next hop to link[0]
 	# host_ids is an array contains all host ids
 	def initalize_routing_table(self):
-		
 		for host_id in self.host_array:
-			value = float('inf'),self.links[0] # a default link
+			value = float('inf'),self.link[0] # a default link
 			self.new[host_id] = value
 		# If the host destination is directly connected to the router (neighbor), set the distance to 0 and next hop to corresponiding link
 		for link2 in self.link:
@@ -118,7 +130,7 @@ class Router(Node):
 	# Update router table if there is a shorter path.
 	# Static routing: metric based on hops (1 hop for each link)
 	# Dynamic routing: metric based on link cost
-	def update_routing_table(self, router_packet,total_links):
+	def update_routing_table(self, router_packet):
 		for (d,v) in router_packet.get_routing_map().items(): # every item in routing table
 			if STATIC_ROUTING:
 				pass
@@ -127,6 +139,7 @@ class Router(Node):
 				if v[0] + metric < self.new [d][0]:
 						new_v = v[0] + metric , self.new[d][1] 
 						self.new[d] = new_v
+						self.no_change = 0
 				else:
 					self.no_change = self.no_change + 1
 
@@ -140,13 +153,13 @@ class Router(Node):
 					sink = self.sim.get_element(link2).get_left()
 			'''
 			sink = router_packet.get_source()
-			packet = Router_Packet(ROUTER_FLOW,self.get_id(),sink,ROUTER_PACKET_TYPE,ROUTER_FLOW,DATA_ROUTER_BITWIDTH,link2)
+			packet = Router_Packet(ROUTER_FLOW,self.get_id(),sink,ROUTER_PACKET_TYPE,ROUTER_FLOW,DATA_ROUTER_BITWIDTH,router_packet.get_link())
 			self.send(packet)
 		else:
 			self.current = self.new
 			self.no_change = 0
 	
-	def routing_table_periodic_update():
+	def routing_table_periodic_update(self):
 		self.initalize_routing_table()
 
 	def set_host_array(self, array):

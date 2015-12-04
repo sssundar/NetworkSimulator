@@ -9,11 +9,11 @@ ROUTER_PACKET_TYPE = "ROUTER"
 ROUTER_FLOW = "0"
 
 # Routing Protocol for link cost
-STATIC_ROUTING = True
-DYNAMIC_ROUTING = False
+STATIC_ROUTING = False
+DYNAMIC_ROUTING = True
 
 # Interval to wait before sending new ROUTER packets to update the table
-ROUTING_TABLE_UPDATE_PERIOD = 5000.0 # ms
+ROUTING_TABLE_UPDATE_PERIOD = 4000.0 # ms
 
 # Packet Sizes
 DATA_PACKET_BITWIDTH = 8 # in kbits (so 1 kbyte packet)
@@ -33,9 +33,9 @@ TESTCASE0 = "input_test0.json"
 TESTCASE1 = "input_test1.json"
 
 # Select TCP
-TCP_RENO_ENABLE = True
+TCP_RENO_ENABLE = False	
 TCP_FAST_ENABLE = False
-TCP_STATIC_ENABLE = False
+TCP_STATIC_ENABLE = True
 
 #############################################
 # Logging Measurement Functions & Constants #
