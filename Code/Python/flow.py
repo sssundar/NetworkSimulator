@@ -172,7 +172,7 @@ class Data_Sink(Flow):
  	# once it creates the source & asks it to calculate the packet count
 	def __init__(self, identity, src, sink, size, start):
 		self.rx_buffer = []
-		Flow.__init__(self, identity, src, sink, size, start)		
+		Flow.__init__(self, identity, src, sink, size, start)
 
 	# Init array so the Rx for each packet = FALSE
 	# This must be done by the parser (telepathy)

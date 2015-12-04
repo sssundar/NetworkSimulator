@@ -92,6 +92,7 @@ class Router(Node):
 			# next_dest is a String of the link that should be sent to		
 			next_dest = self.current[packet.get_dest()][1] # a link
 			self.sim.get_element(next_dest).send(packet, self.get_id())	
+			sys.stderr.write("%s sending: %s to %s with dest: %s\n"%(self.get_id(), p, next_dest, packet.get_dest()))
 			# self.log("Sent packet id %d of type %s to %s" % (packet.get_ID(), packet.get_type(), next_dest))
 		elif (p == ROUTER_PACKET_TYPE):
 			link = self.sim.get_element(packet.get_link())
@@ -137,7 +138,8 @@ class Router(Node):
 			else: #dynamic routing
 				metric = router_packet.get_cost() #link cost
 				if v[0] + metric < self.new [d][0]:
-						new_v = v[0] + metric , self.new[d][1] 
+						recv_map = router_packet.get_routing_map()
+						new_v = v[0] + metric , router_packet.get_link() 
 						self.new[d] = new_v
 						self.no_change = 0
 				else:
@@ -158,6 +160,10 @@ class Router(Node):
 		else:
 			self.current = self.new
 			self.no_change = 0
+			
+			sys.stderr.write("\nROUTING TABLE for %s\n"%self.get_id())
+			for (d, v) in self.new.items():
+				sys.stderr.write("%s, %0.3e, %s\n"%(d,v[0],v[1]))
 	
 	def routing_table_periodic_update(self):
 		self.initalize_routing_table()
