@@ -7,6 +7,8 @@ from link import *
 from router import *
 from flow import *
 from tcp_flow import *
+from tcp_reno_working import *
+from tcp_fast_working import *
 from constants import *
 
 """
@@ -59,11 +61,15 @@ class JSONParser ():
 				if TCP_RENO_ENABLE is True:										
 					ds = Data_Source_TCP_RENO(keys, line["source"], line["dest"], line["size"],line["start"])				
 					dd = Data_Sink_TCP_RENO(keyd, line["dest"], line["source"], line["size"],line["start"])	# Dest and Src is swapped for sink
-				elif TCP_FAST_ENABLE is True:					
-					raise ValueError("TCP FAST is not implemented.")
 				elif TCP_STATIC_ENABLE is True:					
 					ds = Data_Source(keys, line["source"], line["dest"], line["size"],line["start"])				
 					dd = Data_Sink(keyd, line["dest"], line["source"], line["size"],line["start"])	# Dest and Src is swapped for sink
+				elif TCP_RENO_WORKING_ENABLE is True:
+					ds = Working_Data_Source_TCP_RENO(keys, line["source"], line["dest"], line["size"],line["start"])				
+					dd = Working_Data_Sink_TCP_RENO(keyd, line["dest"], line["source"], line["size"],line["start"])	# Dest and Src is swapped for sink									
+				elif TCP_FAST_WORKING_ENABLE is True:
+					ds = Working_Data_Source_TCP_FAST(keys, line["source"], line["dest"], line["size"],line["start"])				
+					dd = Working_Data_Sink_TCP_RENO(keyd, line["dest"], line["source"], line["size"],line["start"])	# Dest and Src is swapped for sink													
 				
 				dd.set_flow_size(ds.get_flow_size()) # in packets
 

@@ -69,7 +69,7 @@ class Event_Simulator():
 	def are_flows_done (self):
 		result = 1
 		for f in self.network_flow_sources:
-			result = result & f.is_done()
+			result = result & f.is_flow_done()
 		return result
 
 	def get_current_time (self):

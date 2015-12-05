@@ -144,14 +144,14 @@ class Data_Source(Flow):
 	# If a packet != sending or GOT ACK
 	#	- Return the packet
 	def get_next_packet_to_transmit(self):
-		for i in range (0, len(self.tx_buffer)):
+		for i in xrange(len(self.tx_buffer)):
 			# ! ( A | B ) = !A & !B
 			if not (self.tx_buffer[i].get_in_transit() or self.tx_buffer[i].get_ack()):
 				return self.tx_buffer[i]
 		return None
 
 	def is_flow_done(self):
-		for i in range (0, len(self.tx_buffer)):
+		for i in xrange(len(self.tx_buffer)):
 			if (self.tx_buffer[i].get_ack() is not 1):
 				return 0
 		self.set_is_done(1)

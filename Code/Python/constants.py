@@ -1,5 +1,17 @@
 # Constants File 
 
+# TCP RENO/FAST States
+SS = 1
+CA = 2
+FR = 3
+TR = 4
+
+# TCP FAST Thresholds
+FAST_CA_THRESHOLD = 5.0 # when RTTact ~ 3x RTTmin, transition from SS to CA
+FAST_RTT_WINDOW_SIZE = 20 # estimate RTTact from FAST_RTT_WINDOW_SIZE last RTTs
+SS2CA_SCALING = 0.875
+FAST_ALPHA = 10.0 	
+
 # Packet Types 
 DATA_PACKET_ACKNOWLEDGEMENT_TYPE = "ACK_DATA"
 DATA_PACKET_TYPE = "DATA"
@@ -11,7 +23,7 @@ DATA_PACKET_BITWIDTH = 8 # in kbits (so 1 kbyte packet)
 DATA_ACK_BITWIDTH = 0.064 # 8 bytes, 0.064 kbits
 
 # Data Flow Packet Timeout
-DATA_PACKET_TIMEOUT = 500.0 # ms_globaltime
+DATA_PACKET_TIMEOUT = 4000.0 # ms_globaltime
 
 # Link Transmission Directions
 RTL = "right-to-left"
@@ -22,8 +34,9 @@ TESTCASE0 = "input_test0.json"
 TESTCASE1 = "input_test1.json"
 
 # Select TCP
-TCP_RENO_ENABLE = True
-TCP_FAST_ENABLE = False
+TCP_RENO_ENABLE = False 	   # Original Version
+TCP_RENO_WORKING_ENABLE = False # Restructured Version
+TCP_FAST_WORKING_ENABLE = True
 TCP_STATIC_ENABLE = False
 
 #############################################
@@ -157,5 +170,111 @@ MEASURE_FLOW_OUTSTANDING = \
 											packets_in_transit,\
 											packets_ackd,\
 											total_packets,\
+											ms_time)\
+			)
+
+FLOW_RENO_FULL_DEBUG_MEASUREMENT_BASE = \
+"\n{\"logtype\":\"measurement\",\"measurement\":\"fullrenodebug\",\
+\"flowid\":\"%s\",\
+\"SendReceive\":\"%s\",\
+\"whichPacket\":\"%d\",\
+\"EPIT\":\"%d\",\
+\"LPIA\":\"%d\",\
+\"WS\":\"%0.3e\",\
+\"CAT\":\"%0.3e\",\
+\"STT\":\"%0.6e\",\
+\"L3P0\":\"%d\",\
+\"L3P1\":\"%d\",\
+\"L3P2\":\"%d\",\
+\"TAF\":\"%s\",\
+\"DAF\":\"%s\",\
+\"SAF\":\"%s\",\
+\"State\":\"%d\",\
+\"isTimeoutOccurring\":\"%s\",\
+\"ms_globaltime\":\"%0.6e\"}\n"
+
+MEASURE_FLOW_RENO_FULL_DEBUG = \
+	lambda ((flow,\
+		SendReceive,\
+		whichPacket,\
+		EPIT,\
+		LPIA,\
+		WS,\
+		CAT,\
+		STT,\
+		L3P0,\
+		L3P1,\
+		L3P2,\
+		TAF,DAF,SAF,\
+		State,\
+		isTimeoutOccurring,\
+		ms_time)):\
+		FLOW_RENO_FULL_DEBUG_MEASUREMENT_BASE % ((	flow.get_id(),\
+											SendReceive,\
+											whichPacket,\
+											EPIT,\
+											LPIA,\
+											WS, CAT, STT,\
+											L3P0, L3P1, L3P2,\
+											TAF,DAF,SAF,\
+											State,\
+											isTimeoutOccurring,\
+											ms_time)\
+			)
+
+FLOW_FAST_FULL_DEBUG_MEASUREMENT_BASE = \
+"\n{\"logtype\":\"measurement\",\"measurement\":\"fullfastdebug\",\
+\"flowid\":\"%s\",\
+\"SendReceive\":\"%s\",\
+\"whichPacket\":\"%d\",\
+\"EPIT\":\"%d\",\
+\"LPIA\":\"%d\",\
+\"WS\":\"%0.3e\",\
+\"STT\":\"%0.6e\",\
+\"L3P0\":\"%d\",\
+\"L3P1\":\"%d\",\
+\"L3P2\":\"%d\",\
+\"TAF\":\"%s\",\
+\"DAF\":\"%s\",\
+\"SAF\":\"%s\",\
+\"State\":\"%d\",\
+\"FlagObserveRTT\":\"%s\",\
+\"FlagRampWS\":\"%s\",\
+\"isTimeoutOccurring\":\"%s\",\
+\"RTTmin\":\"%0.6e\",\
+\"RTTactEst\":\"%0.6e\",\
+\"ICAPTUW\":\"%d\",\
+\"ms_globaltime\":\"%0.6e\"}\n"
+
+MEASURE_FLOW_FAST_FULL_DEBUG = \
+	lambda ((flow,
+		SendReceive,\
+		whichPacket,\
+		EPIT,\
+		LPIA,\
+		WS,\
+		STT,\
+		L3P0,\
+		L3P1,\
+		L3P2,\
+		TAF,DAF,SAF,\
+		State,\
+		isTimeoutOccurring,\
+		RTTmin,RTTactEst,Packets_Till_Update_WS_IN_CA,\
+		FlagObserveRTT,FlagRampWS,\
+		ms_time)):\
+		FLOW_FAST_FULL_DEBUG_MEASUREMENT_BASE % ((	flow.get_id(),\
+											SendReceive,\
+											whichPacket,\
+											EPIT,\
+											LPIA,\
+											WS, STT,\
+											L3P0, L3P1, L3P2,\
+											TAF,DAF,SAF,\
+											State,\
+											FlagObserveRTT, FlagRampWS,\
+											isTimeoutOccurring,\
+											RTTmin,RTTactEst,\
+											Packets_Till_Update_WS_IN_CA,\
 											ms_time)\
 			)

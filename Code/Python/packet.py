@@ -1,5 +1,4 @@
 # Packet Code
-# Sith Domrongkitchaiporn
 
 class Packet:
 
@@ -12,7 +11,7 @@ class Packet:
 	kbits = -1      # How big the packet is
 	ack = 0         # Boolean (Has it been acknowledged)
 	in_transit = 0  # Boolean
-	tx_time = -1    # ms
+	tx_time = -1    # ms (for a data packet, when transmitted. for an ack, the tx_time of the data packet ack'd)
 	ack_time = -1 	# ms 	
 	timeout_disabled = False
 

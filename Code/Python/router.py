@@ -11,7 +11,7 @@
 # Last Revised: 23 November 2015 by Ahmed Alshaia
 
 from node import Node
-import constants
+from constants import *
 
 # The class Node extends the class Reporter
 class Router(Node):
@@ -51,7 +51,7 @@ class Router(Node):
 		if (p == DATA_PACKET_TYPE) or (p == DATA_PACKET_ACKNOWLEDGEMENT_TYPE):
 			self.send(packet)
 		elif (p == ROUTER_PACKET_TYPE):
-			
+			pass
 
 	# Routing table is a String table with a String key
 	# The key is the final destination
@@ -94,8 +94,8 @@ class Router(Node):
 		# Compare router table from acknowledgement of router packet received from neighbor routers and the current router. 
 		# Update router table if there is a shorter path.
 		# Static routing: metric based on hops (1 hop for each link)
-		# Dynamic routing: metric based on link delays (Update routing table based on the received router packets’ timestamps)
-		for (d,v) in every item in routing table:
+		# Dynamic routing: metric based on link delays (Update routing table based on the received router packets timestamps)
+		for (d,v) in every item in routing table:		
 			if static routing:
 				metric = 1
 				if d in self.table:
@@ -131,7 +131,6 @@ class Router(Node):
 	def routing_table_timeout():
 		# Updates routing table periodically. Send ROUTER packets to all neighboring links
 		# Send_router_packet()
-
 	'''
 
 	def set_event_simulator (self, sim):
