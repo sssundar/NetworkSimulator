@@ -33,7 +33,7 @@ References:
 '''
 import constants
 
-testCase = constants.TESTCASE0
+testCase = constants.TESTCASE1
 
 import sys, os
 import json

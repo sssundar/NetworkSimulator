@@ -114,6 +114,9 @@ class Link(Reporter):
 	def get_buff(self):
 		return self.kbits_in_each_buffer
 
+	def get_occupancy(self):
+		return self.left_buff.get_num_queued() + self.right_buff.get_num_queued()
+
 	# reset packet loading, decide how to transfer_next_packet
 	def packet_transmitted (self, packet):
 		self.packet_loading = False		

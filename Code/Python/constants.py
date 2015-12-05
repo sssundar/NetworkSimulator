@@ -15,12 +15,23 @@ FAST_ALPHA = 10.0
 # Packet Types 
 DATA_PACKET_ACKNOWLEDGEMENT_TYPE = "ACK_DATA"
 DATA_PACKET_TYPE = "DATA"
-# ROUTER_PACKET_ACKNOWLEDGEMENT_TYPE = "ACK_ROUTER"  # Don't need it
+ROUTER_PACKET_ACKNOWLEDGEMENT_TYPE = "ACK_ROUTER"  
 ROUTER_PACKET_TYPE = "ROUTER"
+
+ROUTER_FLOW = "0"
+
+# Routing Protocol for link cost
+STATIC_ROUTING = False
+DYNAMIC_ROUTING = True
+
+# Interval to wait before sending new ROUTER packets to update the table
+ROUTING_TABLE_UPDATE_PERIOD = 4000.0 # ms
 
 # Packet Sizes
 DATA_PACKET_BITWIDTH = 8 # in kbits (so 1 kbyte packet)
 DATA_ACK_BITWIDTH = 0.064 # 8 bytes, 0.064 kbits
+DATA_ROUTER_BITWIDTH = 0.064 # Requesting table
+DATA_ROUTER_ACK_BITWIDTH = 1
 
 # Data Flow Packet Timeout
 DATA_PACKET_TIMEOUT = 4000.0 # ms_globaltime
@@ -35,8 +46,8 @@ TESTCASE1 = "input_test1.json"
 
 # Select TCP
 TCP_RENO_ENABLE = False 	   # Original Version
-TCP_RENO_WORKING_ENABLE = False # Restructured Version
-TCP_FAST_WORKING_ENABLE = True
+TCP_RENO_WORKING_ENABLE = True # Restructured Version
+TCP_FAST_WORKING_ENABLE = False
 TCP_STATIC_ENABLE = False
 
 #############################################
