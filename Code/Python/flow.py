@@ -110,7 +110,7 @@ class Data_Source(Flow):
 		self.tx_buffer[p.get_ID()].set_ack(1)
 		self.num_packets_outstanding -= 1	# Decreased the number of packets there
 		
-		sys.stderr.write("Received in flow: %s from %s\n"%(p.get_ID(),p.get_source()))
+		#sys.stderr.write("Received in flow: %s from %s\n"%(p.get_ID(),p.get_source()))
 
 		print "\nDEBUG: (in receive) packets outstanding : %d, packet %d\n" % (self.num_packets_outstanding, p.get_ID())		
 

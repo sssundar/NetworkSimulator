@@ -50,10 +50,12 @@ class LinkBuffer:
 	def can_enqueue (self, packet):
 		p = packet.get_type()
 
-		if (p == ROUTER_PACKET_TYPE) or (p == ROUTER_PACKET_ACKNOWLEDGEMENT_TYPE):
+		if (p == ROUTER_PACKET_TYPE) or (p == ROUTER_PACKET_ACKNOWLEDGEMENT_TYPE):			
 			while self.current_kbits_in_queue + packet.get_kbits() > self.kbit_capacity:
+				cnt += 1
 				unjustlyDroppedBySith = self.queued.pop()
 				self.current_kbits_in_queue -= unjustlyDroppedBySith[1].get_kbits()	
+			
 			return True
 		elif self.current_kbits_in_queue + packet.get_kbits() <= self.kbit_capacity:
 			return True
@@ -71,7 +73,7 @@ class LinkBuffer:
 			self.current_kbits_in_queue += packet.get_kbits()
 
 			if MEASUREMENT_ENABLE: 
-				sys.stderr.write("SITH: %s,%s,%s,%s,%s, %s\n"%(self.mylink.get_id(),p,packet.get_source(),packet.get_dest(),packet.get_curr_dest(), packet.get_ID()))
+				#sys.stderr.write("SITH: %s,%s,%s,%s,%s, %s\n"%(self.mylink.get_id(),p,packet.get_source(),packet.get_dest(),packet.get_curr_dest(), packet.get_ID()))
 
 				print MEASURE_BUFFER_OCCUPANCY(\
 					(self.mylink,\
@@ -89,6 +91,7 @@ class LinkBuffer:
 
 	# You must call this function after checking can_dequeue; otherwise
 	# the return value is not guaranteed to be a packet
+	# if successful, returns packet and queuing delay
 	def dequeue (self):
 		if self.can_dequeue():
 			time_queued, p = self.queued.pop(0)
@@ -101,6 +104,6 @@ class LinkBuffer:
 					self.get_fractional_occupancy(),\
 					self.sim.get_current_time()))
 
-			return p
+			return (p, self.sim.get_current_time() - time_queued)
 		else:
 			raise ValueError('Dequeue violated. No packet in buffer.')

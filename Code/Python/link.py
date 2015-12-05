@@ -47,6 +47,7 @@ from reporter import Reporter
 from link_buffer import LinkBuffer
 from events import *
 import constants
+import sys
 
 # The class Link extends the class Reporter
 class Link(Reporter):
@@ -66,6 +67,8 @@ class Link(Reporter):
 	packets_in_flight = 0
 	transmission_direction = "" # left-to-right, right-to-left
 	switch_direction_flag = False
+
+	bidirectional_queueing_delay_memory = [-1] * constants.QUEUEING_DELAY_WINDOW
 
 	def ms_tx_delay (self, packet): 
 		return (packet.get_kbits() / self.capacity_kbit_per_ms) # ms
@@ -89,6 +92,8 @@ class Link(Reporter):
 
 		self.left_buff = LinkBuffer(self.kbits_in_each_buffer)
 		self.right_buff = LinkBuffer(self.kbits_in_each_buffer)
+
+		self.bidirectional_queueing_delay_memory = [-1] * constants.QUEUEING_DELAY_WINDOW
 
 	def set_event_simulator (self, sim):
 		self.sim = sim
@@ -114,8 +119,23 @@ class Link(Reporter):
 	def get_buff(self):
 		return self.kbits_in_each_buffer
 
-	def get_occupancy(self):
-		return self.left_buff.get_num_queued() + self.right_buff.get_num_queued()
+	# return time average of queueing delay buffer
+	def get_occupancy(self):		
+		'''
+		for v in self.bidirectional_queueing_delay_memory:
+			sys.stderr.write("QD: %0.3e\n"%v)
+		'''
+		return self.average_delay_buffer()
+
+	def average_delay_buffer(self):
+		delay = 0.0
+		cnt = 0.0
+		for v in self.bidirectional_queueing_delay_memory:
+			if v >= 0:
+				delay += v
+				cnt += 1.0
+		delay /= cnt
+		return delay
 
 	# reset packet loading, decide how to transfer_next_packet
 	def packet_transmitted (self, packet):
@@ -169,33 +189,33 @@ class Link(Reporter):
 						self.switch_direction_flag = False
 						if (self.transmission_direction == constants.LTR):
 							self.transmission_direction = constants.RTL
-							packet_to_transmit = self.right_buff.dequeue()
+							packet_to_transmit, queue_delay = self.right_buff.dequeue()
 							packet_to_transmit.set_curr_dest(self.get_left())
 						else:
 							self.transmission_direction = constants.LTR
-							packet_to_transmit = self.left_buff.dequeue()
+							packet_to_transmit, queue_delay = self.left_buff.dequeue()
 							packet_to_transmit.set_curr_dest(self.get_right())
 					elif (lt < rt):
 						# Start loading Packet from head of left buffer into channel
 						self.transmission_direction = constants.LTR
-						packet_to_transmit = self.left_buff.dequeue()
+						packet_to_transmit, queue_delay = self.left_buff.dequeue()
 						packet_to_transmit.set_curr_dest(self.get_right())
 					else:
 						# Start loading Packet from head of right buffer into channel
 						self.transmission_direction = constants.RTL
-						packet_to_transmit = self.right_buff.dequeue()
+						packet_to_transmit, queue_delay = self.right_buff.dequeue()
 						packet_to_transmit.set_curr_dest(self.get_left())
 				elif (lt >= 0):
 					# Start loading Packet from head of left buffer into channel				
 					self.transmission_direction = constants.LTR
-					packet_to_transmit = self.left_buff.dequeue()
+					packet_to_transmit, queue_delay = self.left_buff.dequeue()
 					packet_to_transmit.set_curr_dest(self.get_right())
 				else:
 					# Start loading Packet from head of right buffer into channel					
 					self.transmission_direction = constants.RTL
-					packet_to_transmit = self.right_buff.dequeue()
+					packet_to_transmit, queue_delay = self.right_buff.dequeue()
 					packet_to_transmit.set_curr_dest(self.get_left())
-				
+
 				self.packet_loading = True
 				completion_time = \
 					self.sim.get_current_time() + self.ms_tx_delay(packet_to_transmit)
@@ -204,6 +224,9 @@ class Link(Reporter):
 					Handle_Packet_Transmission(	packet_to_transmit,\
 												self.get_id(),\
 					 							completion_time))
+
+				self.bidirectional_queueing_delay_memory.pop(0)
+				self.bidirectional_queueing_delay_memory.append(queue_delay)
 			else:
 				pass
 
@@ -237,7 +260,7 @@ class Link(Reporter):
 			proposed_receive_time = self.sim.get_current_time() + \
 				self.ms_total_delay(buff.see_head_packet())
 			if ((t1 >= 0) and (proposed_receive_time < t1)) or (t1 < 0):	
-				packet_to_transmit = buff.dequeue()
+				packet_to_transmit, queue_delay = buff.dequeue()
 				packet_to_transmit.set_curr_dest(curr_dest)
 				self.packet_loading = True
 				completion_time = self.sim.get_current_time() + \
@@ -246,5 +269,9 @@ class Link(Reporter):
 					Handle_Packet_Transmission(	packet_to_transmit,\
 											self.get_id(),\
 				 							completion_time))
+
+				self.bidirectional_queueing_delay_memory.pop(0)
+				self.bidirectional_queueing_delay_memory.append(queue_delay)
+
 			else:
 				self.switch_direction_flag = True

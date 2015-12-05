@@ -340,6 +340,8 @@ class Working_Data_Source_TCP_FAST(Data_Source):
 			self.transmit()	
 
 	def receive(self,packet):
+		if not (packet.get_type() == DATA_PACKET_ACKNOWLEDGEMENT_TYPE):
+			raise ValueError("Flow %s, Packet Type %s, Source/Dest %s %s at time %0.6e\n"%(packet.get_flow().get_id(), packet.get_type(),packet.get_source(),packet.get_dest(),self.sim.get_current_time()))
 		pid = packet.get_ID()			
 		self.handleAck(pid)		
 		self.updateRTTactEst(packet)		

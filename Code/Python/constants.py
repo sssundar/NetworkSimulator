@@ -12,6 +12,9 @@ FAST_RTT_WINDOW_SIZE = 20 # estimate RTTact from FAST_RTT_WINDOW_SIZE last RTTs
 SS2CA_SCALING = 0.875
 FAST_ALPHA = 10.0 	
 
+# Link Queueing Memory
+QUEUEING_DELAY_WINDOW = 20
+
 # Packet Types 
 DATA_PACKET_ACKNOWLEDGEMENT_TYPE = "ACK_DATA"
 DATA_PACKET_TYPE = "DATA"
@@ -25,7 +28,7 @@ STATIC_ROUTING = False
 DYNAMIC_ROUTING = True
 
 # Interval to wait before sending new ROUTER packets to update the table
-ROUTING_TABLE_UPDATE_PERIOD = 4000.0 # ms
+ROUTING_TABLE_UPDATE_PERIOD = 30000.0 # ms
 
 # Packet Sizes
 DATA_PACKET_BITWIDTH = 8 # in kbits (so 1 kbyte packet)

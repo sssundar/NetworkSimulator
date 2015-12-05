@@ -21,6 +21,8 @@ import sys
 # The class Node extends the class Reporter
 class Router(Node):
 
+	IterationDoneFlag = False
+
 	link = []
 	sim = ""
 	# dest = ""		# destination host
@@ -92,7 +94,7 @@ class Router(Node):
 			# next_dest is a String of the link that should be sent to		
 			next_dest = self.current[packet.get_dest()][1] # a link
 			self.sim.get_element(next_dest).send(packet, self.get_id())	
-			sys.stderr.write("%s sending: %s to %s with dest: %s\n"%(self.get_id(), p, next_dest, packet.get_dest()))
+			#sys.stderr.write("%s sending: %s to %s with dest: %s\n"%(self.get_id(), p, next_dest, packet.get_dest()))
 			# self.log("Sent packet id %d of type %s to %s" % (packet.get_ID(), packet.get_type(), next_dest))
 		elif (p == ROUTER_PACKET_TYPE):
 			link = self.sim.get_element(packet.get_link())
@@ -100,7 +102,7 @@ class Router(Node):
 		elif (p == ROUTER_PACKET_ACKNOWLEDGEMENT_TYPE):
 			# Create a cost for traveling through the link
 			link = self.sim.get_element(packet.get_link())
-			packet.set_cost(link.get_delay() + (link.get_occupancy()/link.get_rate()))
+			packet.set_cost(link.get_delay() + link.get_occupancy())
 			link.send(packet, self.get_id())
 
 	# Initialize routing table by creating keys for all hosts in the test case
@@ -108,6 +110,9 @@ class Router(Node):
 	# Initially, set the distance to be inf, the next hop to link[0]
 	# host_ids is an array contains all host ids
 	def initalize_routing_table(self):
+		self.no_change = 0		
+		self.new = {}
+		self.IterationDoneFlag = False
 		for host_id in self.host_array:
 			value = float('inf'),self.link[0] # a default link
 			self.new[host_id] = value
@@ -131,7 +136,7 @@ class Router(Node):
 	# Update router table if there is a shorter path.
 	# Static routing: metric based on hops (1 hop for each link)
 	# Dynamic routing: metric based on link cost
-	def update_routing_table(self, router_packet):
+	def update_routing_table(self, router_packet):		
 		for (d,v) in router_packet.get_routing_map().items(): # every item in routing table
 			if STATIC_ROUTING:
 				pass
@@ -150,15 +155,15 @@ class Router(Node):
 			sink = router_packet.get_source()
 			packet = Router_Packet(ROUTER_FLOW,self.get_id(),sink,ROUTER_PACKET_TYPE,ROUTER_FLOW,DATA_ROUTER_BITWIDTH,router_packet.get_link())
 			self.send(packet)
-		else:
-			self.current = self.new
-			self.no_change = 0
-			'''
-			sys.stderr.write("\nROUTING TABLE for %s\n"%self.get_id())
-			for (d, v) in self.new.items():
-				sys.stderr.write("%s, %0.3e, %s\n"%(d,v[0],v[1]))
-			'''
-	def routing_table_periodic_update(self):
+		else:							
+			self.current = self.new	
+			if not self.IterationDoneFlag:				
+				sys.stderr.write("\nROUTING TABLE for %s\n"%self.get_id())
+				for (d, v) in self.new.items():
+					sys.stderr.write("%s, %0.3e, %s\n"%(d,v[0],v[1]))
+				self.IterationDoneFlag = True
+			
+	def routing_table_periodic_update(self):		
 		self.initalize_routing_table()
 
 	def set_host_array(self, array):
