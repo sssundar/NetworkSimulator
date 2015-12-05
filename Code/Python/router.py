@@ -147,24 +147,17 @@ class Router(Node):
 
 		# Send next iteration of router packet
 		if (self.no_change <= len(self.link) + len(self.new)):			
-			'''
-			for link2 in self.link:
-				if self.sim.get_element(link2).get_left() == self.get_id():
-					sink = self.sim.get_element(link2).get_right()
-				else:
-					sink = self.sim.get_element(link2).get_left()
-			'''
 			sink = router_packet.get_source()
 			packet = Router_Packet(ROUTER_FLOW,self.get_id(),sink,ROUTER_PACKET_TYPE,ROUTER_FLOW,DATA_ROUTER_BITWIDTH,router_packet.get_link())
 			self.send(packet)
 		else:
 			self.current = self.new
 			self.no_change = 0
-			
+			'''
 			sys.stderr.write("\nROUTING TABLE for %s\n"%self.get_id())
 			for (d, v) in self.new.items():
 				sys.stderr.write("%s, %0.3e, %s\n"%(d,v[0],v[1]))
-	
+			'''
 	def routing_table_periodic_update(self):
 		self.initalize_routing_table()
 

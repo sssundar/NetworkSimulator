@@ -198,5 +198,7 @@ class Data_Sink(Flow):
 		p = Packet(self, self.source, self.dest, \
 			constants.DATA_PACKET_ACKNOWLEDGEMENT_TYPE, packet.get_ID(), \
 			constants.DATA_ACK_BITWIDTH)
+		'''
 		sys.stderr.write("SITH SEND DATA ACK: %s,%s,%s\n"%(p.get_source(),p.get_dest(),p.get_type()))
+		'''
 		self.send(p)
