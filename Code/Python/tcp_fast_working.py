@@ -143,7 +143,7 @@ class Working_Data_Source_TCP_FAST(Data_Source):
 	# log all state. STT (-1) no longer exists.
 	def debug_log_fast_source(self,isTimeoutOccurring,SendReceive,whichPacket):	
 		if MEASUREMENT_ENABLE:
-			print MEASURE_FLOW_ACTUAL_FAST_FULL_DEBUG((self,\
+			print MEASURE_FLOW_FAST_FULL_DEBUG((self,\
 											SendReceive,\
 											whichPacket,\
 											self.EPIT,\

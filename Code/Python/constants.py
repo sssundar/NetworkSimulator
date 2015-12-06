@@ -18,6 +18,10 @@ FAST_RTT_WINDOW_SIZE = 20 # estimate RTTact from FAST_RTT_WINDOW_SIZE last RTTs
 FAST_WS_UPDATE_TIME = 50.0 # ms
 FAST_TO_RTTMAX_SCALAR = 2.0 # times RTTmax as the timeout penalty
 FAST_BASE_RTTMAX = 1000.0 # ms (in case of timeout on first send)
+FAST_ALPHA = 10.0
+
+VEGAS_ALPHA = 0.4
+VEGAS_BETA = 0.45
 
 # Link Queueing Memory
 QUEUEING_DELAY_WINDOW = 20
@@ -35,7 +39,7 @@ STATIC_ROUTING = False
 DYNAMIC_ROUTING = True
 
 # Interval to wait before sending new ROUTER packets to update the table
-ROUTING_TABLE_UPDATE_PERIOD = 30000.0 # ms
+ROUTING_TABLE_UPDATE_PERIOD = 6000.0 # ms
 
 # Packet Sizes
 DATA_PACKET_BITWIDTH = 8 # in kbits (so 1 kbyte packet)
@@ -56,9 +60,10 @@ TESTCASE1 = "input_test1.json"
 
 # Select TCP
 TCP_RENO_ENABLE = False 	   # Original Version
-TCP_RENO_WORKING_ENABLE = True # Restructured Version
-TCP_FAST_WORKING_ENABLE = False
+TCP_RENO_WORKING_ENABLE = False # Restructured Version
+TCP_FAST_WORKING_ENABLE = True
 TCP_STATIC_ENABLE = False
+TCP_VEGAS_WORKING_ENABLE = False
 
 #############################################
 # Logging Measurement Functions & Constants #
@@ -243,8 +248,8 @@ MEASURE_FLOW_RENO_FULL_DEBUG = \
 											ms_time)\
 			)
 
-FLOW_FAST_FULL_DEBUG_MEASUREMENT_BASE = \
-"\n{\"logtype\":\"measurement\",\"measurement\":\"fullfastdebug\",\
+FLOW_VEGAS_FULL_DEBUG_MEASUREMENT_BASE = \
+"\n{\"logtype\":\"measurement\",\"measurement\":\"fullvegasdebug\",\
 \"flowid\":\"%s\",\
 \"SendReceive\":\"%s\",\
 \"whichPacket\":\"%d\",\
@@ -267,7 +272,7 @@ FLOW_FAST_FULL_DEBUG_MEASUREMENT_BASE = \
 \"ICAPTUW\":\"%d\",\
 \"ms_globaltime\":\"%0.6e\"}\n"
 
-MEASURE_FLOW_FAST_FULL_DEBUG = \
+MEASURE_FLOW_VEGAS_FULL_DEBUG = \
 	lambda ((flow,
 		SendReceive,\
 		whichPacket,\
@@ -284,7 +289,7 @@ MEASURE_FLOW_FAST_FULL_DEBUG = \
 		RTTmin,RTTactEst,Packets_Till_Update_WS_IN_CA,\
 		FlagObserveRTT,FlagRampWS,\
 		ms_time)):\
-		FLOW_FAST_FULL_DEBUG_MEASUREMENT_BASE % ((	flow.get_id(),\
+		FLOW_VEGAS_FULL_DEBUG_MEASUREMENT_BASE % ((	flow.get_id(),\
 											SendReceive,\
 											whichPacket,\
 											EPIT,\
@@ -300,7 +305,7 @@ MEASURE_FLOW_FAST_FULL_DEBUG = \
 											ms_time)\
 			)
 
-FLOW_ACTUAL_FAST_FULL_DEBUG_MEASUREMENT_BASE = \
+FLOW_FAST_FULL_DEBUG_MEASUREMENT_BASE = \
 "\n{\"logtype\":\"measurement\",\"measurement\":\"fulltruefastdebug\",\
 \"flowid\":\"%s\",\
 \"SendReceive\":\"%s\",\
@@ -336,7 +341,7 @@ MEASURE_FLOW_FAST_FULL_DEBUG = \
 		isTimeoutOccurring,\
 		RTTmin,RTTmax,RTTactEst,\		
 		ms_time)):\
-		FLOW_ACTUAL_FAST_FULL_DEBUG_MEASUREMENT_BASE % ((	flow.get_id(),\
+		FLOW_FAST_FULL_DEBUG_MEASUREMENT_BASE % ((	flow.get_id(),\
 											SendReceive,\
 											whichPacket,\
 											EPIT,\

@@ -138,6 +138,9 @@ import matplotlib.pyplot as plt
 
 # plt.figure()
 
+
+# plt.figure()
+
 # t = []
 # ws = []
 # epit = []
@@ -145,7 +148,7 @@ import matplotlib.pyplot as plt
 # rttmin = []
 # rttact = []
 # flag = True
-# with open("results/f1_src_fullfastdebug.txt") as m:   
+# with open("results/f1_src_fullvegasdebug.txt") as m:   
 # 	for line in m:
 # 		if flag:
 # 			flag = False			
