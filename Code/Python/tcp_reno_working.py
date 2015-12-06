@@ -30,6 +30,9 @@ class Working_Data_Sink_TCP_RENO(Data_Sink):
 	# Acknowledge the last packet received in linear sequence.
 	# E.g. receiving packets 1,2,3,5 will acknowledge 1,2,3,3
 	def receive(self, packet):		
+		if constants.MEASUREMENT_ENABLE: 
+			print constants.MEASURE_FLOWRATE((self,packet.get_kbits(),self.sim.get_current_time()))
+			
 		self.rx_buffer[packet.get_ID()] = 1		
 		p = None		
 		for i in xrange(len(self.rx_buffer)):
@@ -235,6 +238,11 @@ class Working_Data_Source_TCP_RENO(Data_Source):
 	DAF = False #	DAF double ack
 	SAF = False #	SAF single ack 
 
+	updateCount = FAST_UPDATE_PERCENTAGE_DELAY
+
+	RTTactBuff = [-1] * constants.FAST_RTT_WINDOW_SIZE
+	RTTactEst = -1	
+
 	State = SS
 	# constants.SS,CA,FR,TR
 	# States
@@ -246,6 +254,9 @@ class Working_Data_Source_TCP_RENO(Data_Source):
 	def __init__(self, identity, src, sink, size, start):
 		Data_Source.__init__(self, identity, src, sink, size, start)	
 		
+		RTTactBuff = [-1] * constants.FAST_RTT_WINDOW_SIZE
+		RTTactEst = -1	
+
 		self.EPIT, self.LPIA, self.WS,\
 		self.CAT, self.STT, self.L3P,\
 		self.TAF, self.DAF, self.SAF,\
@@ -276,6 +287,27 @@ class Working_Data_Source_TCP_RENO(Data_Source):
 				constants.DATA_PACKET_TYPE, pid, \
 				constants.DATA_PACKET_BITWIDTH)
 		self.tx_buffer[q.get_ID()] = q
+
+	def updateRTTactEst(self, ack):
+		self.RTTactBuff.pop(0)		
+		self.RTTactBuff.append(self.sim.get_current_time() - ack.get_tx_time())
+
+		RTTact = self.linearRTTAverage()		
+
+		if RTTact > 0:
+			self.RTTactEst = RTTact
+		else:
+			raise ValueError("Somehow received a 0 or negative RTT at time %0.6e with tx_time %0.6e, at packet %d"%(self.sim.get_current_time(), ack.get_tx_time(), ack.get_ID()))
+
+	def linearRTTAverage(self):
+		RTTact = 0
+		cnt = 0.0
+		for m in xrange(len(self.RTTactBuff)):
+			if self.RTTactBuff[m] >= 0:
+				RTTact += self.RTTactBuff[m]
+				cnt += 1.0
+		RTTact /= cnt
+		return RTTact
 
 	# We set the STT on timeouts to avoid responding to packets that we 
 	# thought were timed out.
@@ -322,6 +354,9 @@ class Working_Data_Source_TCP_RENO(Data_Source):
 		self.LPIA = -1
 		self.CAT = -1.0
 		self.State = SS
+		RTTactBuff = [-1] * constants.FAST_RTT_WINDOW_SIZE
+		RTTactEst = -1	
+		self.updateCount = FAST_UPDATE_PERCENTAGE_DELAY
 		self.debug_log_reno_source(False,"start",self.LPIA)
 		self.transmit()		
 
@@ -342,6 +377,7 @@ class Working_Data_Source_TCP_RENO(Data_Source):
 											self.TAF,self.DAF,self.SAF,\
 											self.State,\
 											isTimeoutOccurring,\
+											self.RTTactEst,\
 											self.sim.get_current_time()))		
 
 	''' 
@@ -416,10 +452,12 @@ class Working_Data_Source_TCP_RENO(Data_Source):
 				break
 		if pid > self.LPIA:
 			self.LPIA = pid
-			# Display progress in terminal (last ack'd packet) 
-			# since STDOUT is getting mapped to a measurements.txt file
-			# in the handler script visualize.py, we route to stderr
-			sys.stderr.write("Just acknowledged packet #%d/%d\n"%(self.LPIA,len(self.tx_buffer)))
+			if self.updateCount < 0:
+				percentDone = int(100.0*(self.LPIA+1.0) / len(self.tx_buffer)) 
+				sys.stderr.write("Simulated transfer is %d%s complete.\n"%(percentDone,'%'))
+				self.updateCount = FAST_UPDATE_PERCENTAGE_DELAY
+			else:
+				self.updateCount -= 1
 
 	def updateL3P(self,pid):
 		# Update 3-deep Ack Memory 
@@ -489,6 +527,7 @@ class Working_Data_Source_TCP_RENO(Data_Source):
 	def receive(self,packet):
 		pid = packet.get_ID()			
 		self.handleAck(pid)
+		self.updateRTTactEst(packet)		
 		self.debug_log_reno_source(False,"receive",pid)			
 
 		'''

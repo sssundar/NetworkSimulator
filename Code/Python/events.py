@@ -37,13 +37,14 @@ class Time_Out_Packet (Event):
 		self.p = packet
 		self.set_completion_time(completion_time)
 	
-	def event_action (self, sim):
-		if constants.TCP_RENO_WORKING_ENABLE or constants.TCP_FAST_WORKING_ENABLE:			
-			self.p.get_flow().time_out(self.p)				
-		else:
-			if (not self.p.get_ack()) and (self.p.get_timeout_disabled() is False):
-				self.p.get_flow().time_out(self.p)
-				# ask the flow source to TO the packet
+	def event_action (self, sim):		
+		self.p.get_flow().time_out(self.p)				
+
+		# For Static TCP, and old RENO TCP
+		# else:
+		# 	if (not self.p.get_ack()) and (self.p.get_timeout_disabled() is False):
+		# 		self.p.get_flow().time_out(self.p)
+		# 		# ask the flow source to TO the packet
 
 class Handle_Packet_Transmission (Event):
 	p = "" 	# the packet being transmitted into the channel

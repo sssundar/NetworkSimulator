@@ -1,17 +1,20 @@
 RENO: (Keep track of RTT, varying timeout as 3x max RTT) Not Done. Known bug, no fix right now
-VEGAS: Updates WS on every Ack, but does not update timeout using RTT estimate. Should work (does with FAST) but some bug is there.
+VEGAS: Updates WS on every Ack, and updates timeout using RTT estimate.	
 Both RENO and VEGAS have our 'TR' trick to partially deal with shitty stoplight links.
 FAST is correct.
 
+Logging/Measurements are now complete (debugging is another question, but
+we now can generate nice plots of everything required)
+
+Usage is now 
+	python visualize.py --testcase input_test1.json --tcp fast
+	python visualize.py --help
+It's entirely self-contained. Check out results/plots.
+
 Sushant
-	Plotting, Commit, Pull, Links, Commit, Pull		
-		Plotting
-			Plot everything
-			Be smart about averages
-			Single bash script to run & usage
-				separate input file for test case selection and tcp 		
-		Links: if current direction oldest is older than other buffer, send, even if can't get there in time i.e. destroy links.		
-		
+	Links
+	Links: if current direction oldest is older than other buffer, send, even if can't get there in time i.e. destroy links.		
+	Commit, Pull
 
 	Presentation: lots of graphs to demonstrate it works. test cases. 
 	Report: concise, plots, theoretical results from HW, brief architecture, brief assumptions
@@ -57,3 +60,11 @@ using exponential decay is unstable with routing in Test Case 1
 but if we switch to linear delay averaging, it's not.
 
 I suppose it's because exponential decay responds faster to perturbations.
+
+
+Our simulator for even 2Mb on TCP FAST takes forever to run. We'll need at least
+10-20 minutes per full 20Mb run so we'll need to pick our targets carefully
+and run them in parallel on multiple computers.
+
+TCP VEGAS needs a TO Allowance of 10 for Test Case 1 to work. 
+

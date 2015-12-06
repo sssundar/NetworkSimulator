@@ -42,6 +42,8 @@ class Working_Data_Source_TCP_FAST(Data_Source):
 	DAF = False #	DAF double ack
 	SAF = False #	SAF single ack 	
 
+	updateCount = FAST_UPDATE_PERCENTAGE_DELAY
+
 	RTTmin = -1
 	RTTmax = -1
 	RTTactBuff = [-1] * constants.FAST_RTT_WINDOW_SIZE
@@ -50,6 +52,7 @@ class Working_Data_Source_TCP_FAST(Data_Source):
 	def __init__(self, identity, src, sink, size, start):
 		Data_Source.__init__(self, identity, src, sink, size, start)	
 		
+		self.updateCount = FAST_UPDATE_PERCENTAGE_DELAY
 		self.EPIT, self.LPIA, self.WS,\
 		self.L3P,\
 		self.TAF, self.DAF, self.SAF,\
@@ -69,7 +72,8 @@ class Working_Data_Source_TCP_FAST(Data_Source):
 		self.WS = 1.0
 		self.EPIT = 0		
 		self.L3P = [-3, -2, -1]				
-		self.LPIA = -1							
+		self.LPIA = -1					
+		self.updateCount = FAST_UPDATE_PERCENTAGE_DELAY		
 		self.RTTmin = -1
 		self.RTTmax = -1
 		self.RTTactBuff = [-1] * constants.FAST_RTT_WINDOW_SIZE
@@ -207,23 +211,15 @@ class Working_Data_Source_TCP_FAST(Data_Source):
 				self.tx_buffer[m].set_in_transit(0)				
 				self.tx_buffer[m].set_timeout_disabled(True)
 			else:
-				break
-		if self.LPIA < 0:
-			sys.stderr.write("Percent Completion: 0")
+				break		
 		if pid > self.LPIA:
 			self.LPIA = pid
-			percentDone = int(100.0*(self.LPIA+1.0) / len(self.tx_buffer)) 									
-			if percentDone == 100:
-				sys.stderr.write("..100\n")
-			elif (percentDone == 25) and (not self.flag25):			
-				sys.stderr.write("..%d"%percentDone)
-				self.flag25 = True
-			elif (percentDone == 50) and (not self.flag50):			
-				sys.stderr.write("..%d"%percentDone)
-				self.flag50 = True				
-			elif (percentDone == 75) and (not self.flag75):			
-				sys.stderr.write("..%d"%percentDone)
-				self.flag75 = True				
+			if self.updateCount < 0:
+				percentDone = int(100.0*(self.LPIA+1.0) / len(self.tx_buffer)) 
+				sys.stderr.write("Simulated transfer is %d%s complete.\n"%(percentDone,'%'))
+				self.updateCount = FAST_UPDATE_PERCENTAGE_DELAY
+			else:
+				self.updateCount -= 1
 
 	def updateL3P(self,pid):
 		self.L3P.pop(0)

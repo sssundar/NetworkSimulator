@@ -29,7 +29,7 @@ class JSONParser ():
 	def __init__(self,JSONFile):
 		self.myfile = JSONFile
 
-	def parser(self):
+	def parser(self, tcp):
 		
 		with open(self.myfile) as file:    
 			data = json.load(file)
@@ -59,22 +59,24 @@ class JSONParser ():
 				keys = line["id"] + "_src"
 				keyd = line["id"] + "_dest"
 				
-				if TCP_RENO_ENABLE is True:										
-					ds = Data_Source_TCP_RENO(keys, line["source"], line["dest"], line["size"],line["start"])				
-					dd = Data_Sink_TCP_RENO(keyd, line["dest"], line["source"], line["size"],line["start"])	# Dest and Src is swapped for sink
-				elif TCP_STATIC_ENABLE is True:					
-					ds = Data_Source(keys, line["source"], line["dest"], line["size"],line["start"])				
-					dd = Data_Sink(keyd, line["dest"], line["source"], line["size"],line["start"])	# Dest and Src is swapped for sink
-				elif TCP_RENO_WORKING_ENABLE is True:
+				# if TCP_RENO_ENABLE is True:										
+				# 	ds = Data_Source_TCP_RENO(keys, line["source"], line["dest"], line["size"],line["start"])				
+				# 	dd = Data_Sink_TCP_RENO(keyd, line["dest"], line["source"], line["size"],line["start"])	# Dest and Src is swapped for sink
+				# elif TCP_STATIC_ENABLE is True:					
+				# 	ds = Data_Source(keys, line["source"], line["dest"], line["size"],line["start"])				
+				# 	dd = Data_Sink(keyd, line["dest"], line["source"], line["size"],line["start"])	# Dest and Src is swapped for sink
+				if tcp == TCP_RENO:
 					ds = Working_Data_Source_TCP_RENO(keys, line["source"], line["dest"], line["size"],line["start"])				
 					dd = Working_Data_Sink_TCP_RENO(keyd, line["dest"], line["source"], line["size"],line["start"])	# Dest and Src is swapped for sink
-				elif TCP_VEGAS_WORKING_ENABLE is True:
+				elif tcp == TCP_VEGAS:
 					ds = Working_Data_Source_TCP_VEGAS(keys, line["source"], line["dest"], line["size"],line["start"])				
 					dd = Working_Data_Sink_TCP_RENO(keyd, line["dest"], line["source"], line["size"],line["start"])	# Dest and Src is swapped for sink									
-				elif TCP_FAST_WORKING_ENABLE is True:
+				elif tcp == TCP_FAST:
 					ds = Working_Data_Source_TCP_FAST(keys, line["source"], line["dest"], line["size"],line["start"])				
 					dd = Working_Data_Sink_TCP_RENO(keyd, line["dest"], line["source"], line["size"],line["start"])	# Dest and Src is swapped for sink													
-				
+				else:
+					raise ValueError("Invalid TCP selection: %s\n"%tcp)
+					
 				dd.set_flow_size(ds.get_flow_size()) # in packets
 
 				input_map[keys] = ds

@@ -95,9 +95,11 @@ class Working_Data_Source_TCP_VEGAS(Data_Source):
 
 	mayUpdate = False
 
+	updateCount = FAST_UPDATE_PERCENTAGE_DELAY 
+
 	def __init__(self, identity, src, sink, size, start):
 		Data_Source.__init__(self, identity, src, sink, size, start)					
-
+		self.updateCount = FAST_UPDATE_PERCENTAGE_DELAY
 		self.EPIT, self.LPIA, self.WS,\
 		self.CAT, self.STT, self.L3P,\
 		self.TAF, self.DAF, self.SAF,\
@@ -125,6 +127,7 @@ class Working_Data_Source_TCP_VEGAS(Data_Source):
 		self.LPIA = -1		
 		self.State = SS
 		self.FlagObserveRTT = True
+		self.updateCount = FAST_UPDATE_PERCENTAGE_DELAY
 		self.FlagRampWS = False
 		self.RTTmin = -1		
 		self.RTTactBuff = [-1] * constants.FAST_RTT_WINDOW_SIZE
@@ -160,9 +163,15 @@ class Working_Data_Source_TCP_VEGAS(Data_Source):
 		p.set_tx_time(self.sim.get_current_time())
 		self.EPIT += 1					
 
+		timeoutAllowance = 0
+		if self.RTTactEst >= 0:
+			timeoutAllowance = self.RTTactEst * FAST_TO_ALLOWANCE
+		else:
+			timeoutAllowance = FAST_BASE_RTTMAX
+
 		self.sim.request_event(\
 			Time_Out_Packet(p, \
-							self.sim.get_current_time() + DATA_PACKET_TIMEOUT))
+							self.sim.get_current_time() + timeoutAllowance))
 		self.sim.get_element(self.source).send(p)		
 		self.debug_log_vegas_source(False,"send",p.get_ID())
 
@@ -254,22 +263,14 @@ class Working_Data_Source_TCP_VEGAS(Data_Source):
 					self.tx_buffer[m].set_timeout_disabled(True)
 			else:
 				break
-		if self.LPIA < 0:
-			sys.stderr.write("Percent Completion: 0")
 		if pid > self.LPIA:
 			self.LPIA = pid
-			percentDone = int(100.0*(self.LPIA+1.0) / len(self.tx_buffer)) 									
-			if percentDone == 100:
-				sys.stderr.write("..100\n")
-			elif (percentDone == 25) and (not self.flag25):			
-				sys.stderr.write("..%d"%percentDone)
-				self.flag25 = True
-			elif (percentDone == 50) and (not self.flag50):			
-				sys.stderr.write("..%d"%percentDone)
-				self.flag50 = True				
-			elif (percentDone == 75) and (not self.flag75):			
-				sys.stderr.write("..%d"%percentDone)
-				self.flag75 = True				
+			if self.updateCount < 0:
+				percentDone = int(100.0*(self.LPIA+1.0) / len(self.tx_buffer)) 
+				sys.stderr.write("Simulated transfer is %d%s complete.\n"%(percentDone,'%'))
+				self.updateCount = FAST_UPDATE_PERCENTAGE_DELAY
+			else:
+				self.updateCount -= 1
 
 	def updateL3P(self,pid):
 		self.L3P.pop(0)

@@ -138,17 +138,14 @@ class Router(Node):
 	# Dynamic routing: metric based on link cost
 	def update_routing_table(self, router_packet):		
 		for (d,v) in router_packet.get_routing_map().items(): # every item in routing table
-			if STATIC_ROUTING:
-				pass
-			else: #dynamic routing
-				metric = router_packet.get_cost() #link cost
-				if v[0] + metric < self.new [d][0]:
-						recv_map = router_packet.get_routing_map()
-						new_v = v[0] + metric , router_packet.get_link() 
-						self.new[d] = new_v
-						self.no_change = 0
-				else:
-					self.no_change = self.no_change + 1
+			metric = router_packet.get_cost() #link cost
+			if v[0] + metric < self.new [d][0]:
+					recv_map = router_packet.get_routing_map()
+					new_v = v[0] + metric , router_packet.get_link() 
+					self.new[d] = new_v
+					self.no_change = 0
+			else:
+				self.no_change = self.no_change + 1
 
 		# Send next iteration of router packet
 		if (self.no_change <= len(self.link) + len(self.new)):			

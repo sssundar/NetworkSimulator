@@ -1,16 +1,19 @@
-# Constants File 
+# Constants File # 
 
-# TCP RENO/FAST States
-SS = 1
-CA = 2
-FR = 3
-TR = 4
+###################
+# USER MODIFIABLE #
+###################
 
-# TCP VEGAS, FAST Thresholds
+# Plotting ms-binning Window
+MS_WINDOW = 100 # ms, for binning	
 
-# Actually Vegas (whoops)
+# TCP and Routing Thresholds
+
+# VEGAS
 FAST_CA_THRESHOLD = 5.0 # when RTTact ~ 3x RTTmin, transition from SS to CA
 SS2CA_SCALING = 0.875
+VEGAS_ALPHA = 0.4
+VEGAS_BETA = 0.45
 
 # FAST
 FAST_ALPHA = 20.0 	
@@ -21,11 +24,27 @@ FAST_TO_ALLOWANCE = 3.0 # times RTTactEst as the timeout allowance
 FAST_BASE_RTTMAX = 1000.0 # ms (in case of timeout on first send)
 FAST_EXPONENTIAL_DECAY = float(0.1) # 10 samples back, will see 1/e weighting
 
-VEGAS_ALPHA = 0.4
-VEGAS_BETA = 0.45
+FAST_UPDATE_PERCENTAGE_DELAY = 100 # packets per % complete update
 
 # Link Queueing Memory
 QUEUEING_DELAY_WINDOW = 20
+
+# Interval to wait before sending new ROUTER packets to update the table
+ROUTING_TABLE_UPDATE_PERIOD = 6000.0 # ms
+
+# Data Flow Packet Timeout
+DATA_PACKET_TIMEOUT = 4000.0 # ms_globaltime
+
+
+#################################
+# MODIFY BELOW AT YOUR OWN RISK #
+#################################
+
+# TCP RENO/FAST States
+SS = 1
+CA = 2
+FR = 3
+TR = 4
 
 # Packet Types 
 DATA_PACKET_ACKNOWLEDGEMENT_TYPE = "ACK_DATA"
@@ -35,21 +54,11 @@ ROUTER_PACKET_TYPE = "ROUTER"
 
 ROUTER_FLOW = "0"
 
-# Routing Protocol for link cost
-STATIC_ROUTING = False
-DYNAMIC_ROUTING = True
-
-# Interval to wait before sending new ROUTER packets to update the table
-ROUTING_TABLE_UPDATE_PERIOD = 6000.0 # ms
-
 # Packet Sizes
 DATA_PACKET_BITWIDTH = 8 # in kbits (so 1 kbyte packet)
 DATA_ACK_BITWIDTH = 0.064 # 8 bytes, 0.064 kbits
 DATA_ROUTER_BITWIDTH = 0.064 # Requesting table
 DATA_ROUTER_ACK_BITWIDTH = 1
-
-# Data Flow Packet Timeout
-DATA_PACKET_TIMEOUT = 4000.0 # ms_globaltime
 
 # Link Transmission Directions
 RTL = "right-to-left"
@@ -60,11 +69,9 @@ TESTCASE0 = "input_test0.json"
 TESTCASE1 = "input_test1.json"
 
 # Select TCP
-TCP_RENO_ENABLE = False 	   # Original Version
-TCP_RENO_WORKING_ENABLE = False # Restructured Version
-TCP_FAST_WORKING_ENABLE = True
-TCP_STATIC_ENABLE = False
-TCP_VEGAS_WORKING_ENABLE = False
+TCP_RENO = 'reno'
+TCP_FAST = 'fast'
+TCP_VEGAS = 'vegas'
 
 #############################################
 # Logging Measurement Functions & Constants #
@@ -218,6 +225,7 @@ FLOW_RENO_FULL_DEBUG_MEASUREMENT_BASE = \
 \"SAF\":\"%s\",\
 \"State\":\"%d\",\
 \"isTimeoutOccurring\":\"%s\",\
+\"RTTactEst\":\"%0.6e\",\
 \"ms_globaltime\":\"%0.6e\"}\n"
 
 MEASURE_FLOW_RENO_FULL_DEBUG = \
@@ -235,6 +243,7 @@ MEASURE_FLOW_RENO_FULL_DEBUG = \
 		TAF,DAF,SAF,\
 		State,\
 		isTimeoutOccurring,\
+		RTTactEst,\
 		ms_time)):\
 		FLOW_RENO_FULL_DEBUG_MEASUREMENT_BASE % ((	flow.get_id(),\
 											SendReceive,\
@@ -246,6 +255,7 @@ MEASURE_FLOW_RENO_FULL_DEBUG = \
 											TAF,DAF,SAF,\
 											State,\
 											isTimeoutOccurring,\
+											RTTactEst,\
 											ms_time)\
 			)
 

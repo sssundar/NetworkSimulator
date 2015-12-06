@@ -1,45 +1,49 @@
 '''
-This function is run from the command line as either:
+This function is run from the command line as:
 
-python visualize.py clean
-	Clears the results directory
-python visualize.py simulate
-	Runs MainLoop on TestCase1 
-python visualize.py plot
-	Analyzes last simulation's data
-	Outputs time-vs-value plots for debugging (no units yet)
+python visualize.py --testcase testcase.json --tcp [fast|vegas|reno]
 
-Results (and raw measurements) are plotted to /Code/Python/results/
-This directory is cleared after each run 
-Currently, supported measurements include:
-- link rate (mpbs)
-- buffer occupancy (%)
-- packet loss (packets)
-- flow rate (Mbps)
-- flow window size (packets)
-- packet round trip time (ms)
+Raw measurements are dumped to /results/all_measurements.txt
+Parsed measurements and plots are stored in /Code/Python/results/[rawdata,plots]
+These directories are cleared at the start of each run.
 
-But these are not so useful for debugging and it's easier to use testVis.py.
-We'll be fixing this soon.
+Currently, supported plots include:
+- link rate (mpbs) 					
+- buffer occupancy (%) 				
+- packet loss (packets)				
+- flow rate (Mbps) 					
+- flow window size (packets) 		
+- packet round trip time (ms)		
 
-This script can and should be extended to handle parameter sweeps of MainLoop.
+Plenty more measurements are made, so check out the actual data dumps.
+Any plot for which data is reported is plotted. 
 
-Last Revised by Sushant Sundaresh on 30 Nov 2015
+Time/Bin Averages are used when they improve understanding, but not when
+they hide the inner workings of the network. In many cases events are
+plotted directly. 
+
+Last Revised by Sushant Sundaresh on 6 Dec 2015
 
 References:
 	http://matplotlib.org/examples/pylab_examples/simple_plot.html
 	http://stackoverflow.com/questions/4675728/redirect-stdout-to-a-file-in-python
 	http://stackoverflow.com/questions/14245227/python-reset-stdout-to-normal-after-previously-redirecting-it-to-a-file
+	http://stackoverflow.com/questions/273192/in-python-check-if-a-directory-exists-and-create-it-if-necessary
 '''
 import constants
-
-testCase = constants.TESTCASE1
 
 import sys, os
 import json
 import matplotlib.pyplot as plt
 import numpy as np
 from main import MainLoop
+
+from link import Link
+from flow import Flow, Data_Source
+from tcp_reno_working import Working_Data_Source_TCP_RENO, Working_Data_Sink_TCP_RENO
+from tcp_fast_working import Working_Data_Source_TCP_FAST
+from tcp_vegas_working import Working_Data_Source_TCP_VEGAS
+
 
 def handle_linkrate (datamap, datalog):	
 	if datalog["measurement"] == "linkrate":			
@@ -174,7 +178,8 @@ def handle_flow_reno_debug (datamap, datalog):
 				datalog["DAF"],\
 				datalog["SAF"],\
 				int(datalog["State"]),\
-				datalog["isTimeoutOccurring"] ])		
+				datalog["isTimeoutOccurring"],\
+				float(datalog["RTTactEst"]) ])		
 
 def handle_flow_vegas_debug (datamap, datalog):	
 	if datalog["measurement"] == "fullvegasdebug":			
@@ -360,6 +365,26 @@ def test_windowed_time_average ():
 			passFlag = passFlag and (ta[k] == te[k]) and (va[k] == ve[k])	
 	return passFlag		
 
+# Element ID must be link string ID
+# Will break if no data matches the specified element in your simulation logs
+def plot_bufferoccupancy(datamap, linkID, ms_window, axes):		
+	if linkID in datamap.keys():		
+		epsilon = 10**-7				
+		rtl_ms_times = [val[0] for val in datamap[linkID]["bufferoccupancy"][constants.RTL]]
+		ltr_ms_times = [val[0] for val in datamap[linkID]["bufferoccupancy"][constants.LTR]]
+		rtl_frac_occupancy = [val[1] for val in datamap[linkID]["bufferoccupancy"][constants.RTL]]
+		ltr_frac_occupancy = [val[1] for val in datamap[linkID]["bufferoccupancy"][constants.LTR]]
+		rtl_t, rtl_fo = windowed_time_average(rtl_ms_times, rtl_frac_occupancy, ms_window, 0.0) # buffers start empty
+		ltr_t, ltr_fo = windowed_time_average(ltr_ms_times, ltr_frac_occupancy, ms_window, 0.0) # buffers start empty
+		rtl_t = np.array([val/1000 for val in rtl_t]) 				# s
+		ltr_t = np.array([val/1000 for val in ltr_t]) 				# s
+		rtl_fo = np.array([100*val+epsilon for val in rtl_fo])  			# %
+		ltr_fo = np.array([100*val+epsilon for val in ltr_fo])  			# %
+		l1, l2 = axes.semilogy(rtl_t, rtl_fo,'kx-',ltr_t,ltr_fo,'r.-')		
+		axes.set_ylabel("Left|Right Buffer [%s Full]" % '%')
+		axes.legend((l1,l2), ('Right-to-Left','Left-to-Right'), 'upper right')
+		axes.grid(True)		
+
 '''For ms_window time-windowing, need window >> timescale of events (10x PROPDELAY for links...)'''
 def plot_linkrate (datamap, linkID, ms_window, axes):				
 	if linkID in datamap.keys():						
@@ -368,158 +393,284 @@ def plot_linkrate (datamap, linkID, ms_window, axes):
 		t, mb = windowed_sum(ms_times, mbit_transfers, ms_window)		
 		t = np.array([val/1000 for val in t]) 					# s
 		mbps = np.array([1000*val / ms_window for val in mb])  	# Mbps		
-		axes.plot(t, mbps,'kx-')		
-		axes.set_ylabel("Link %s, Mbps" % linkID)		
+		axes.plot(t, mbps,'k.-')		
+		axes.set_ylabel("Mbps")		
 		axes.grid(True)
 
 '''For ms_window time-windowing, need window >> timescale of events (10x PROPDELAY for links...)'''
-def plot_flowrate (datamap, flowID, ms_window, axes):				
-	if flowID in datamap.keys():						
-		ms_times = [val[0] for val in datamap[flowID]["flowrate"]]		
-		mbit_transfers = [val[1] for val in datamap[flowID]["flowrate"]]	
-		t, mb = windowed_sum(ms_times, mbit_transfers, ms_window)		
-		t = np.array([val/1000 for val in t]) 					# s
-		mbps = np.array([1000*val / ms_window for val in mb])  	# Mbps		
-		axes.plot(t, mbps,'kx-')		
-		axes.set_ylabel("Flow %s, Mbps" % flowID)		
-		axes.grid(True)
+def plot_flow_rate (ms,mbits,label,ms_window,axes):				
+	t, mb = windowed_sum(ms, mbits,ms_window)		
+	t = np.array([val/1000 for val in t]) 					# s
+	mbps = np.array([1000.0*val / ms_window for val in mb])  	# Mbps		
+	axes.plot(t, mbps,'k.-')		
+	axes.set_ylabel(label)		
+	axes.grid(True)
 
-# Direction of the form constants.RTL or LTR. 
-# Element ID must be link string ID
-# Will break if no data matches the specified element in your simulation logs
-def plot_bufferoccupancy(datamap, linkID, direction, ms_window, axes):		
-	if linkID in datamap.keys():						
-		ms_times = [val[0] for val in datamap[linkID]["bufferoccupancy"][direction]]
-		frac_occupancy = [val[1] for val in datamap[linkID]["bufferoccupancy"][direction]]
-		t, fo = windowed_time_average(ms_times, frac_occupancy, ms_window, 0.0) # buffers start empty
-		t = np.array([val/1000 for val in t]) 				# s
-		fo = np.array([100*val for val in fo])  			# %
-		axes.plot(t, fo,'kx-')		
-		axes.set_ylabel("Link %s, Percent Occupancy" % linkID)		
-		axes.grid(True)		
+# Usually there are too many of these points to integrate quickly
+def plot_flow_window(ms,pkts,label,ms_window,axes):			
+	t, w = windowed_time_average(ms, pkts, ms_window, 1.0) # W0=1 for all dynamic TCPs
+	t = np.array([val/1000 for val in t]) 				# s
+	w = np.array(w)					  					# packets
+	axes.plot(t, w,'k.-')				
+	axes.set_ylabel(label)				
+	axes.grid(True)		
 
-def plot_dynamic_flowwindowsize(datamap, flowID, ms_window, axes):		
-	if flowID in datamap.keys():						
-		ms_times = [val[0] for val in datamap[flowID]["windowsize"]]
-		packet_windowsize = [val[1] for val in datamap[flowID]["windowsize"]]
-		t, w = windowed_time_average(ms_times, packet_windowsize, ms_window, 1.0) # W=1 for dynamic TCP
-		t = np.array([val/1000 for val in t]) 				# s
-		w = np.array([val for val in w])  					# packets
-		axes.plot(t, w,'kx-')		
-		axes.set_ylabel("Flow %s, Window Size (packets)" % flowID)		
-		axes.grid(True)		
+def plot_flow_loss (ms,pkts,label,ms_window,axes):
+	t, plost = windowed_sum(ms, pkts, ms_window) 
+	t = np.array([val/1000 for val in t]) 				# s
+	plost = np.array(plost) 					 		# packets
+	axes.plot(t, plost,'k.-')						
+	axes.set_ylabel(label)
+	plt.grid(True)		
 
-def plot_packetloss (datamap, flowID, ms_window, axes):
-	if flowID in datamap.keys():		
-		if "packetloss" in datamap[flowID].keys():			
-			ms_times = [val[0] for val in datamap[flowID]["packetloss"]]
-			pack_lost = [val[1] for val in datamap[flowID]["packetloss"]]
-			t, plost = windowed_sum(ms_times, pack_lost, ms_window) 
-			t = np.array([val/1000 for val in t]) 				# s
-			plost = np.array(plost) 					 		# packets
-			axes.plot(t, plost,'kx-')						
-			axes.set_ylabel("Flow %s Packets Lost" % flowID)
-			plt.grid(True)		
+# Usually there are too many of these points to integrate quickly
+def plot_flow_delay (ms,ms_delay,label,ms_window,axes):	
+	t, d = windowed_time_average(ms, ms_delay, ms_window, 0) # delay0=0 for our simulations
+	t = np.array([val/1000 for val in t]) 				# s
+	d = np.array(d) 							 		# ms	
+	axes.plot(t, d,'k.-')						
+	axes.set_ylabel(label)
+	plt.grid(True)		
+
+# Reference: http://stackoverflow.com/questions/273192/in-python-check-if-a-directory-exists-and-create-it-if-necessary
+def ensure_dir(f):
+	d = os.path.dirname(f)
+	if not os.path.exists(d):
+		os.makedirs(d)
 
 if __name__ == "__main__":	
-	measurementFilename = "results/measurements.txt"	
+	if (len(sys.argv) == 2 and sys.argv[1] == "--help") or (len(sys.argv) != 5 or sys.argv[1] != "--testcase" or sys.argv[3] != "--tcp" or sys.argv[4] not in ["fast","vegas","reno"]):
+		print "Usage: python visualize.py --testcase testcase.json --tcp [fast|vegas|reno]\n"		
+		sys.exit(1)	
 
-	if sys.argv[1] == "clean":				
-		for f in os.listdir("results"):					
-			print "Removing %s" % os.path.join('results', f)
+	measurementFilename = os.path.join('results','all_measurements.txt')
+	testImageFilename = os.path.join(os.path.join('results','plots'), "test.jpeg")
+	testRawDataFilename = os.path.join(os.path.join('results','rawdata'), "test.jpeg")
+	ensure_dir(measurementFilename)
+	ensure_dir(testImageFilename)
+	ensure_dir(testRawDataFilename)
+
+	testCase = sys.argv[2]
+	tcp = sys.argv[4]
+
+	for f in os.listdir("results"):							
+		if not os.path.isdir(os.path.join('results',f)):
+			print "Cleaning up... removing %s" % os.path.join('results', f)
 			os.remove(os.path.join('results', f))
+	for f in os.listdir(os.path.join('results','plots')):
+		print "Cleaning up... removing %s" % os.path.join(os.path.join('results','plots'), f)
+		os.remove(os.path.join(os.path.join('results','plots'), f))
+	for f in os.listdir(os.path.join('results','rawdata')):
+		print "Cleaning up... removing %s" % os.path.join(os.path.join('results','rawdata'), f)
+		os.remove(os.path.join(os.path.join('results','rawdata'), f))
 
-	if sys.argv[1] == "simulate":		
-		# Run Main Loop on Test Case 1, temporarily redirecting STDOUT
-		sys.stdout = open(measurementFilename, 'w')		
-		MainLoop().simulate(testCase)
-		sys.stdout = sys.__stdout__		
+	print "Simulating network..."
 	
-	if sys.argv[1] == "plot":
-		# element id and measurement type to data map
-		# keyed as ['l1']['linkrate']
-		eimtod = {}
+	# Run Main Loop on Test Case 1, temporarily redirecting STDOUT
+	# STDERR will report progress.
+	sys.stdout = open(measurementFilename, 'w')		
+	element_map = MainLoop().simulate(testCase,tcp)
+	sys.stdout = sys.__stdout__		
 
-		# Parse out measurements from measurements file
-		with open(measurementFilename) as m:   
-			for line in m:
-				try:
-		 	 	 	log = json.loads(line)
-		 	 	 	if log["logtype"] == "measurement":	 	 	 		
-		 	 	 		handle_linkrate(eimtod, log)	
-		 	 	 		handle_buffer_occupancy(eimtod, log)
-		 	 	 		handle_packet_loss(eimtod, log)
-		 	 	 		handle_flowrate(eimtod, log)
-		 	 	 		handle_flow_window(eimtod, log)
-		 	 	 		handle_flow_state(eimtod, log)
-		 	 	 		handle_packets_outstanding(eimtod, log)
-		 	 	 		handle_flow_reno_debug(eimtod, log)
-		 	 	 		handle_flow_true_fast_debug(eimtod, log)
-		 	 	 		handle_flow_vegas_debug(eimtod, log)
-		 	 	 		# others
-				except ValueError:							
-					pass
-				except KeyError:				
-					raise
+	print "Done simulating..."
+	print "Parsing results..."
 
-		# Dump parsed measurements for visual debugging
-		for element in eimtod.keys():
-			for measurement in eimtod[element].keys():
-				if isinstance(eimtod[element][measurement],dict):
-					# more layers
-					for dataclass in eimtod[element][measurement].keys():
-						# actual data	
-						with open(os.path.join('results',\
-							"%s_%s_%s.txt"%(element,measurement,dataclass)),'w') as f:   					
-							f.write("time\t\tvalue\n")
-							for t,v in eimtod[element][measurement][dataclass]:
-								f.write("%0.6e\t\t%0.6e\n"%(t,v))
-				else:					
-					# actual data
-					with open(os.path.join('results',\
-							"%s_%s.txt"%(element,measurement)),'w') as f:   					
-						if measurement == "outstandingpackets":
-							f.write("time\t\tout\t\tleft\t\tintransit\t\tackd\t\ttotal\n")
-							for t,v1,v2,v3,v4,v5 in eimtod[element][measurement]:
-								f.write("%0.6e\t\t%d\t\t%d\t\t%d\t\t%d\t\t%d\n"%(t,v1,v2,v3,v4,v5))
-						elif measurement == "fullrenodebug":
-							f.write("time\t\tReason\t\tPacketID\t\tEPIT\t\tLPIA\t\tWS\t\tCAT\t\tSTT\t\t[L3P0\t\tL3P1\t\tL3P2]\t\tTAF\t\tDAF\t\tSAF\t\tState\t\tTimeoutOccurred\n")
-							for t,SendReceive,whichPacket,EPIT,LPIA,WS,CAT,STT,L3P0,L3P1,L3P2,TAF,DAF,SAF,State,TO in eimtod[element][measurement]:
-								f.write("%0.6e\t\t%s\t\t%d\t\t%d\t\t%d\t\t%0.3e\t\t%0.3e\t\t%0.6e\t\t[%d\t\t%d\t\t%d]\t\t%s\t\t%s\t\t%s\t\t%d\t\t%s\n"%(t,SendReceive,whichPacket,EPIT,LPIA,WS,CAT,STT,L3P0,L3P1,L3P2,TAF,DAF,SAF,State,TO))
-						elif measurement == "fullvegasdebug":
-							f.write("time\t\tReason\t\tPacketID\t\tEPIT\t\tLPIA\t\tWS\t\tSTT\t\t[L3P0\t\tL3P1\t\tL3P2]\t\tTAF\t\tDAF\t\tSAF\t\tState\t\tObserve\t\tRamp\t\tTimeoutOccurred\t\tRTTmin\t\tRTTAct\t\tPacketsTillCanChangeWS\n")
-							for t,SendReceive,whichPacket,EPIT,LPIA,WS,STT,L3P0,L3P1,L3P2,TAF,DAF,SAF,State,FlagO,FlagR,TO,RTTm,RTTa,ICAPTUW in eimtod[element][measurement]:
-								f.write("%0.6e\t\t%s\t\t%d\t\t%d\t\t%d\t\t%0.3e\t\t%0.6e\t\t[%d\t\t%d\t\t%d]\t\t%s\t\t%s\t\t%s\t\t%d\t\t%s\t\t%s\t\t%s\t\t%0.6e\t\t%0.6e\t\t%d\n"%(t,SendReceive,whichPacket,EPIT,LPIA,WS,STT,L3P0,L3P1,L3P2,TAF,DAF,SAF,State,FlagO,FlagR,TO,RTTm,RTTa,ICAPTUW))
-						elif measurement == "fulltruefastdebug":
-							f.write("time\t\tReason\t\tPacketID\t\tEPIT\t\tLPIA\t\tWS\t\tSTT\t\t[L3P0\t\tL3P1\t\tL3P2]\t\tTAF\t\tDAF\t\tSAF\t\tTimeoutOccurred\t\tRTTmin\t\tRTTmax\t\tRTTAct\n")
-							for t,SendReceive,whichPacket,EPIT,LPIA,WS,STT,L3P0,L3P1,L3P2,TAF,DAF,SAF,TO,RTTmi,RTTma,RTTac in eimtod[element][measurement]:
-								f.write("%0.6e\t\t%s\t\t%d\t\t%d\t\t%d\t\t%0.3e\t\t%0.6e\t\t%d\t\t%d\t\t%d\t\t%s\t\t%s\t\t%s\t\t%s\t\t%0.6e\t\t%0.6e\t\t%0.6e\n"%(t,SendReceive,whichPacket,EPIT,LPIA,WS,STT,L3P0,L3P1,L3P2,TAF,DAF,SAF,TO,RTTmi,RTTma,RTTac))
-						else:
-							f.write("time\t\tvalue\n")
-							for t,v in eimtod[element][measurement]:
-								f.write("%0.6e\t\t%0.6e\n"%(t,v))
+	# element id and measurement type to data map
+	# keyed as ['l1']['linkrate']
+	eimtod = {}
 
+	# Parse out measurements from measurements file
+	with open(measurementFilename) as m:   
+		for line in m:
+			try:
+	 	 	 	log = json.loads(line)
+	 	 	 	if log["logtype"] == "measurement":	 	 	 		
+	 	 	 		handle_linkrate(eimtod, log)	
+	 	 	 		handle_buffer_occupancy(eimtod, log)
+	 	 	 		handle_packet_loss(eimtod, log)
+	 	 	 		handle_flowrate(eimtod, log)
+	 	 	 		handle_flow_window(eimtod, log)
+	 	 	 		handle_flow_state(eimtod, log)
+	 	 	 		handle_packets_outstanding(eimtod, log)
+	 	 	 		handle_flow_reno_debug(eimtod, log)
+	 	 	 		handle_flow_true_fast_debug(eimtod, log)
+	 	 	 		handle_flow_vegas_debug(eimtod, log)
+	 	 	 		# others
+			except ValueError:							
+				pass
+			except KeyError:				
+				raise
+	
+	# Dump parsed measurements for visual debugging
+	for element in eimtod.keys():
+		for measurement in eimtod[element].keys():
+			if isinstance(eimtod[element][measurement],dict):
+				# more layers
+				for dataclass in eimtod[element][measurement].keys():
+					# actual data	
+					with open(os.path.join(os.path.join('results','rawdata'),\
+						"%s_%s_%s.txt"%(element,measurement,dataclass)),'w') as f:   					
+						f.write("time\t\tvalue\n")
+						for t,v in eimtod[element][measurement][dataclass]:
+							f.write("%0.6e\t\t%0.6e\n"%(t,v))
+			else:					
+				# actual data. handle debug dumps separately 
+				# these aren't just for debugging; they have really useful
+				# data. we just aren't doing anything with most of it.
+				with open(os.path.join(os.path.join('results','rawdata'),\
+						"%s_%s.txt"%(element,measurement)),'w') as f:   					
+					if measurement == "outstandingpackets":
+						f.write("time\t\tout\t\tleft\t\tintransit\t\tackd\t\ttotal\n")
+						for t,v1,v2,v3,v4,v5 in eimtod[element][measurement]:
+							f.write("%0.6e\t\t%d\t\t%d\t\t%d\t\t%d\t\t%d\n"%(t,v1,v2,v3,v4,v5))
+					elif measurement == "fullrenodebug":
+						f.write("time\t\tReason\t\tPacketID\t\tEPIT\t\tLPIA\t\tWS\t\tCAT\t\tSTT\t\t[L3P0\t\tL3P1\t\tL3P2]\t\tTAF\t\tDAF\t\tSAF\t\tState\t\tTimeoutOccurred\t\tRTTEst\n")
+						for t,SendReceive,whichPacket,EPIT,LPIA,WS,CAT,STT,L3P0,L3P1,L3P2,TAF,DAF,SAF,State,TO,RTTEst in eimtod[element][measurement]:
+							f.write("%0.6e\t\t%s\t\t%d\t\t%d\t\t%d\t\t%0.3e\t\t%0.3e\t\t%0.6e\t\t[%d\t\t%d\t\t%d]\t\t%s\t\t%s\t\t%s\t\t%d\t\t%s\t\t%0.6e\n"%(t,SendReceive,whichPacket,EPIT,LPIA,WS,CAT,STT,L3P0,L3P1,L3P2,TAF,DAF,SAF,State,TO,RTTEst))
+					elif measurement == "fullvegasdebug":
+						f.write("time\t\tReason\t\tPacketID\t\tEPIT\t\tLPIA\t\tWS\t\tSTT\t\t[L3P0\t\tL3P1\t\tL3P2]\t\tTAF\t\tDAF\t\tSAF\t\tState\t\tObserve\t\tRamp\t\tTimeoutOccurred\t\tRTTmin\t\tRTTAct\t\tPacketsTillCanChangeWS\n")
+						for t,SendReceive,whichPacket,EPIT,LPIA,WS,STT,L3P0,L3P1,L3P2,TAF,DAF,SAF,State,FlagO,FlagR,TO,RTTm,RTTa,ICAPTUW in eimtod[element][measurement]:
+							f.write("%0.6e\t\t%s\t\t%d\t\t%d\t\t%d\t\t%0.3e\t\t%0.6e\t\t[%d\t\t%d\t\t%d]\t\t%s\t\t%s\t\t%s\t\t%d\t\t%s\t\t%s\t\t%s\t\t%0.6e\t\t%0.6e\t\t%d\n"%(t,SendReceive,whichPacket,EPIT,LPIA,WS,STT,L3P0,L3P1,L3P2,TAF,DAF,SAF,State,FlagO,FlagR,TO,RTTm,RTTa,ICAPTUW))
+					elif measurement == "fulltruefastdebug":
+						f.write("time\t\tReason\t\tPacketID\t\tEPIT\t\tLPIA\t\tWS\t\tSTT\t\t[L3P0\t\tL3P1\t\tL3P2]\t\tTAF\t\tDAF\t\tSAF\t\tTimeoutOccurred\t\tRTTmin\t\tRTTmax\t\tRTTAct\n")
+						for t,SendReceive,whichPacket,EPIT,LPIA,WS,STT,L3P0,L3P1,L3P2,TAF,DAF,SAF,TO,RTTmi,RTTma,RTTac in eimtod[element][measurement]:
+							f.write("%0.6e\t\t%s\t\t%d\t\t%d\t\t%d\t\t%0.3e\t\t%0.6e\t\t%d\t\t%d\t\t%d\t\t%s\t\t%s\t\t%s\t\t%s\t\t%0.6e\t\t%0.6e\t\t%0.6e\n"%(t,SendReceive,whichPacket,EPIT,LPIA,WS,STT,L3P0,L3P1,L3P2,TAF,DAF,SAF,TO,RTTmi,RTTma,RTTac))
+					else:
+						f.write("time\t\tvalue\n")
+						for t,v in eimtod[element][measurement]:
+							f.write("%0.6e\t\t%0.6e\n"%(t,v))
 
-		ms_window = 100
+	print "Done parsing results..."
+	print "Plotting results..."	
 
-		# link1_stats = plt.figure()
-		# link1_linkrate_ax = link1_stats.add_subplot(211)
-		# link1_leftbuffocc_ax = link1_stats.add_subplot(212)
-		# plot_linkrate(eimtod, "l1", ms_window, link1_linkrate_ax)
-		# plot_bufferoccupancy(eimtod, "l1", constants.LTR, ms_window, link1_leftbuffocc_ax)
-		# link1_linkrate_ax.set_title("Link 1, Test Case 1 (Static Routing, TCP Reno)")
-		# link1_leftbuffocc_ax.set_xlabel('Seconds')
-		# link1_stats.savefig("results/temp_link1.jpeg")
+	'''
+	Want to plot, for each network element for which these data are available:
+	
+	1 link rate (mpbs) 					
+		1 bin-averaged	
+	2 buffer occupancy (%) 			
+		2 time-averaged	
+	3 packet loss (packets)				
+		3 bin-sum
+	4 flow rate (Mbps) 					
+		4 bin-averaged 
+	5 flow window size (packets) 		
+		5 time-averaged
+	6 packet delay (ms)		
+		6 event trace (solid line)
 
-		# flow1src_stats = plt.figure()
-		# flow1src_packetloss_ax = flow1src_stats.add_subplot(311)
-		# plot_packetloss(eimtod, "f1_src", ms_window, flow1src_packetloss_ax)
-		# flow1src_packetloss_ax.set_title("Flow 1, Test Case 1 (Static Routing, TCP RENO)")
-		# flow1src_flowrate_ax = flow1src_stats.add_subplot(312)
-		# plot_flowrate(eimtod, "f1_dest", ms_window, flow1src_flowrate_ax)
-		# flow1src_windowsize_ax = flow1src_stats.add_subplot(313)
-		# plot_dynamic_flowwindowsize(eimtod, "f1_src", ms_window, flow1src_windowsize_ax)
-		# flow1src_windowsize_ax.set_xlabel('Seconds')
-		# flow1src_stats.savefig("results/temp_flow1.jpeg")
+	All will be black lines, solid, or single points, dotted. 
+	Plots will be totally separated.
+
+	This code below is sensitive to LACK of data. It will likely break
+	if any of the expected data for standard plots is not found
+	in your simulation for some reason (weird locked routing, etc.)
+	'''
+	ms_window = constants.MS_WINDOW
+	for (d,v) in element_map.items():
+		if isinstance(v, Link):						
+			myname = "Link %s"%v.get_id()			
+			print "for %s..."%myname
+			myid = v.get_id() 
+
+			all_plots = plt.figure()
+
+			linkrate_ax = all_plots.add_subplot(211)
+			buffocc_ax = all_plots.add_subplot(212)			
+
+			plot_linkrate(eimtod, myid, ms_window, linkrate_ax)
+			plot_bufferoccupancy(eimtod, myid, ms_window, buffocc_ax)
+
+			linkrate_ax.set_title("%s Trace"%myname)
+			buffocc_ax.set_xlabel('Seconds')
+			all_plots.savefig(os.path.join(os.path.join('results','plots'),"%s.jpeg"%myid))
+			plt.close()
+
+		elif isinstance(v,Data_Source):
+			myid = v.get_id()
+			myname = myid.split('_')[0]						
+			print "for Flow %s..."%myname
+			mysink = "%s_%s"%(myname,"dest") # see jsonparser.py						
+			all_data = []
+
+			pltCount = 0
+			plot_functions = []			
+
+			if isinstance(v, Working_Data_Source_TCP_RENO):
+				# guaranteed to have this data 
+				mydata = eimtod[myid]["fullrenodebug"]
+				mytimes = [val[0] for val in mydata] # ms
+				myWS = [val[5] for val in mydata]  	# packets
+				myDelay = [val[16] for val in mydata] # ms
+			elif isinstance(v, Working_Data_Source_TCP_VEGAS):			
+				# guaranteed to have this data 
+				mydata = eimtod[myid]["fullvegasdebug"]
+				mytimes = [val[0] for val in mydata] # ms
+				myWS = [val[5] for val in mydata]  	# packets
+				myDelay = [val[18] for val in mydata] # ms						
+			elif isinstance(v, Working_Data_Source_TCP_FAST):
+				# guaranteed to have this data 				
+				mydata = eimtod[myid]["fulltruefastdebug"]
+				mytimes = [val[0] for val in mydata] # ms
+				myWS = [val[5] for val in mydata]  	# packets
+				myDelay = [val[16] for val in mydata] # ms				
+			
+			plot_functions.append(lambda ((ms,dat,label,ms_window,axes)): plot_flow_window(ms,dat,label,ms_window,axes))
+			plot_functions.append(lambda ((ms,dat,label,ms_window,axes)): plot_flow_delay(ms,dat,label,ms_window,axes))
+			
+			all_data.append([mytimes,myWS,'Window (pkts)'])
+			all_data.append([mytimes,myDelay,'RTT (ms)'])
+			pltCount += 2
+
+			pkLossFlag = False
+			if "packetloss" in eimtod[mysink].keys():
+				mydata = eimtod[mysink]["packetloss"]			
+				myLossTime = [val[0] for val in mydata] # ms
+				myLoss = [val[1] for val in mydata] # 0, 1				
+				all_data.append([myLossTime,myLoss,"Loss (pkts)"])				
+				pltCount += 1
+				pkLossFlag = True
+				plot_functions.append(lambda ((ms,dat,label,ms_window,axes)): plot_flow_loss(ms,dat,label,ms_window,axes))			
+			
+			if "flowrate" in eimtod[mysink].keys():
+				mydata = eimtod[mysink]["flowrate"]	
+				myRateTime = [val[0] for val in mydata] # ms
+				myRate = [val[1] for val in mydata] # mbits    
+				all_data.append([myRateTime,myRate,"Mbps"])
+				pltCount += 1
+				plot_functions.append(lambda ((ms,dat,label,ms_window,axes)): plot_flow_rate(ms,dat,label,ms_window,axes))
+
+			all_plots = plt.figure()			
+			myaxes = []
+			flow_ws_ax = all_plots.add_subplot(pltCount,1,1)
+			myaxes.append(flow_ws_ax)
+			flow_delay_ax = all_plots.add_subplot(pltCount,1,2)			
+			myaxes.append(flow_delay_ax)
+			if pltCount == 3 and pkLossFlag:
+				flow_loss_ax = all_plots.add_subplot(pltCount,1,3)			
+				myaxes.append(flow_loss_ax)
+			elif pltCount == 3:
+				flow_rate_ax = all_plots.add_subplot(pltCount,1,3)		
+				myaxes.append(flow_rate_ax)	
+			elif pltCount > 3:
+				flow_loss_ax = all_plots.add_subplot(pltCount,1,3)			
+				myaxes.append(flow_loss_ax)
+				flow_rate_ax = all_plots.add_subplot(pltCount,1,4)		
+				myaxes.append(flow_rate_ax)	
+			
+			for m in xrange(pltCount):							
+				plot_functions[m]((all_data[m][0],all_data[m][1],all_data[m][2],ms_window,myaxes[m]))
+
+			myaxes[0].set_title("%s Trace"%myname)
+			myaxes[len(myaxes)-1].set_xlabel('Seconds')
+			all_plots.savefig(os.path.join(os.path.join('results','plots'),"%s.jpeg"%myname))
+			plt.close()
+
+		else:
+			continue		
+
+	
+	print "Done plotting results..."
+	print "Goodbye!"
 
 	sys.exit(0)
