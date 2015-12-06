@@ -206,6 +206,33 @@ def handle_flow_vegas_debug (datamap, datalog):
 				float(datalog["RTTactEst"]),\
 				int(datalog["ICAPTUW"]) ])		
 
+def handle_flow_true_fast_debug (datamap, datalog):	
+	if datalog["measurement"] == "fulltruefastdebug":			
+		if not (datalog["flowid"] in datamap.keys()):								
+			datamap[datalog["flowid"]] = {}					
+		
+		if not (datalog["measurement"] in datamap[datalog["flowid"]].keys()):			
+			datamap[datalog["flowid"]][datalog["measurement"]] = []
+
+		datamap[datalog["flowid"]][datalog["measurement"]].append(\
+			[	float(datalog["ms_globaltime"]), \
+				datalog["SendReceive"],\
+				int(datalog["whichPacket"]),\
+				int(datalog["EPIT"]),\
+				int(datalog["LPIA"]),\
+				float(datalog["WS"]),\
+				float(datalog["STT"]),\
+				int(datalog["L3P0"]),\
+				int(datalog["L3P1"]),\
+				int(datalog["L3P2"]),\
+				datalog["TAF"],\
+				datalog["DAF"],\
+				datalog["SAF"],\
+				datalog["isTimeoutOccurring"],\
+				float(datalog["RTTmin"]),\
+				float(datalog["RTTmax"]),\
+				float(datalog["RTTactEst"]) ])		
+
 
 # Breaks time into ms_window chunks and sums values within bins
 def windowed_sum(times, values, ms_window):
@@ -427,6 +454,7 @@ if __name__ == "__main__":
 		 	 	 		handle_flow_state(eimtod, log)
 		 	 	 		handle_packets_outstanding(eimtod, log)
 		 	 	 		handle_flow_reno_debug(eimtod, log)
+		 	 	 		handle_flow_true_fast_debug(eimtod, log)
 		 	 	 		handle_flow_vegas_debug(eimtod, log)
 		 	 	 		# others
 				except ValueError:							
@@ -462,10 +490,15 @@ if __name__ == "__main__":
 							f.write("time\t\tReason\t\tPacketID\t\tEPIT\t\tLPIA\t\tWS\t\tSTT\t\t[L3P0\t\tL3P1\t\tL3P2]\t\tTAF\t\tDAF\t\tSAF\t\tState\t\tObserve\t\tRamp\t\tTimeoutOccurred\t\tRTTmin\t\tRTTAct\t\tPacketsTillCanChangeWS\n")
 							for t,SendReceive,whichPacket,EPIT,LPIA,WS,STT,L3P0,L3P1,L3P2,TAF,DAF,SAF,State,FlagO,FlagR,TO,RTTm,RTTa,ICAPTUW in eimtod[element][measurement]:
 								f.write("%0.6e\t\t%s\t\t%d\t\t%d\t\t%d\t\t%0.3e\t\t%0.6e\t\t[%d\t\t%d\t\t%d]\t\t%s\t\t%s\t\t%s\t\t%d\t\t%s\t\t%s\t\t%s\t\t%0.6e\t\t%0.6e\t\t%d\n"%(t,SendReceive,whichPacket,EPIT,LPIA,WS,STT,L3P0,L3P1,L3P2,TAF,DAF,SAF,State,FlagO,FlagR,TO,RTTm,RTTa,ICAPTUW))
+						elif measurement == "fulltruefastdebug":
+							f.write("time\t\tReason\t\tPacketID\t\tEPIT\t\tLPIA\t\tWS\t\tSTT\t\t[L3P0\t\tL3P1\t\tL3P2]\t\tTAF\t\tDAF\t\tSAF\t\tTimeoutOccurred\t\tRTTmin\t\tRTTmax\t\tRTTAct\n")
+							for t,SendReceive,whichPacket,EPIT,LPIA,WS,STT,L3P0,L3P1,L3P2,TAF,DAF,SAF,TO,RTTmi,RTTma,RTTac in eimtod[element][measurement]:
+								f.write("%0.6e\t\t%s\t\t%d\t\t%d\t\t%d\t\t%0.3e\t\t%0.6e\t\t%d\t\t%d\t\t%d\t\t%s\t\t%s\t\t%s\t\t%s\t\t%0.6e\t\t%0.6e\t\t%0.6e\n"%(t,SendReceive,whichPacket,EPIT,LPIA,WS,STT,L3P0,L3P1,L3P2,TAF,DAF,SAF,TO,RTTmi,RTTma,RTTac))
 						else:
 							f.write("time\t\tvalue\n")
 							for t,v in eimtod[element][measurement]:
 								f.write("%0.6e\t\t%0.6e\n"%(t,v))
+
 
 		ms_window = 100
 

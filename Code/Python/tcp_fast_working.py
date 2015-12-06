@@ -5,55 +5,20 @@
 #	by Sushant Sundaresh on 5 December 2015
 
 References: TAs (Ritvik)
-	Turns out TCP FAST is not drop based at all. There are no SS/FR/FT/TR states.
+	Turns out TCP FAST is not drop based at all.
+	That is, it's not just an extension of Vegas.
+	There are no SS/FR/FT/TR states.
 	There is only CA with window updates on a fixed period. 	
-'''
-
-'''
-Second Pass
-FAST Algorithm Modifications, from RENO
-	In all phases, we keep track of RTTmin (lowest ever observed) and RTTact (observed over an N-packet window, unweighted average)
-	This in particular means we have to be very careful with Acks from TOs that were still in the network. 
-	We should calculate RTT based on the current time & the Ack tx_time, if it's a timeout packet. 
-	If there are multiple packets Ackd at once, we still only queue up one RTT based on the tx_time & current time (conservative)
-
-	Start off in Slow-Start. Observe RTT and esimate RTTmin and RTTact.
-		The congestion avoidance threshold is now a constant, and refers to the difference between RTTmin and RTTact.
-		It can't be an absolute difference, it makes more sense for it to be a ratio.
-		On hitting this threshold, set WS = 0.875 WS and proceed to CA.
-		On TACK -> FR/FT
-		On TO -> TR	
-
-		We do not update WS each ack; we do so once every other WS (every 2 RTT). 
-		It will suffice to keep track of whether we're in an observe or ramp slow-start phase.	
-
-	In Congestion Avoidance
-		Every time we clear our packet RTT history, we may update the WS according to:
+	
+	We need a timeout with a fixed period on which we update WS as 
 		WS =  RTTmin/RTTact * WS + alpha 
 
-		If we pretend this stabilizes to a constant RTTack, we can see we're really approaching
-		a level of congestion where alpha sets how much queuing delay we're willing to accept. 
+	We need to track RTTmin, RTTact (averaged over last 20 packets, say), maxRTT.
 
-	In FR/FT
-		Maybe I'm missing something, but Vegas' timeout condition for fast FR/FT would trigger a timeout and drop us into TR anyway
-		So the only change here is to drop into CA based on the RTT act/min threshold as well.
+	On timeouts, we set the packet RTT to some constant factor (2, say) times our max RTT observed,
+	update our WS pre-emptively, and proceed as normal.	
 
-	In TO recovery
-		None	
-
-We need to keep track of:
-
-RTTmin
-RTTact = [] with length constants.FAST_RTT_WINDOW_SIZE
-Packets_Till_Update_WS_IN_CA = (in CA, start at FAST_RTT_WINDOW_SIZE, decrement, reset on 0) 
-
-CAT = constants.FAST_CA_THRESHOLD
-and constants.SS2CA_SCALING = 0.875
-
-Within SS
-	FlagObserveRTT
-	FlagRampWS
-
+	On triple acks we preemptively count a packet as 'dropped,' and proceed as normal.
 '''
 
 from reporter import Reporter
@@ -70,41 +35,29 @@ class Working_Data_Source_TCP_FAST(Data_Source):
 	LPIA = -1 # last packet id acknowledged
 
 	WS = 0.0 # window size
-	CAT = constants.FAST_CA_THRESHOLD # congestion avoidance threshold from slow start
-	STT = 0.0 # send-time threshold 
+		
 	L3P = [-3, -2, -1] # last three packet ids
 
 	TAF = False #	TAF triple ack 
 	DAF = False #	DAF double ack
-	SAF = False #	SAF single ack 
-
-	State = SS
+	SAF = False #	SAF single ack 	
 
 	RTTmin = -1
+	RTTmax = -1
 	RTTactBuff = [-1] * constants.FAST_RTT_WINDOW_SIZE
-	RTTactEst = -1
-	Packets_Till_Update_WS_IN_CA = constants.FAST_RTT_WINDOW_SIZE
-
-	FlagObserveRTT = False
-	FlagRampWS = False
-
-	mayUpdate = False
+	RTTactEst = -1	
 
 	def __init__(self, identity, src, sink, size, start):
 		Data_Source.__init__(self, identity, src, sink, size, start)	
 		
 		self.EPIT, self.LPIA, self.WS,\
-		self.CAT, self.STT, self.L3P,\
+		self.L3P,\
 		self.TAF, self.DAF, self.SAF,\
-		self.State, self.RTTmin, self.RTTactBuff,RttactEst,\
-		self.Packets_Till_Update_WS_IN_CA,\
-		self.FlagObserveRTT, self.FlagRampWS, self.mayUpdateWS =\
+		self.RTTmin, self.RTTmax, self.RTTactBuff,RttactEst=\
 		(0,-1,0.0,\
-			constants.FAST_CA_THRESHOLD,0.0,[-3,-2,-1],\
+			[-3,-2,-1],\
 			False,False,False,\
-			SS, -1, [-1]*constants.FAST_RTT_WINDOW_SIZE,-1,\
-			constants.FAST_RTT_WINDOW_SIZE,\
-			False,False,False)
+			-1, -1, [-1]*constants.FAST_RTT_WINDOW_SIZE,-1)
 
 	def is_flow_done(self):				
 		if self.LPIA == len(self.tx_buffer)-1:
@@ -114,17 +67,13 @@ class Working_Data_Source_TCP_FAST(Data_Source):
 	# initialization from event simulator
 	def start(self):		
 		self.WS = 1.0
-		self.EPIT = 0
-		self.STT = self.sim.get_current_time()
+		self.EPIT = 0		
 		self.L3P = [-3, -2, -1]				
-		self.LPIA = -1		
-		self.State = SS
-		self.FlagObserveRTT = True
-		self.FlagRampWS = False
+		self.LPIA = -1							
 		self.RTTmin = -1
+		self.RTTmax = -1
 		self.RTTactBuff = [-1] * constants.FAST_RTT_WINDOW_SIZE
-		self.RTTactEst = -1
-		self.mayUpdateWS = False
+		self.RTTactEst = -1		
 		self.debug_log_fast_source(False,"start",self.LPIA)
 		self.transmit()		
 
@@ -134,10 +83,24 @@ class Working_Data_Source_TCP_FAST(Data_Source):
 		if self.RTTmin < 0:
 			raise ValueError("Somehow received a negative RTT at time %0.6e with tx_time %0.6e, at packet %d"%(self.sim.get_current_time(), ack.get_tx_time(), ack.get_ID()))
 
-	def updateRTTactEst(self, ack):
-		RTT = self.sim.get_current_time() - ack.get_tx_time()
+	def updateRTTmax(self,ack):
+		if (self.RTTmax < 0) or (self.sim.get_current_time() - ack.get_tx_time() > self.RTTmax):
+			self.RTTmax = self.sim.get_current_time() - ack.get_tx_time()		
+		if self.RTTmax < 0:
+			raise ValueError("Somehow set RTTmax to a negative RTT at time %0.6e with tx_time %0.6e, at packet %d"%(self.sim.get_current_time(), ack.get_tx_time(), ack.get_ID()))
+
+	# on timeout (toFlag), we assume a worst case tx_time
+	def updateRTTactEst(self, toFlag, ack):
+		if not toFlag:
+			RTT = self.sim.get_current_time() - ack.get_tx_time()			
+		elif self.RTTmax >= 0:
+			RTT = self.RTTmax * FAST_TO_RTTMAX_SCALAR
+		else:
+			RTT = FAST_BASE_RTTMAX
+		
 		self.RTTactBuff.pop(0)		
 		self.RTTactBuff.append(RTT)
+
 		RTTact = 0
 		cnt = 0.0
 		for m in xrange(len(self.RTTactBuff)):
@@ -148,7 +111,8 @@ class Working_Data_Source_TCP_FAST(Data_Source):
 		if RTTact > 0:
 			self.RTTactEst = RTTact
 		else:
-			raise ValueError("Somehow received a negative RTT at time %0.6e with tx_time %0.6e, at packet %d"%(self.sim.get_current_time(), ack.get_tx_time(), ack.get_ID()))
+			if not toFlag:
+				raise ValueError("Somehow received a negative RTT at time %0.6e with tx_time %0.6e, at packet %d"%(self.sim.get_current_time(), ack.get_tx_time(), ack.get_ID()))
 
 	def send(self,p):			
 		p.set_in_transit(1)
@@ -167,34 +131,6 @@ class Working_Data_Source_TCP_FAST(Data_Source):
 				constants.DATA_PACKET_BITWIDTH)
 		self.tx_buffer[q.get_ID()] = q
 
-	# We set the STT on timeouts to avoid responding to packets that we 
-	# thought were timed out.
-	def time_out(self,packet):
-		if not packet.get_timeout_disabled():						
-			self.EPIT = max(self.EPIT-1,0)
-			# Replace the packet that timed out with a fresh one
-			self.replaceDataPacket(packet.get_ID())
-
-			if not (self.State == TR):
-				self.State = TR				
-				self.STT = self.sim.get_current_time()				
-				self.L3P = [-3, -2, -1]			
-				self.WS = 1.0
-			self.debug_log_fast_source(True,"timeout",packet.get_ID())				
-			if self.EPIT < self.WS:
-				self.State = SS
-				self.FlagObserveRTT = False
-				self.FlagRampWS = True
-				self.transmit()					
-
-	# called on the first recognition of a triple-ack		
-	def setup_fr(self):			
-		# disables timeout on the packet triple acked in L3P
-		tripleAckdPacket = self.L3P[2] + 1 
-		self.tx_buffer[tripleAckdPacket].set_timeout_disabled(True)
-		self.replaceDataPacket(tripleAckdPacket)
-		self.EPIT = max(self.EPIT-1,0)		
-
 	# From WS & EPIT & Tx_Buffer, determines how many packets to send	
 	def transmit(self):
 		for m in xrange(len(self.tx_buffer)):
@@ -204,7 +140,7 @@ class Working_Data_Source_TCP_FAST(Data_Source):
 			else:
 				break			
 	
-	# log all state. 
+	# log all state. STT (-1) no longer exists.
 	def debug_log_fast_source(self,isTimeoutOccurring,SendReceive,whichPacket):	
 		if MEASUREMENT_ENABLE:
 			print MEASURE_FLOW_FAST_FULL_DEBUG((self,\
@@ -213,15 +149,13 @@ class Working_Data_Source_TCP_FAST(Data_Source):
 											self.EPIT,\
 											self.LPIA,\
 											self.WS,\
-											self.STT,\
+											-1,\
 											self.L3P[0],\
 											self.L3P[1],\
 											self.L3P[2],\
 											self.TAF,self.DAF,self.SAF,\
-											self.State,\
 											isTimeoutOccurring,\
-											self.RTTmin,self.RTTactEst,self.Packets_Till_Update_WS_IN_CA,\
-											self.FlagObserveRTT,self.FlagRampWS,\
+											self.RTTmin,self.RTTmax,self.RTTactEst,\
 											self.sim.get_current_time()))		
 
 	def recountEPIT(self):		
@@ -275,82 +209,57 @@ class Working_Data_Source_TCP_FAST(Data_Source):
 		self.DAF = True if (self.L3P[1] == self.L3P[2]) and (not self.TAF) else False
 		self.SAF = not (self.TAF or self.DAF)
 
-	def chooseNextState(self):
-		if self.State == TR:
-			self.State = TR
-		elif self.State == SS:				
-			if self.RTTactEst/self.RTTmin >= self.CAT:
-				self.State = CA
-				self.WS = max(self.WS * constants.SS2CA_SCALING, 1.0)
-				self.Packets_Till_Update_WS_IN_CA = constants.FAST_RTT_WINDOW_SIZE
-				self.mayUpdateWS = False
-			else:			
-				if self.SAF:
-					if self.FlagObserveRTT:
-						self.FlagObserveRTT = False
-						self.FlagRampWS = True
-					else:
-						self.FlagObserveRTT = True
-						self.FlagRampWS = False
-					self.State = SS
-				elif self.DAF:					
-					self.State = SS	
-				else:
-					self.WS = max(self.WS/2,1.0)				
-					self.setup_fr()
-					self.State = FR								
-		elif self.State == CA:
-			if self.SAF or self.DAF:
-				# Every time we clear our packet RTT history, we may update the WS 
-				self.Packets_Till_Update_WS_IN_CA -= 1
-				if self.Packets_Till_Update_WS_IN_CA == 0:
-					self.Packets_Till_Update_WS_IN_CA = constants.FAST_RTT_WINDOW_SIZE
-					self.mayUpdateWS = True
-			elif self.TAF:
-				self.WS = max(self.WS/2,1.0)
-				self.setup_fr()
-				self.State = FR			
-		elif self.State == FR:
-			if (self.RTTactEst/self.RTTmin >= self.CAT) or self.SAF:
-				self.State = CA
-				self.WS = max(self.WS/2,1.0)
-				self.WS = max(self.WS * constants.SS2CA_SCALING, 1.0)
-				self.Packets_Till_Update_WS_IN_CA = constants.FAST_RTT_WINDOW_SIZE
-				self.mayUpdateWS = False
-			else:								
-				if self.TAF:
-					self.State = FR
-				else:
-					raise ValueError("Should never have gotten to self.DAF in FR")
-		else:
-			raise ValueError("What state is FAST in?")					
+	# On timeouts, we set the packet RTT to some constant factor (2, say) times our max RTT observed,
+	# update our WS pre-emptively, and proceed as normal.
+	def time_out(self,packet):
+		if not packet.get_timeout_disabled():						
+			self.EPIT = max(self.EPIT-1,0)
+			# Replace the packet that timed out with a fresh one
+			self.replaceDataPacket(packet.get_ID())
+			# update window size with worst case RTT time
+			self.to_update_ws()
+			
+			self.debug_log_fast_source(True,"timeout",packet.get_ID())				
+			
+			self.transmit()				
 
-	def operateFromState(self,deltaEPIT):		
-		if self.State == TR:
-			pass
-		else:
-			if (self.State == SS) and (deltaEPIT > 0):				
-				if self.FlagRampWS:
-					self.WS += 1
-			elif (self.State == CA) and self.mayUpdateWS:
-				self.WS = (self.RTTmin/self.RTTactEst)*self.WS + constants.FAST_ALPHA
-				self.mayUpdateWS = False
-			elif self.State == FR:						
-				self.WS += 1								
-			self.transmit()	
+	def to_update_ws (self):
+		self.updateRTTactEst(True,None)	
+		self.benign_update_ws()
 
+	def benign_update_ws (self):
+		self.WS = (self.RTTmin/self.RTTactEst)*self.WS + constants.FAST_ALPHA		
+
+	# called on the first recognition of a triple-ack		
+	# On triple acks we preemptively count a packet as 'dropped,' with a penalty
+	# on our RTT buffer. We do not update our WS immediately; we proceed as normal.
+	def setup_fr(self):			
+		# disables timeout on the packet triple acked in L3P
+		tripleAckdPacket = self.L3P[2] + 1 
+		self.tx_buffer[tripleAckdPacket].set_timeout_disabled(True)
+		self.replaceDataPacket(tripleAckdPacket)
+		self.EPIT = max(self.EPIT-1,0)	
+		self.updateRTTactEst(True,None)		
+		self.debug_log_fast_source(False,"tripleack",tripleAckdPacket)				
+	
 	def receive(self,packet):
 		if not (packet.get_type() == DATA_PACKET_ACKNOWLEDGEMENT_TYPE):
 			raise ValueError("Flow %s, Packet Type %s, Source/Dest %s %s at time %0.6e\n"%(packet.get_flow().get_id(), packet.get_type(),packet.get_source(),packet.get_dest(),self.sim.get_current_time()))
+		
 		pid = packet.get_ID()			
 		self.handleAck(pid)		
-		self.updateRTTactEst(packet)		
+		self.updateRTTactEst(False,packet)		
 		self.updateRTTmin(packet)
+		self.updateRTTmax(packet)		
+		
+		deltaEPIT = self.recountEPIT()						
+		self.updateL3P(pid)
+		self.setFlags()			
+
 		self.debug_log_fast_source(False,"receive",pid)			
 
-		if packet.get_tx_time() >= self.STT:			
-			deltaEPIT = self.recountEPIT()						
-			self.updateL3P(pid)
-			self.setFlags()			
-			self.chooseNextState()
-			self.operateFromState(deltaEPIT)
+		if self.TAF:
+			self.setup_fr()
+
+		self.transmit()	
+			
