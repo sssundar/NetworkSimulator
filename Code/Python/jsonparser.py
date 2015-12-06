@@ -8,7 +8,7 @@ from router import *
 from flow import *
 from tcp_flow import *
 from tcp_reno_working import *
-from tcp_fast_working import *
+from tcp_vegas_working import *
 from constants import *
 
 """
@@ -66,6 +66,9 @@ class JSONParser ():
 					dd = Data_Sink(keyd, line["dest"], line["source"], line["size"],line["start"])	# Dest and Src is swapped for sink
 				elif TCP_RENO_WORKING_ENABLE is True:
 					ds = Working_Data_Source_TCP_RENO(keys, line["source"], line["dest"], line["size"],line["start"])				
+					dd = Working_Data_Sink_TCP_RENO(keyd, line["dest"], line["source"], line["size"],line["start"])	# Dest and Src is swapped for sink
+				elif TCP_VEGAS_WORKING_ENABLE is True:
+					ds = Working_Data_Source_TCP_VEGAS(keys, line["source"], line["dest"], line["size"],line["start"])				
 					dd = Working_Data_Sink_TCP_RENO(keyd, line["dest"], line["source"], line["size"],line["start"])	# Dest and Src is swapped for sink									
 				elif TCP_FAST_WORKING_ENABLE is True:
 					ds = Working_Data_Source_TCP_FAST(keys, line["source"], line["dest"], line["size"],line["start"])				

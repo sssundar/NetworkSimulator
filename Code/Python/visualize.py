@@ -33,7 +33,7 @@ References:
 '''
 import constants
 
-testCase = constants.TESTCASE0
+testCase = constants.TESTCASE1
 
 import sys, os
 import json
@@ -176,8 +176,8 @@ def handle_flow_reno_debug (datamap, datalog):
 				int(datalog["State"]),\
 				datalog["isTimeoutOccurring"] ])		
 
-def handle_flow_fast_debug (datamap, datalog):	
-	if datalog["measurement"] == "fullfastdebug":			
+def handle_flow_vegas_debug (datamap, datalog):	
+	if datalog["measurement"] == "fullvegasdebug":			
 		if not (datalog["flowid"] in datamap.keys()):								
 			datamap[datalog["flowid"]] = {}					
 		
@@ -427,7 +427,7 @@ if __name__ == "__main__":
 		 	 	 		handle_flow_state(eimtod, log)
 		 	 	 		handle_packets_outstanding(eimtod, log)
 		 	 	 		handle_flow_reno_debug(eimtod, log)
-		 	 	 		handle_flow_fast_debug(eimtod, log)
+		 	 	 		handle_flow_vegas_debug(eimtod, log)
 		 	 	 		# others
 				except ValueError:							
 					pass
@@ -458,7 +458,7 @@ if __name__ == "__main__":
 							f.write("time\t\tReason\t\tPacketID\t\tEPIT\t\tLPIA\t\tWS\t\tCAT\t\tSTT\t\t[L3P0\t\tL3P1\t\tL3P2]\t\tTAF\t\tDAF\t\tSAF\t\tState\t\tTimeoutOccurred\n")
 							for t,SendReceive,whichPacket,EPIT,LPIA,WS,CAT,STT,L3P0,L3P1,L3P2,TAF,DAF,SAF,State,TO in eimtod[element][measurement]:
 								f.write("%0.6e\t\t%s\t\t%d\t\t%d\t\t%d\t\t%0.3e\t\t%0.3e\t\t%0.6e\t\t[%d\t\t%d\t\t%d]\t\t%s\t\t%s\t\t%s\t\t%d\t\t%s\n"%(t,SendReceive,whichPacket,EPIT,LPIA,WS,CAT,STT,L3P0,L3P1,L3P2,TAF,DAF,SAF,State,TO))
-						elif measurement == "fullfastdebug":
+						elif measurement == "fullvegasdebug":
 							f.write("time\t\tReason\t\tPacketID\t\tEPIT\t\tLPIA\t\tWS\t\tSTT\t\t[L3P0\t\tL3P1\t\tL3P2]\t\tTAF\t\tDAF\t\tSAF\t\tState\t\tObserve\t\tRamp\t\tTimeoutOccurred\t\tRTTmin\t\tRTTAct\t\tPacketsTillCanChangeWS\n")
 							for t,SendReceive,whichPacket,EPIT,LPIA,WS,STT,L3P0,L3P1,L3P2,TAF,DAF,SAF,State,FlagO,FlagR,TO,RTTm,RTTa,ICAPTUW in eimtod[element][measurement]:
 								f.write("%0.6e\t\t%s\t\t%d\t\t%d\t\t%d\t\t%0.3e\t\t%0.6e\t\t[%d\t\t%d\t\t%d]\t\t%s\t\t%s\t\t%s\t\t%d\t\t%s\t\t%s\t\t%s\t\t%0.6e\t\t%0.6e\t\t%d\n"%(t,SendReceive,whichPacket,EPIT,LPIA,WS,STT,L3P0,L3P1,L3P2,TAF,DAF,SAF,State,FlagO,FlagR,TO,RTTm,RTTa,ICAPTUW))

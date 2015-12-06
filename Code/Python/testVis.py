@@ -117,36 +117,14 @@ import matplotlib.pyplot as plt
 
 
 
-plt.figure()
-
-t = []
-ws = []
-epit = []
-state = []
-flag = True
-with open("results/f1_src_fullrenodebug.txt") as m:   
-	for line in m:
-		if flag:
-			flag = False			
-		else:
-			line = line.strip().split("\t\t")
-			t.append(float(line[0]))
-			epit.append(int(line[3]))
-			ws.append(float(line[5]))
-			state.append(10*int(line[14]))
-ax1 = plt.subplot(111)
-ax1.plot(t,ws,'b-',t,state,'r-',t,epit,'k-')
-
 # plt.figure()
 
 # t = []
 # ws = []
 # epit = []
 # state = []
-# rttmin = []
-# rttact = []
 # flag = True
-# with open("results/f1_src_fullfastdebug.txt") as m:   
+# with open("results/f1_src_fullrenodebug.txt") as m:   
 # 	for line in m:
 # 		if flag:
 # 			flag = False			
@@ -155,13 +133,35 @@ ax1.plot(t,ws,'b-',t,state,'r-',t,epit,'k-')
 # 			t.append(float(line[0]))
 # 			epit.append(int(line[3]))
 # 			ws.append(float(line[5]))
-# 			state.append(10*int(line[13]))
-# 			rttmin.append(float(line[17]))
-# 			rttact.append(float(line[18]))			
-# ax1 = plt.subplot(211)
+# 			state.append(10*int(line[14]))
+# ax1 = plt.subplot(111)
 # ax1.plot(t,ws,'b-',t,state,'r-',t,epit,'k-')
-# ax2 = plt.subplot(212)
-# ax2.plot(t,rttmin,'b-',t,rttact,'r-')
+
+# plt.figure()
+
+t = []
+ws = []
+epit = []
+state = []
+rttmin = []
+rttact = []
+flag = True
+with open("results/f1_src_fullvegasdebug.txt") as m:   
+	for line in m:
+		if flag:
+			flag = False			
+		else:
+			line = line.strip().split("\t\t")
+			t.append(float(line[0]))
+			epit.append(int(line[3]))
+			ws.append(float(line[5]))
+			state.append(10*int(line[13]))
+			rttmin.append(float(line[17]))
+			rttact.append(float(line[18]))			
+ax1 = plt.subplot(211)
+ax1.plot(t,ws,'b-',t,state,'r-',t,epit,'k-')
+ax2 = plt.subplot(212)
+ax2.plot(t,rttmin,'b-',t,rttact,'r-')
 
 # plt.figure()
 
