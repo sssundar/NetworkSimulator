@@ -13,12 +13,13 @@ FAST_CA_THRESHOLD = 5.0 # when RTTact ~ 3x RTTmin, transition from SS to CA
 SS2CA_SCALING = 0.875
 
 # FAST
-FAST_ALPHA = 10.0 	
-FAST_RTT_WINDOW_SIZE = 20 # estimate RTTact from FAST_RTT_WINDOW_SIZE last RTTs
-FAST_WS_UPDATE_TIME = 50.0 # ms
-FAST_TO_RTTMAX_SCALAR = 2.0 # times RTTmax as the timeout penalty
+FAST_ALPHA = 20.0 	
+FAST_RTT_WINDOW_SIZE = int(20) # estimate RTTact from FAST_RTT_WINDOW_SIZE last RTTs
+FAST_WS_UPDATE_TIME = 200.0 # ms ~timescale of a few packet arrivals to re-estimate RTT
+FAST_TO_RTTMAX_SCALAR = 10.0 # times RTTmax as the timeout penalty
+FAST_TO_ALLOWANCE = 3.0 # times RTTmax as the timeout allowance
 FAST_BASE_RTTMAX = 1000.0 # ms (in case of timeout on first send)
-FAST_ALPHA = 10.0
+FAST_EXPONENTIAL_DECAY = float(0.1) # 10 samples back, will see 1/e weighting
 
 VEGAS_ALPHA = 0.4
 VEGAS_BETA = 0.45
@@ -337,9 +338,9 @@ MEASURE_FLOW_FAST_FULL_DEBUG = \
 		L3P0,\
 		L3P1,\
 		L3P2,\
-		TAF,DAF,SAF,\		
+		TAF,DAF,SAF,\
 		isTimeoutOccurring,\
-		RTTmin,RTTmax,RTTactEst,\		
+		RTTmin,RTTmax,RTTactEst,\
 		ms_time)):\
 		FLOW_FAST_FULL_DEBUG_MEASUREMENT_BASE % ((	flow.get_id(),\
 											SendReceive,\

@@ -82,3 +82,17 @@ class Start_Next_Routing_Cycle (Event):
 				sim.network_elements[el].routing_table_periodic_update()
 		self.set_completion_time(self.get_completion_time()+constants.ROUTING_TABLE_UPDATE_PERIOD)
 		sim.request_event(self)
+
+# only works for flow instance of tcp_fast_working_source
+class FAST_WS_Update_Callback (Event):
+	f = ""
+
+	def __init__ (self, flow, completion_time):
+		self.set_completion_time(completion_time)
+		self.f = flow
+	
+	def event_action (self, sim):
+		self.f.benign_update_ws()
+		self.set_completion_time(self.get_completion_time()+constants.FAST_WS_UPDATE_TIME)
+		sim.request_event(self)
+

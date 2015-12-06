@@ -75,6 +75,7 @@ class Working_Data_Source_TCP_FAST(Data_Source):
 		self.RTTactBuff = [-1] * constants.FAST_RTT_WINDOW_SIZE
 		self.RTTactEst = -1		
 		self.debug_log_fast_source(False,"start",self.LPIA)
+		self.sim.request_event(FAST_WS_Update_Callback(self,self.sim.get_current_time()+constants.FAST_BASE_RTTMAX))
 		self.transmit()		
 
 	def updateRTTmin(self,ack):
@@ -101,6 +102,15 @@ class Working_Data_Source_TCP_FAST(Data_Source):
 		self.RTTactBuff.pop(0)		
 		self.RTTactBuff.append(RTT)
 
+		RTTact = self.linearRTTAverage()
+		#RTTact = self.exponentialRTTAverage()
+
+		if RTTact > 0:
+			self.RTTactEst = RTTact
+		else:
+			raise ValueError("Somehow received a 0 or negative RTT at time %0.6e with tx_time %0.6e, at packet %d"%(self.sim.get_current_time(), ack.get_tx_time(), ack.get_ID()))
+
+	def linearRTTAverage(self):
 		RTTact = 0
 		cnt = 0.0
 		for m in xrange(len(self.RTTactBuff)):
@@ -108,20 +118,36 @@ class Working_Data_Source_TCP_FAST(Data_Source):
 				RTTact += self.RTTactBuff[m]
 				cnt += 1.0
 		RTTact /= cnt
-		if RTTact > 0:
-			self.RTTactEst = RTTact
-		else:
-			if not toFlag:
-				raise ValueError("Somehow received a negative RTT at time %0.6e with tx_time %0.6e, at packet %d"%(self.sim.get_current_time(), ack.get_tx_time(), ack.get_ID()))
+		return RTTact
 
+	# lower indices are further away in time
+	def exponentialRTTAverage(self):
+		RTTact = 0
+		cnt = 0.0
+		numSamples = len(self.RTTactBuff)
+		for m in xrange(len(self.RTTactBuff)):
+			if self.RTTactBuff[m] >= 0:
+				RTTact += self.RTTactBuff[m] * math.exp(-1.0*float(numSamples-m-1)/FAST_EXPONENTIAL_DECAY)
+				cnt += math.exp(-1.0*float(numSamples-m-1)/FAST_EXPONENTIAL_DECAY)
+		RTTact /= cnt
+		return RTTact
+
+	# Timeout using scalar off RTTmax
 	def send(self,p):			
 		p.set_in_transit(1)
 		p.set_tx_time(self.sim.get_current_time())
 		self.EPIT += 1					
 
+		timeoutAllowance = 0
+		if self.RTTmax >= 0:
+			timeoutAllowance = self.RTTmax * FAST_TO_ALLOWANCE
+		else:
+			timeoutAllowance = FAST_BASE_RTTMAX
+
 		self.sim.request_event(\
 			Time_Out_Packet(p, \
-							self.sim.get_current_time() + constants.DATA_PACKET_TIMEOUT))
+							self.sim.get_current_time() + timeoutAllowance ))
+		
 		self.sim.get_element(self.source).send(p)		
 		self.debug_log_fast_source(False,"send",p.get_ID())
 
@@ -178,9 +204,8 @@ class Working_Data_Source_TCP_FAST(Data_Source):
 		for m in xrange(len(self.tx_buffer)):
 			if pid >= m:					
 				self.tx_buffer[m].set_ack(1)
-				self.tx_buffer[m].set_in_transit(0)
-				if not (self.State == TR):
-					self.tx_buffer[m].set_timeout_disabled(True)
+				self.tx_buffer[m].set_in_transit(0)				
+				self.tx_buffer[m].set_timeout_disabled(True)
 			else:
 				break
 		if self.LPIA < 0:
@@ -228,7 +253,10 @@ class Working_Data_Source_TCP_FAST(Data_Source):
 		self.benign_update_ws()
 
 	def benign_update_ws (self):
-		self.WS = (self.RTTmin/self.RTTactEst)*self.WS + constants.FAST_ALPHA		
+		if self.RTTmin < 0:
+			self.WS = 1.0
+		else:
+			self.WS = (self.RTTmin/self.RTTactEst)*self.WS + constants.FAST_ALPHA		
 
 	# called on the first recognition of a triple-ack		
 	# On triple acks we preemptively count a packet as 'dropped,' with a penalty
