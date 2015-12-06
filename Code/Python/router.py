@@ -158,10 +158,13 @@ class Router(Node):
 		else:							
 			self.current = self.new	
 			if not self.IterationDoneFlag:				
+				'''
 				sys.stderr.write("\nROUTING TABLE for %s\n"%self.get_id())
 				for (d, v) in self.new.items():
 					sys.stderr.write("%s, %0.3e, %s\n"%(d,v[0],v[1]))
+				'''
 				self.IterationDoneFlag = True
+
 			
 	def routing_table_periodic_update(self):		
 		self.initalize_routing_table()

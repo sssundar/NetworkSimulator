@@ -8,7 +8,7 @@ from router import *
 from flow import *
 from tcp_flow import *
 from tcp_reno_working import *
-#from tcp_vegas_working import *
+from tcp_vegas_working import *
 from tcp_fast_working import *
 from constants import *
 
