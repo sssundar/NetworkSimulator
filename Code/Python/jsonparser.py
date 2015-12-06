@@ -1,9 +1,10 @@
 # Parser Code
-# Sith Domrongkitchaiporn
+# Sith Domrongkitchaiporn 
 
 import json
 from host import *
 from link import *
+from train_link import *
 from router import *
 from flow import *
 from tcp_flow import *
@@ -46,7 +47,8 @@ class JSONParser ():
 
 			elif line["type"] == "link":
 				# print "L"
-				l = Link(line["id"], line["left"], line["right"], line["rate"], line["delay"], line["buffer"])
+				l = Train_Link(line["id"], line["left"], line["right"], line["rate"], line["delay"], line["buffer"])
+				#l = Link(line["id"], line["left"], line["right"], line["rate"], line["delay"], line["buffer"])
 				input_map[line["id"]] = l
 
 			elif line["type"] == "router":
