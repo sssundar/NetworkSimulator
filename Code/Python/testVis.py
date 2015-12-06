@@ -165,110 +165,110 @@ import matplotlib.pyplot as plt
 # ax2 = plt.subplot(212)
 # ax2.plot(t,rttmin,'b-',t,rttact,'r-')
 
+# plt.figure()
+
+# t = []
+# ws = []
+# epit = []
+# rttmin = []
+# rttmax = []
+# rttact = []
+# flag = True
+# with open("results/f1_src_fulltruefastdebug.txt") as m:   
+# 	for line in m:
+# 		if flag:
+# 			flag = False			
+# 		else:
+# 			line = line.strip().split("\t\t")
+# 			t.append(float(line[0]))
+# 			epit.append(int(line[3]))
+# 			ws.append(float(line[5]))			
+# 			rttmin.append(float(line[14]))
+# 			rttmax.append(float(line[15]))
+# 			rttact.append(float(line[16]))			
+# ax1 = plt.subplot(211)
+# ax1.plot(t,ws,'r-',t,epit,'k-')
+# ax2 = plt.subplot(212)
+# ax2.plot(t,rttmin,'b-',t,rttmax,'k-',t,rttact,'r-')
+
 plt.figure()
 
-t = []
-ws = []
-epit = []
-rttmin = []
-rttmax = []
-rttact = []
+t1 = []
+l1ltr = []
 flag = True
-with open("results/f1_src_fulltruefastdebug.txt") as m:   
+with open("results/l1_bufferoccupancy_left-to-right.txt") as m:   
 	for line in m:
 		if flag:
 			flag = False			
 		else:
 			line = line.strip().split("\t\t")
-			t.append(float(line[0]))
-			epit.append(int(line[3]))
-			ws.append(float(line[5]))			
-			rttmin.append(float(line[14]))
-			rttmax.append(float(line[15]))
-			rttact.append(float(line[16]))			
+			t1.append(line[0])
+			l1ltr.append(line[1])
+
+t2 = []
+l1rtl = []
+flag = True
+with open("results/l1_bufferoccupancy_right-to-left.txt") as m:   
+	for line in m:
+		if flag:
+			flag = False			
+		else:
+			line = line.strip().split("\t\t")
+			t2.append(line[0])
+			l1rtl.append(line[1])
+
+
+t3 = []
+l0ltr = []
+flag = True
+with open("results/l0_bufferoccupancy_left-to-right.txt") as m:   
+	for line in m:
+		if flag:
+			flag = False			
+		else:
+			line = line.strip().split("\t\t")
+			t3.append(line[0])
+			l0ltr.append(line[1])
+
+t4 = []
+l0rtl = []
+flag = True
+with open("results/l0_bufferoccupancy_right-to-left.txt") as m:   
+	for line in m:
+		if flag:
+			flag = False			
+		else:
+			line = line.strip().split("\t\t")
+			t4.append(line[0])
+			l0rtl.append(line[1])
+
+t5 = []
+l2ltr = []
+flag = True
+with open("results/l2_bufferoccupancy_left-to-right.txt") as m:   
+	for line in m:
+		if flag:
+			flag = False			
+		else:
+			line = line.strip().split("\t\t")
+			t5.append(line[0])
+			l2ltr.append(line[1])
+
+t6 = []
+l2rtl = []
+flag = True
+with open("results/l2_bufferoccupancy_right-to-left.txt") as m:   
+	for line in m:
+		if flag:
+			flag = False			
+		else:
+			line = line.strip().split("\t\t")
+			t6.append(line[0])
+			l2rtl.append(line[1])
+
 ax1 = plt.subplot(211)
-ax1.plot(t,ws,'r-',t,epit,'k-')
-ax2 = plt.subplot(212)
-ax2.plot(t,rttmin,'b-',t,rttmax,'k-',t,rttact,'r-')
-
-# plt.figure()
-
-# t1 = []
-# l1ltr = []
-# flag = True
-# with open("results/l1_bufferoccupancy_left-to-right.txt") as m:   
-# 	for line in m:
-# 		if flag:
-# 			flag = False			
-# 		else:
-# 			line = line.strip().split("\t\t")
-# 			t1.append(line[0])
-# 			l1ltr.append(line[1])
-
-# t2 = []
-# l1rtl = []
-# flag = True
-# with open("results/l1_bufferoccupancy_right-to-left.txt") as m:   
-# 	for line in m:
-# 		if flag:
-# 			flag = False			
-# 		else:
-# 			line = line.strip().split("\t\t")
-# 			t2.append(line[0])
-# 			l1rtl.append(line[1])
-
-
-# t3 = []
-# l0ltr = []
-# flag = True
-# with open("results/l0_bufferoccupancy_left-to-right.txt") as m:   
-# 	for line in m:
-# 		if flag:
-# 			flag = False			
-# 		else:
-# 			line = line.strip().split("\t\t")
-# 			t3.append(line[0])
-# 			l0ltr.append(line[1])
-
-# t4 = []
-# l0rtl = []
-# flag = True
-# with open("results/l0_bufferoccupancy_right-to-left.txt") as m:   
-# 	for line in m:
-# 		if flag:
-# 			flag = False			
-# 		else:
-# 			line = line.strip().split("\t\t")
-# 			t4.append(line[0])
-# 			l0rtl.append(line[1])
-
-# t5 = []
-# l2ltr = []
-# flag = True
-# with open("results/l2_bufferoccupancy_left-to-right.txt") as m:   
-# 	for line in m:
-# 		if flag:
-# 			flag = False			
-# 		else:
-# 			line = line.strip().split("\t\t")
-# 			t5.append(line[0])
-# 			l2ltr.append(line[1])
-
-# t6 = []
-# l2rtl = []
-# flag = True
-# with open("results/l2_bufferoccupancy_right-to-left.txt") as m:   
-# 	for line in m:
-# 		if flag:
-# 			flag = False			
-# 		else:
-# 			line = line.strip().split("\t\t")
-# 			t6.append(line[0])
-# 			l2rtl.append(line[1])
-
-# ax1 = plt.subplot(211)
-# ax1.plot(t4,l0rtl,'b.', t2, l1rtl, 'ro', t6, l2rtl, 'k-')
-# ax2 = plt.subplot(212, sharex=ax1)
-# ax2.plot(t3,l0ltr,'b.', t1, l1ltr, 'ro', t5, l2ltr, 'k-')
+ax1.plot(t4,l0rtl,'b.', t2, l1rtl, 'ro', t6, l2rtl, 'k-')
+ax2 = plt.subplot(212, sharex=ax1)
+ax2.plot(t3,l0ltr,'b.', t1, l1ltr, 'ro', t5, l2ltr, 'k-')
 
 plt.show()

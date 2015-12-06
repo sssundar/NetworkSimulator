@@ -85,7 +85,7 @@ class Working_Data_Source_TCP_VEGAS(Data_Source):
 
 	State = SS
 
-	RTTmin = -1
+	RTTmin = -1	
 	RTTactBuff = [-1] * constants.FAST_RTT_WINDOW_SIZE
 	RTTactEst = -1
 	Packets_Till_Update_WS_IN_CA = constants.FAST_RTT_WINDOW_SIZE
@@ -96,8 +96,8 @@ class Working_Data_Source_TCP_VEGAS(Data_Source):
 	mayUpdate = False
 
 	def __init__(self, identity, src, sink, size, start):
-		Data_Source.__init__(self, identity, src, sink, size, start)	
-		
+		Data_Source.__init__(self, identity, src, sink, size, start)					
+
 		self.EPIT, self.LPIA, self.WS,\
 		self.CAT, self.STT, self.L3P,\
 		self.TAF, self.DAF, self.SAF,\
@@ -126,7 +126,7 @@ class Working_Data_Source_TCP_VEGAS(Data_Source):
 		self.State = SS
 		self.FlagObserveRTT = True
 		self.FlagRampWS = False
-		self.RTTmin = -1
+		self.RTTmin = -1		
 		self.RTTactBuff = [-1] * constants.FAST_RTT_WINDOW_SIZE
 		self.RTTactEst = -1
 		self.mayUpdateWS = False
@@ -162,7 +162,7 @@ class Working_Data_Source_TCP_VEGAS(Data_Source):
 
 		self.sim.request_event(\
 			Time_Out_Packet(p, \
-							self.sim.get_current_time() + constants.DATA_PACKET_TIMEOUT))
+							self.sim.get_current_time() + DATA_PACKET_TIMEOUT))
 		self.sim.get_element(self.source).send(p)		
 		self.debug_log_vegas_source(False,"send",p.get_ID())
 

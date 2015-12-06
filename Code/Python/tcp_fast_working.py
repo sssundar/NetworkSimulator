@@ -139,8 +139,8 @@ class Working_Data_Source_TCP_FAST(Data_Source):
 		self.EPIT += 1					
 
 		timeoutAllowance = 0
-		if self.RTTmax >= 0:
-			timeoutAllowance = self.RTTmax * FAST_TO_ALLOWANCE
+		if self.RTTactEst >= 0:
+			timeoutAllowance = self.RTTactEst * FAST_TO_ALLOWANCE
 		else:
 			timeoutAllowance = FAST_BASE_RTTMAX
 
