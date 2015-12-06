@@ -1,18 +1,18 @@
-FAST: Is not drop-based, only update by RTT. Update on fixed period, but can average over packet window.
-Links: if current direction oldest is older than other buffer, send, even if can't get there in time i.e. destroy links.
-Plotting
-	Plot everything
-	Be smart about averages
-	Single bash script to run & usage 
-	Report: concise, plots, theoretical results from HW, brief architecture, brief assumptions
-	Presentation: lots of graphs to demonstrate it works. test cases. 
-
 RENO: Keep track of RTT, varying timeout as 3x max RTT
-RENO has bugs - test case 1 fr/ft/ timeout / ss triplekack & immediate TO? 
+Known bug, no fix right now
 
 Sushant
-	FAST, Links, Plotting by 8 (start 6:30)
-	Presentation Start Tonight
-	RENO later
+	Pull, FAST, Plotting, Commit, Links, Commit
+		FAST: Is not drop-based, only update by RTT. Update on fixed period, but can average over packet window.
+		FAST: Fix this timeout via 3xRTT bug
+		VEGAS: Fix this timeout via 3xRTT bug
 
-	
+		Plotting
+			Plot everything
+			Be smart about averages
+			Single bash script to run & usage
+				separate input file for test case selection and tcp 		
+		Links: if current direction oldest is older than other buffer, send, even if can't get there in time i.e. destroy links.		
+
+	Presentation: lots of graphs to demonstrate it works. test cases. 
+	Report: concise, plots, theoretical results from HW, brief architecture, brief assumptions

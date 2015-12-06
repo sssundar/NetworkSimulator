@@ -6,11 +6,18 @@ CA = 2
 FR = 3
 TR = 4
 
-# TCP FAST Thresholds
+# TCP VEGAS, FAST Thresholds
+
+# Actually Vegas (whoops)
 FAST_CA_THRESHOLD = 5.0 # when RTTact ~ 3x RTTmin, transition from SS to CA
-FAST_RTT_WINDOW_SIZE = 20 # estimate RTTact from FAST_RTT_WINDOW_SIZE last RTTs
 SS2CA_SCALING = 0.875
+
+# FAST
 FAST_ALPHA = 10.0 	
+FAST_RTT_WINDOW_SIZE = 20 # estimate RTTact from FAST_RTT_WINDOW_SIZE last RTTs
+FAST_WS_UPDATE_TIME = 50.0 # ms
+FAST_TO_RTTMAX_SCALAR = 2.0 # times RTTmax as the timeout penalty
+FAST_BASE_RTTMAX = 1000.0 # ms (in case of timeout on first send)
 
 # Link Queueing Memory
 QUEUEING_DELAY_WINDOW = 20
@@ -290,5 +297,54 @@ MEASURE_FLOW_FAST_FULL_DEBUG = \
 											isTimeoutOccurring,\
 											RTTmin,RTTactEst,\
 											Packets_Till_Update_WS_IN_CA,\
+											ms_time)\
+			)
+
+FLOW_ACTUAL_FAST_FULL_DEBUG_MEASUREMENT_BASE = \
+"\n{\"logtype\":\"measurement\",\"measurement\":\"fulltruefastdebug\",\
+\"flowid\":\"%s\",\
+\"SendReceive\":\"%s\",\
+\"whichPacket\":\"%d\",\
+\"EPIT\":\"%d\",\
+\"LPIA\":\"%d\",\
+\"WS\":\"%0.3e\",\
+\"STT\":\"%0.6e\",\
+\"L3P0\":\"%d\",\
+\"L3P1\":\"%d\",\
+\"L3P2\":\"%d\",\
+\"TAF\":\"%s\",\
+\"DAF\":\"%s\",\
+\"SAF\":\"%s\",\
+\"isTimeoutOccurring\":\"%s\",\
+\"RTTmin\":\"%0.6e\",\
+\"RTTmax\":\"%0.6e\",\
+\"RTTactEst\":\"%0.6e\",\
+\"ms_globaltime\":\"%0.6e\"}\n"
+
+MEASURE_FLOW_FAST_FULL_DEBUG = \
+	lambda ((flow,
+		SendReceive,\
+		whichPacket,\
+		EPIT,\
+		LPIA,\
+		WS,\
+		STT,\
+		L3P0,\
+		L3P1,\
+		L3P2,\
+		TAF,DAF,SAF,\		
+		isTimeoutOccurring,\
+		RTTmin,RTTmax,RTTactEst,\		
+		ms_time)):\
+		FLOW_ACTUAL_FAST_FULL_DEBUG_MEASUREMENT_BASE % ((	flow.get_id(),\
+											SendReceive,\
+											whichPacket,\
+											EPIT,\
+											LPIA,\
+											WS, STT,\
+											L3P0, L3P1, L3P2,\
+											TAF,DAF,SAF,\
+											isTimeoutOccurring,\
+											RTTmin,RTTmax,RTTactEst,\
 											ms_time)\
 			)

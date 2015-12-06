@@ -116,26 +116,25 @@ import matplotlib.pyplot as plt
 # plt.ylim([0,201])
 
 
+# plt.figure()
 
-plt.figure()
-
-t = []
-ws = []
-epit = []
-state = []
-flag = True
-with open("results/f1_src_fullrenodebug.txt") as m:   
-	for line in m:
-		if flag:
-			flag = False			
-		else:
-			line = line.strip().split("\t\t")
-			t.append(float(line[0]))
-			epit.append(int(line[3]))
-			ws.append(float(line[5]))
-			state.append(10*int(line[14]))
-ax1 = plt.subplot(111)
-ax1.plot(t,ws,'b-',t,state,'r-',t,epit,'k-')
+# t = []
+# ws = []
+# epit = []
+# state = []
+# flag = True
+# with open("results/f1_src_fullrenodebug.txt") as m:   
+# 	for line in m:
+# 		if flag:
+# 			flag = False			
+# 		else:
+# 			line = line.strip().split("\t\t")
+# 			t.append(float(line[0]))
+# 			epit.append(int(line[3]))
+# 			ws.append(float(line[5]))
+# 			state.append(10*int(line[14]))
+# ax1 = plt.subplot(111)
+# ax1.plot(t,ws,'b-',t,state,'r-',t,epit,'k-')
 
 # plt.figure()
 
@@ -162,6 +161,32 @@ ax1.plot(t,ws,'b-',t,state,'r-',t,epit,'k-')
 # ax1.plot(t,ws,'b-',t,state,'r-',t,epit,'k-')
 # ax2 = plt.subplot(212)
 # ax2.plot(t,rttmin,'b-',t,rttact,'r-')
+
+plt.figure()
+
+t = []
+ws = []
+epit = []
+rttmin = []
+rttmax = []
+rttact = []
+flag = True
+with open("results/f1_src_fulltruefastdebug.txt") as m:   
+	for line in m:
+		if flag:
+			flag = False			
+		else:
+			line = line.strip().split("\t\t")
+			t.append(float(line[0]))
+			epit.append(int(line[3]))
+			ws.append(float(line[5]))			
+			rttmin.append(float(line[14]))
+			rttmax.append(float(line[15]))
+			rttact.append(float(line[16]))			
+ax1 = plt.subplot(211)
+ax1.plot(t,ws,'r-',t,epit,'k-')
+ax2 = plt.subplot(212)
+ax2.plot(t,rttmin,'b-',t,rttmax,'k-',t,rttact,'r-')
 
 # plt.figure()
 
