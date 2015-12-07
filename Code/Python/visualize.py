@@ -622,9 +622,9 @@ if __name__ == "__main__":
 			all_data.append([mytimes,myDelay,'RTT (ms)'])
 			pltCount += 2
 
-			pkLossFlag = False
-			if "packetloss" in eimtod[mysink].keys():
-				mydata = eimtod[mysink]["packetloss"]			
+			pkLossFlag = False			
+			if "packetloss" in eimtod[myid].keys():
+				mydata = eimtod[myid]["packetloss"]			
 				myLossTime = [val[0] for val in mydata] # ms
 				myLoss = [val[1] for val in mydata] # 0, 1				
 				all_data.append([myLossTime,myLoss,"Loss (pkts)"])				

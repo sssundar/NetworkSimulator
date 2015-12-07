@@ -51,11 +51,9 @@ class LinkBuffer:
 		p = packet.get_type()
 
 		if (p == ROUTER_PACKET_TYPE) or (p == ROUTER_PACKET_ACKNOWLEDGEMENT_TYPE):			
-			while self.current_kbits_in_queue + packet.get_kbits() > self.kbit_capacity:
-				cnt += 1
+			while self.current_kbits_in_queue + packet.get_kbits() > self.kbit_capacity:				
 				unjustlyDroppedBySith = self.queued.pop()
-				self.current_kbits_in_queue -= unjustlyDroppedBySith[1].get_kbits()	
-			
+				self.current_kbits_in_queue -= unjustlyDroppedBySith[1].get_kbits()				
 			return True
 		elif self.current_kbits_in_queue + packet.get_kbits() <= self.kbit_capacity:
 			return True
