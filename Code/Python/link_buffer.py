@@ -66,7 +66,14 @@ class LinkBuffer:
 		if self.can_enqueue(packet):
 			p = packet.get_type()
 			if (p == ROUTER_PACKET_TYPE) or (p == ROUTER_PACKET_ACKNOWLEDGEMENT_TYPE):
-				self.queued.insert(0, [self.sim.get_current_time(), packet])
+				# routing packets do NOT have priority to top of queue, since
+				# it makes train-links hard (routing will have greater timestamp
+				# since it was inserted out of order, so we'll see a lot of packet trains
+				# around routing cycles, which screws a bit with TCP)
+				
+				# this might make routing fail to converge in time for large networks
+				#self.queued.insert(0, [self.sim.get_current_time(), packet])
+				self.queued.append([self.sim.get_current_time(), packet])
 			else:
 				self.queued.append([self.sim.get_current_time(), packet])
 			

@@ -109,6 +109,9 @@ class Router(Node):
 	# The value of the table is a tuple (distance between current router and destination host, next hop(link))
 	# Initially, set the distance to be inf, the next hop to link[0]
 	# host_ids is an array contains all host ids
+
+	# if routing does not converge before a new run, we toss the table. it's possible routing might not have converged
+	# from the previous cycle. this will toss the intermediate table, and is a known bug.
 	def initalize_routing_table(self):
 		self.no_change = 0		
 		self.new = {}
