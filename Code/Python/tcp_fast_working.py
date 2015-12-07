@@ -79,7 +79,7 @@ class Working_Data_Source_TCP_FAST(Data_Source):
 		self.RTTactBuff = [-1] * constants.FAST_RTT_WINDOW_SIZE
 		self.RTTactEst = -1		
 		self.debug_log_fast_source(False,"start",self.LPIA)
-		self.sim.request_event(FAST_WS_Update_Callback(self,self.sim.get_current_time()+constants.FAST_BASE_RTTMAX))
+		self.sim.request_event(FAST_WS_Update_Callback(self,self.sim.get_current_time()+constants.FAST_WS_UPDATE_TIME))
 		self.transmit()		
 
 	def updateRTTmin(self,ack):
@@ -250,9 +250,10 @@ class Working_Data_Source_TCP_FAST(Data_Source):
 
 	def benign_update_ws (self):
 		if self.RTTmin < 0:
+			# before first packet comes back
 			self.WS = 1.0
 		else:
-			self.WS = (self.RTTmin/self.RTTactEst)*self.WS + constants.FAST_ALPHA		
+			self.WS = max((self.RTTmin/self.RTTactEst)*self.WS + constants.FAST_ALPHA, 1.0)
 
 	# called on the first recognition of a triple-ack		
 	# On triple acks we preemptively count a packet as 'dropped,' with a penalty

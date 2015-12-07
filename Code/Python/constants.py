@@ -16,9 +16,9 @@ VEGAS_ALPHA = 0.4
 VEGAS_BETA = 0.45
 
 # FAST
-FAST_ALPHA = 1.0 	
+FAST_ALPHA = 20.0 	
 FAST_RTT_WINDOW_SIZE = int(15) # estimate RTTact from FAST_RTT_WINDOW_SIZE last RTTs
-FAST_WS_UPDATE_TIME = 170.0 # ms ~timescale of a few packet arrivals to re-estimate RTT
+FAST_WS_UPDATE_TIME = 220.0 # ms ~timescale of a few packet arrivals to re-estimate RTT
 FAST_TO_RTTMAX_SCALAR = 3.0 # times RTTmax as the timeout penalty
 FAST_TO_ALLOWANCE = 3.0 # times RTTactEst as the timeout allowance
 FAST_BASE_RTTMAX = 1000.0 # ms (in case of timeout on first send)

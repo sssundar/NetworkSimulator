@@ -18,7 +18,7 @@
 {"id":"r2","type":"router","links":["l1","l2","l_t2"]},
 {"id":"r3","type":"router","links":["l2","l3","l_s3"]},
 {"id":"r4","type":"router","links":["l3","l_t1","l_t3"]},
-{"id":"f1","type":"flow","source":"s1","dest":"t1","size":"35","start":"0.5"},
-{"id":"f2","type":"flow","source":"s2","dest":"t2","size":"15","start":"10"},
-{"id":"f3","type":"flow","source":"s3","dest":"t3","size":"30","start":"20"}
+{"id":"f1","type":"flow","source":"s1","dest":"t1","size":"1","start":"0.5"},
+{"id":"f2","type":"flow","source":"s2","dest":"t2","size":"1","start":"5"},
+{"id":"f3","type":"flow","source":"s3","dest":"t3","size":"1","start":"7"}
 ]
