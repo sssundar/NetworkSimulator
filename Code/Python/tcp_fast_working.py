@@ -216,7 +216,7 @@ class Working_Data_Source_TCP_FAST(Data_Source):
 			self.LPIA = pid
 			if self.updateCount < 0:
 				percentDone = int(100.0*(self.LPIA+1.0) / len(self.tx_buffer)) 
-				sys.stderr.write("Simulated transfer is %d%s complete.\n"%(percentDone,'%'))
+				sys.stderr.write("Flow %s is %d%s complete.\n"%(self.get_id().split("_")[0],percentDone,'%'))
 				self.updateCount = FAST_UPDATE_PERCENTAGE_DELAY
 			else:
 				self.updateCount -= 1
