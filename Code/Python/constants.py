@@ -56,9 +56,9 @@ ROUTER_FLOW = "0"
 
 # Packet Sizes
 DATA_PACKET_BITWIDTH = 8 # in kbits (so 1 kbyte packet)
-DATA_ACK_BITWIDTH = 0.064 # 8 bytes, 0.064 kbits
-DATA_ROUTER_BITWIDTH = 0.064 # Requesting table
-DATA_ROUTER_ACK_BITWIDTH = 1
+DATA_ACK_BITWIDTH = 0.512 # 64 bytes, 0.512 kbits
+DATA_ROUTER_BITWIDTH = 0.064 # 8 bytes, Requesting table
+DATA_ROUTER_ACK_BITWIDTH = 1 # kbits 
 
 # Link Transmission Directions
 RTL = "right-to-left"
