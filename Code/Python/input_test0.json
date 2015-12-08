@@ -2,5 +2,5 @@
 {"id":"h1","type":"host","links":["l1"]},
 {"id":"h2","type":"host","links":["l1"]},
 {"id":"l1","type":"link","left":"h1","right":"h2","rate":"10","delay":"10","buffer":"64"},
-{"id":"f1","type":"flow","source":"h1","dest":"h2","size":"1","start":"1"}
+{"id":"f1","type":"flow","source":"h1","dest":"h2","size":"5","start":"1"}
 ]
