@@ -51,11 +51,9 @@ class LinkBuffer:
 		p = packet.get_type()
 
 		if (p == ROUTER_PACKET_TYPE) or (p == ROUTER_PACKET_ACKNOWLEDGEMENT_TYPE):			
-			while self.current_kbits_in_queue + packet.get_kbits() > self.kbit_capacity:
-				cnt += 1
+			while self.current_kbits_in_queue + packet.get_kbits() > self.kbit_capacity:				
 				unjustlyDroppedBySith = self.queued.pop()
-				self.current_kbits_in_queue -= unjustlyDroppedBySith[1].get_kbits()	
-			
+				self.current_kbits_in_queue -= unjustlyDroppedBySith[1].get_kbits()				
 			return True
 		elif self.current_kbits_in_queue + packet.get_kbits() <= self.kbit_capacity:
 			return True
@@ -65,8 +63,15 @@ class LinkBuffer:
 
 		if self.can_enqueue(packet):
 			p = packet.get_type()
-			if (p == ROUTER_PACKET_TYPE) or (p == ROUTER_PACKET_ACKNOWLEDGEMENT_TYPE):
+			if (p == ROUTER_PACKET_TYPE) or (p == ROUTER_PACKET_ACKNOWLEDGEMENT_TYPE):								
+				# so think of our routing algorithm as "I'll give my routing packets priority,
+				# but before I do, I'll let the other side of the link finish transmitting, and
+				# when I see a break, I'll send it through." 
 				self.queued.insert(0, [self.sim.get_current_time(), packet])
+				
+				# the following might make routing fail to converge in time for large networks				
+				# it also destabilizes TCP for test case 2. we're not sure why.				
+				#self.queued.append([self.sim.get_current_time(), packet])
 			else:
 				self.queued.append([self.sim.get_current_time(), packet])
 			
