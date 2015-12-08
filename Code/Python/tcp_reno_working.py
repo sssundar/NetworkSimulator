@@ -33,7 +33,7 @@ class Working_Data_Sink_TCP_RENO(Data_Sink):
 		if constants.MEASUREMENT_ENABLE: 
 			print constants.MEASURE_FLOWRATE((self,packet.get_kbits(),self.sim.get_current_time()))
 		# There's a chance that RENO will break.
-		send_flag = 0
+		send_flag = 1
 		if (self.rx_buffer[packet.get_ID()] == 0):
 			send_flag = 1
 
