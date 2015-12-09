@@ -1,0 +1,63 @@
+Notes for Final Presentation
+Sushant Sundaresh
+8 December 2015
+----------------------------
+
+1) Packets contains their timestamps. Acks return these exact timestamps.
+Timeouts are handled entirely by flows, since the packets can still be
+in the network but be 'timed out' in the flow. In implementation we switch a 
+flag in the packets, but it's not telepathy.
+
+2) Hosts can respond directly to routing update requests but are otherwise
+shells for flows.
+
+3) Links contain the buffers of the nodes on either side of them.
+They have a bit of telepathy that we can rationalize as how a half duplex
+link might actually work, if we ignored collisions that alerted each side
+it'd made a mistake in sending its last few packets. 
+
+They know the timestamps of the packet at the head of each buffer, and
+if a set of packets on one side precede the other, they will be sent
+as a train. 
+
+In a real half duplex link we imagine you need one side to intentionally
+relenquish control, and that after some silence each side tries to send
+with some random delay. This will sometimes lead to collisions but mostly
+should give one side a lock. We're ignoring this arbitration and are just
+giving perfect lossless control during transmission. So you can imagine that
+we're really only minimizing the 'feedback delay' we simulate in the network
+with our simplification.
+
+We tried stoplights at first, where you had to be able to 
+get to the other side before any packet ON the other side arrived (which is
+impossible if they're already there) but this made for a very slow network.
+
+Our intuition says half-duplex links with these packet sizes (<1kB) and
+~50-50 traffic will spend at LEAST 50% of their time idle, waiting
+for the channel to clear. So it's strange to us to see 10 Mbps link traffic in
+the test cases. We never saw above 2 Mbps peak, and mostly got 0.5Mbps.
+
+Links prioritize routing packets by making room for them in the front of their
+buffer. They don't get a fake timestamp, though, so adding a routing packet
+leads to packet trains (as the other side always wins). This would be like 
+a router not wanting to drop routing packets, but also not intentionally
+giving way whenever possible to its neighbors. It's not perfect but
+TCP can recover from such periodic trains, and the alternative seemed to be
+giving routers some sort of packet loss detection/correction scheme, or 
+needing routing update periodicity to depend on network congestion to 
+make convergence more likely.
+
+4) Results are for sizes 10x smaller than specd in the test cases.
+
+5) RENO for test case 0 looks terrible. We can make it look pretty
+but only if we tune specifically for the case in terms of 
+timeouts. Once it hits congestion avoidance, with proper (long) timeouts,
+we can see repeated CA->FR/FT behavior (not shown).
+
+6) Vegas cuts off on a RTT based CAT threshold. Otherwise it's very similar.
+With careful tuning we can get behavior like this, where it's smooth and
+stable. We haven't shown here the response to routing (we can do 
+that in the demo).
+
+7) 
+
