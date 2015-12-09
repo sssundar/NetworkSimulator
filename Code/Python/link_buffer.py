@@ -1,6 +1,9 @@
 '''
 	LinkBuffers are just arrays. They keep track of the kbit size of their
 	contents, and use that to determine whether new arrivals are dropped.
+
+	Sushant Sundaresh			File created
+	Sith Domrongkitchaiporn		Edit can_enqueue and enqueue for router packet priority
 '''
 
 from constants import *

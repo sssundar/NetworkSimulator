@@ -1,9 +1,9 @@
 '''
-# TCP Reno Flow Sink - Specification
+# TCP Reno Flow Sink 
 # Last Revised 
 #	by Sushant Sundaresh on 30 November 2015
 # 		Modified Slightly
-
+    
 	receive(self, p):
 		when creating ack packet, include timestamp from p
 '''

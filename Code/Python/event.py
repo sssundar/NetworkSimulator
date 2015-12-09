@@ -2,6 +2,8 @@
 event.py is the parent class for all events 
 It simply stores its completion time and has an accessor to this time.
 It's event action is to do nothing.
+
+Sushant Sundaresh
 '''
 
 class Event ():

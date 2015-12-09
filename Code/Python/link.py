@@ -40,7 +40,7 @@ Operation
 	If A & B
 		Do nothing.
 
-Last Revised by Sith Domrongkitchaiporn & Sushant Sundaresh on 6 Nov 2015
+Last Revised by Sith Domrongkitchaiporn & Sushant Sundaresh on 4 Dec 2015
 '''
 
 from reporter import Reporter

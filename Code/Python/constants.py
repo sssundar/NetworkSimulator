@@ -1,4 +1,6 @@
 # Constants File # 
+# Sushant Sundaresh
+# Sith Domrongkitchaiporn
 
 ###################
 # USER MODIFIABLE #

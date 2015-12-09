@@ -1,4 +1,7 @@
 # Packet Code
+# Sith Domrongkitchaiporn	Created File
+#							Extend to Router_packets
+# Sushant Sundaresh 		Adding RTT
 
 class Packet:
 
