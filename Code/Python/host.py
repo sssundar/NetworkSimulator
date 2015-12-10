@@ -6,8 +6,8 @@
 #  Takes a string that is the unique host ID
 #  Takes an array containing exactly 1 string, its link id
 #
-# Last Revised: 3 November 2015 by Sushant Sundaresh
-# 					created
+# Sushant Sundaresh			Created File
+# Sith Domrongkitchaiporn	Edit receive()
 
 from node import Node
 import constants

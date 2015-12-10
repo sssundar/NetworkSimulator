@@ -2,7 +2,7 @@
 # TCP VEGAS Flow Source - Specification
 # TCP VEGAS Flow Sink is the same as Reno
 # Last Revised 
-#	by Sushant Sundaresh on 5 December 2015
+#	by Sushant Sundaresh & Sith Domrongkitchaiporn on 5 December 2015
 
 References: TCP Vegas, Modifications to Slow-Start, and FR/FT
 			https://www.google.com/url?sa=t&rct=j&q=&esrc=s&source=web&cd=3&cad=rja&uact=8&ved=0ahUKEwiTz8eltcDJAhVMxWMKHRVaAzEQFggxMAI&url=http%3A%2F%2Frenyang-learn.googlecode.com%2Fsvn%2Ftrunk%2Fns2%2FNS2_ppt%2FChapter%252010%2520TCP%2520Vegas.ppt&usg=AFQjCNHV2LP2hGgUaRQg0GdU8KadKyEeFQ&sig2=3eztvQii44rRlejfbYFEKA

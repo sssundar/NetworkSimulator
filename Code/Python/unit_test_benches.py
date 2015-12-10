@@ -1,5 +1,5 @@
 # Working Unit Test Benches for Network Simulator 
-# Last Revised: 14 November 2015 by Sushant Sundaresh
+# Last Revised: 14 November 2015 by Sushant Sundaresh & Sith Domrongkitchaiporn
 '''
 IMPORTANT: Please turn off logging  (MEASUREMENT_ENABLE = False) in constants.py
 before running these testbenches.

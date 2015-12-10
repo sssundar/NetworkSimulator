@@ -1,9 +1,9 @@
 '''
-# TCP Reno Flow Sink - Specification
+# TCP Reno Flow Sink 
 # Last Revised 
 #	by Sushant Sundaresh on 30 November 2015
 # 		Modified Slightly
-
+    
 	receive(self, p):
 		when creating ack packet, include timestamp from p
 '''
@@ -32,7 +32,11 @@ class Working_Data_Sink_TCP_RENO(Data_Sink):
 	def receive(self, packet):		
 		if constants.MEASUREMENT_ENABLE: 
 			print constants.MEASURE_FLOWRATE((self,packet.get_kbits(),self.sim.get_current_time()))
-			
+		# There's a chance that RENO will break.
+		send_flag = 1
+		if (self.rx_buffer[packet.get_ID()] == 0):
+			send_flag = 1
+
 		self.rx_buffer[packet.get_ID()] = 1		
 		p = None		
 		for i in xrange(len(self.rx_buffer)):
@@ -49,7 +53,8 @@ class Working_Data_Sink_TCP_RENO(Data_Sink):
 		# ack using tx_time from p
 		p.set_tx_time(packet.get_tx_time())
 
-		self.send(p)
+		if (send_flag):
+			self.send(p)
 
 
 ''' 

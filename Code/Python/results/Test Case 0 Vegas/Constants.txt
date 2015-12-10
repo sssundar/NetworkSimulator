@@ -1,6 +1,4 @@
 # Constants File # 
-# Sushant Sundaresh
-# Sith Domrongkitchaiporn
 
 ###################
 # USER MODIFIABLE #
@@ -12,7 +10,7 @@ MS_WINDOW = 100 # ms, for binning
 # TCP and Routing Thresholds
 
 # VEGAS
-FAST_CA_THRESHOLD = 5.0 # when RTTact ~ 3x RTTmin, transition from SS to CA
+FAST_CA_THRESHOLD = 3.0 # when RTTact ~ 3x RTTmin, transition from SS to CA
 SS2CA_SCALING = 0.875
 VEGAS_ALPHA = 0.4
 VEGAS_BETA = 0.45
