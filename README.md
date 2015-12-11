@@ -1,4 +1,4 @@
 # NetworkSimulator
-## Ongoing Term Project, CS/EE143, Fall 2015
-###### This project is being developed at https://bitbucket.org/sdomrong/cs143 (public). I pull here periodically. We communicate on https://networksimulator.slack.com (private).
-###### A team effort by Sith Domrongkitchaiporn, Ahmed Alshaia, and Sushant Sundaresh to bring experimentation & exploration to our study of networking. Our goal is to write a network simulator in Python that takes as input an abstract description of a communications network (including not only structure but also events like node failure). We want our simulator to help us visualize the dynamical consequences of TCP congestion avoidance protocols like TCP-Reno and FAST-TCP.
+## Term Project, CS/EE143, Fall 2015
+###### This project was developed at https://bitbucket.org/sdomrong/cs143 (public) and cloned here. We communicated on https://networksimulator.slack.com (private).
+###### A team effort by Sith Domrongkitchaiporn, Ahmed Alshaia, and Sushant Sundaresh to bring experimentation to our study of networking. We wrote a simulator in Python that simulated an abstract communications network in discrete time. We used our simulator to visualize the effects of perturbations like periodic Bellman-Ford routing and feedback delay on throughput and fairness in TCP congestion avoidance protocols like TCP-Reno, TCP-Vegas, and FAST-TCP. We then studied the effects of two different implementations of half-duplex links. Our results are documented in ~/Documentation/NetworkSimulatorFinalReport.pdf.
